@@ -71,31 +71,36 @@ def changeTileStatus2(colorImage, colorRect, x, y, board1, board2, surface, tile
     board2[y][x] = CANTSET
     board2[y][x-1] = CANTSET
 
+def settableCheck1(board):
+    if boardGreen[y][x] != CANTSET and boardGreen[y+1][x] != CANTSET:
+        if boardGreen[y][x] == ABLESET or boardGreen[y+1][x] == ABLESET:
+            return True
+
+def settableCheck2(board):
+    if boardGreen[y][x] != CANTSET and boardGreen[y][x-1] != CANTSET:
+        if boardGreen[y][x] == ABLESET or boardGreen[y][x-1] == ABLESET:
+            return True
+
 def main(color, colorImage, colorRect, selectedDirection, x, y, boardGreen, boardYellow, surface, tileLength):
     if color == GREEN:
         if selectedDirection == 1: # 初期向き（下）
-            if ((boardGreen[y][x] != CANTSET and boardGreen[y+1][x] != CANTSET)
-            and (boardGreen[y][x] == ABLESET or boardGreen[y+1][x] == ABLESET)):
+            if settableCheck1(boardGreen):
                 changeTileStatus1(colorImage, colorRect, x, y, boardGreen, boardYellow, surface, tileLength)
                 return True
 
         elif selectedDirection == 2: # 初期向きから90°時計回りに（左）
-            if ((boardGreen[y][x] != CANTSET and boardGreen[y][x-1] != CANTSET)
-            and (boardGreen[y][x] == ABLESET or boardGreen[y][x-1] == ABLESET)):
-
+            if settableCheck2(boardGreen):
                 changeTileStatus2(colorImage, colorRect, x, y, boardGreen, boardYellow, surface, tileLength)
                 return True
 
     elif color == YELLOW:
         if selectedDirection == 1: # 初期向き（下）
-            if ((boardYellow[y][x] != CANTSET and boardYellow[y+1][x] != CANTSET)
-            and (boardYellow[y][x] == ABLESET or boardYellow[y+1][x] == ABLESET)):
+            if settableCheck1(boardYellow):
                 changeTileStatus1(colorImage, colorRect, x, y, boardYellow, boardGreen, surface, tileLength)
                 return True
 
         elif selectedDirection == 2: # 初期向きから90°時計回りに（左）
-            if ((boardYellow[y][x] != CANTSET and boardYellow[y][x-1] != CANTSET)
-            and (boardYellow[y][x] == ABLESET or boardYellow[y][x-1] == ABLESET)):
+            if settableCheck2(boardYellow):
                 changeTileStatus2(colorImage, colorRect, x, y, boardYellow, boardGreen, surface, tileLength)
                 return True
 
