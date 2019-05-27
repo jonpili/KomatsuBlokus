@@ -14,6 +14,8 @@ ABLESET = 2 # 自分のブロックが角で接している
 
 GREEN  = 1
 YELLOW = 2
+RED    = 3 # 将来的に実装
+BLUE   = 4 # 将来的に実装
 
 # タイルの設置はボード外エラー回避の為2マス広く
 screenWidth  = tileLength * (tileNumber + 2)
@@ -68,7 +70,7 @@ def selectBlock():
     selectedDirection = input('向きを選択してください：')
     while not re.match('[1-8]{1}', selectedDirection):
         print('入力が間違っています')
-        selectedDirection = input('向きを選択してください：')
+        selectedDirection = int(input('向きを選択してください：'))
 
     return selectedBlock, selectedDirection
 
@@ -108,22 +110,22 @@ def main():
                 if whoTurn == GREEN:
                     if boardGreen[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if a_block.main(GREEN, greenImage, greenRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if a_block.main(GREEN, greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if b_block.main(GREEN, greenImage, greenRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if b_block.main(GREEN, greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if a_block.main(YELLOW, yellowImage, yellowRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if a_block.main(YELLOW, yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if b_block.main(YELLOW, yellowImage, yellowRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if b_block.main(YELLOW, yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
 
