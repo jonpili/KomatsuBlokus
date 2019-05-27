@@ -71,12 +71,12 @@ def changeTileStatus2(colorImage, colorRect, x, y, boardMine, boardOpponent, sur
     boardOpponent[y][x] = CANTSET
     boardOpponent[y][x-1] = CANTSET
 
-def settableCheck1(boardMine):
+def settableCheck1(x, y, boardMine):
     if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
         if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
             return True
 
-def settableCheck2(boardMine):
+def settableCheck2(x, y, boardMine):
     if boardMine[y][x] != CANTSET and boardMine[y][x-1] != CANTSET:
         if boardMine[y][x] == ABLESET or boardMine[y][x-1] == ABLESET:
             return True
@@ -84,23 +84,23 @@ def settableCheck2(boardMine):
 def main(color, colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
     if color == GREEN:
         if selectedDirection == 1: # 初期向き（下）
-            if settableCheck1(boardMine):
+            if settableCheck1(x, y, boardMine):
                 changeTileStatus1(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength)
                 return True
 
         elif selectedDirection == 2: # 初期向きから90°時計回りに（左）
-            if settableCheck2(boardMine):
+            if settableCheck2(x, y, boardMine):
                 changeTileStatus2(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength)
                 return True
 
     elif color == YELLOW:
         if selectedDirection == 1: # 初期向き（下）
-            if settableCheck1(boardMine):
+            if settableCheck1(x, y, boardMine):
                 changeTileStatus1(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength)
                 return True
 
         elif selectedDirection == 2: # 初期向きから90°時計回りに（左）
-            if settableCheck2(boardMine):
+            if settableCheck2(x, y, boardMine):
                 changeTileStatus2(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength)
                 return True
 

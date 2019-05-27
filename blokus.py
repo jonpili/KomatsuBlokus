@@ -70,7 +70,8 @@ def selectBlock():
     selectedDirection = input('向きを選択してください：')
     while not re.match('[1-8]{1}', selectedDirection):
         print('入力が間違っています')
-        selectedDirection = int(input('向きを選択してください：'))
+        selectedDirection = input('向きを選択してください：')
+    selectedDirection = int(selectedDirection)
 
     return selectedBlock, selectedDirection
 
