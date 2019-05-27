@@ -2,8 +2,8 @@ import pygame
 import sys
 import re
 
-from pieces import pointBlock
-from pieces import lineBlock
+from pieces import a_block
+from pieces import b_block
 
 tileLength = 50
 tileNumber = 8
@@ -108,22 +108,22 @@ def main():
                 if whoTurn == GREEN:
                     if boardGreen[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if pointBlock.main(GREEN, greenImage, greenRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if a_block.main(GREEN, greenImage, greenRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if lineBlock.main(GREEN, greenImage, greenRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if b_block.main(GREEN, greenImage, greenRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if pointBlock.main(YELLOW, yellowImage, yellowRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if a_block.main(YELLOW, yellowImage, yellowRect, xpos, ypos, boardGreen, boardYellow, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if lineBlock.main(YELLOW, yellowImage, yellowRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
+                            if b_block.main(YELLOW, yellowImage, yellowRect, int(selectedDirection), xpos, ypos, boardGreen, boardYellow, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
 
