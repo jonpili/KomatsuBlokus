@@ -7,6 +7,7 @@ YELLOW = 2
 
 def changeTileStatus(colorImage, colorRect, x, y, board1, board2, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    
     # ブロック自体を左上から時計回りに
     board1[y][x] = CANTSET
 
