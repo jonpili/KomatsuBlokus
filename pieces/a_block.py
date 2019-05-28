@@ -5,9 +5,7 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
-def changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength):
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-
+def changeTileStatus(boardMine, boardOpponent, x, y):
     # ブロック自体を左上から時計回りに
     boardMine[y][x] = CANTSET
 
@@ -33,9 +31,13 @@ def changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surf
     # ブロック自体を左上から時計回りに
     boardOpponent[y][x] = CANTSET
 
+def changeTileImage(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+
 def main(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength):
     if boardMine[y][x] == ABLESET:
-        changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength)
+        changeTileImage(colorImage, colorRect, x, y, surface, tileLength)
+        changeTileStatus(boardMine, boardOpponent, x, y)
         return True
 
 if __name__ == '__main__':
