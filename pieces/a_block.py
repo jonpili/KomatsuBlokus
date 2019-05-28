@@ -33,16 +33,10 @@ def changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surf
     # ブロック自体を左上から時計回りに
     boardOpponent[y][x] = CANTSET
 
-def main(color, colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength):
-    if color == GREEN:
-        if boardMine[y][x] == ABLESET:
-            changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength)
-            return True
-
-    elif color == YELLOW:
-        if boardMine[y][x] == ABLESET:
-            changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength)
-            return True
+def main(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength):
+    if boardMine[y][x] == ABLESET:
+        changeTileStatus(colorImage, colorRect, boardMine, boardOpponent, x, y, surface, tileLength)
+        return True
 
 if __name__ == '__main__':
     main()
