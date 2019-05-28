@@ -52,10 +52,10 @@ def checkBoard(color):
     for width in boardYellow:
         print(width)
 
-    if color == GREEN:
+    if color == YELLOW:
         whoTurn = GREEN
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif color == YELLOW:
+    elif color == GREEN:
         whoTurn = YELLOW
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
@@ -113,11 +113,11 @@ def main():
                     if boardGreen[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
                             if a_block.main(greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(YELLOW)
+                                whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
                             if b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(YELLOW)
+                                whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'k':
                             if k_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
@@ -128,11 +128,11 @@ def main():
                     if boardYellow[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
                             if a_block.main(yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(GREEN)
+                                whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
                             if b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(GREEN)
+                                whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'k':
                             if k_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
