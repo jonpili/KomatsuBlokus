@@ -121,7 +121,7 @@ def main():
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'k':
                             if k_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(YELLOW)
+                                whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
 
                 elif whoTurn == YELLOW:
@@ -136,7 +136,7 @@ def main():
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'k':
                             if k_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
-                                whoTurn = checkBoard(GREEN)
+                                whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
 
 if __name__ == '__main__':
