@@ -5,6 +5,15 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
+def settableCheck1(boardMine, x, y):
+    if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
+        if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
+            return True
+
+def changeTileImage1(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
+
 def changeTileStatus1(boardMine, boardOpponent, x, y):
     # ブロック自体を左上から時計回りに
     boardMine[y][x] = CANTSET
@@ -35,14 +44,14 @@ def changeTileStatus1(boardMine, boardOpponent, x, y):
     boardOpponent[y][x] = CANTSET
     boardOpponent[y+1][x] = CANTSET
 
-def changeTileImage1(colorImage, colorRect, x, y, surface, tileLength):
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
-
-def settableCheck1(boardMine, x, y):
-    if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
-        if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
+def settableCheck2(boardMine, x, y):
+    if boardMine[y][x] != CANTSET and boardMine[y][x-1] != CANTSET:
+        if boardMine[y][x] == ABLESET or boardMine[y][x-1] == ABLESET:
             return True
+
+def changeTileImage2(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
 
 def changeTileStatus2(boardMine, boardOpponent, x, y):
     # ブロック自体を左上から時計回りに
@@ -73,15 +82,6 @@ def changeTileStatus2(boardMine, boardOpponent, x, y):
     # ブロック自体を左上から時計回りに
     boardOpponent[y][x] = CANTSET
     boardOpponent[y][x-1] = CANTSET
-
-def changeTileImage2(colorImage, colorRect, x, y, surface, tileLength):
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-    surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
-
-def settableCheck2(boardMine, x, y):
-    if boardMine[y][x] != CANTSET and boardMine[y][x-1] != CANTSET:
-        if boardMine[y][x] == ABLESET or boardMine[y][x-1] == ABLESET:
-            return True
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
     if selectedDirection == 1: # 初期向き
