@@ -35,6 +35,15 @@ def changeTileStatus1(boardMine, boardOpponent, x, y):
     boardOpponent[y][x] = CANTSET
     boardOpponent[y+1][x] = CANTSET
 
+def changeTileImage1(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
+
+def settableCheck1(boardMine, x, y):
+    if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
+        if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
+            return True
+
 def changeTileStatus2(boardMine, boardOpponent, x, y):
     # ブロック自体を左上から時計回りに
     boardMine[y][x] = CANTSET
@@ -65,18 +74,9 @@ def changeTileStatus2(boardMine, boardOpponent, x, y):
     boardOpponent[y][x] = CANTSET
     boardOpponent[y][x-1] = CANTSET
 
-def changeTileImage1(colorImage, colorRect, x, y, surface, tileLength):
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
-
 def changeTileImage2(colorImage, colorRect, x, y, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
     surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
-
-def settableCheck1(boardMine, x, y):
-    if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
-        if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
-            return True
 
 def settableCheck2(boardMine, x, y):
     if boardMine[y][x] != CANTSET and boardMine[y][x-1] != CANTSET:
