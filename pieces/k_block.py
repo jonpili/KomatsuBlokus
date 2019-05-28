@@ -56,7 +56,11 @@ def changeTileStatus1(colorImage, colorRect, x, y, boardMine, boardOpponent, sur
     boardOpponent[y+1][x-1] = CANTSET
 
 def changeTileStatus2(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength):
-    pass
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x+1), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x+2), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * (y-1)))
 
 def setableCheck1(x, y, boardMine):
     if (boardMine[y][x] != CANTSET
@@ -93,12 +97,7 @@ def main(color, colorImage, colorRect, boardMine, boardOpponent, selectedDirecti
 
         elif selectedDirection == 2: # 初期向きから90°時計回りに
             if setableCheck2(x, y, boardMine):
-                surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-                surface.blit(colorImage, colorRect.move(tileLength * (x+1), tileLength * y))
-                surface.blit(colorImage, colorRect.move(tileLength * (x+2), tileLength * y))
-                surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
-                surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * (y-1)))
-                changeTileStatus2(x, y, boardMine, boardOpponent)
+                changeTileStatus2(colorImage, colorRect, x, y, boardMine, boardOpponent, surface, tileLength)
                 return True
 
     elif color == YELLOW:
