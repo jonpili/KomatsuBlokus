@@ -111,22 +111,22 @@ def main():
                 if whoTurn == GREEN:
                     if boardGreen[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if a_block.main(GREEN, greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength):
+                            if a_block.main(greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if b_block.main(GREEN, greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
+                            if b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
                         if selectedBlock == 'a':
-                            if a_block.main(YELLOW, yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength):
+                            if a_block.main(yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
-                            if b_block.main(YELLOW, yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
+                            if b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
 
