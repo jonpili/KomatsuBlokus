@@ -90,7 +90,48 @@ def changeTileImage2(colorImage, colorRect, x, y, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * (y-1)))
 
 def changeTileStatus2(boardMine, boardOpponent, x, y):
-    pass
+    # ブロック自体を左上から時計回りに
+    boardMine[y][x] = CANTSET
+    boardMine[y][x+1] = CANTSET
+    boardMine[y][x+2] = CANTSET
+    boardMine[y][x-1] = CANTSET
+    boardMine[y-1][x-1] = CANTSET
+
+    # ブロックと辺で接する地点を左上から時計回りに
+    boardMine[y-2][x-1] = CANTSET
+    boardMine[y-1][x] = CANTSET
+    boardMine[y-1][x+1] = CANTSET
+    boardMine[y-1][x+2] = CANTSET
+    boardMine[y][x+3] = CANTSET
+    boardMine[y+1][x+2] = CANTSET
+    boardMine[y+1][x+1] = CANTSET
+    boardMine[y+1][x] = CANTSET
+    boardMine[y+1][x-1] = CANTSET
+    boardMine[y][x-1] = CANTSET
+    boardMine[y-1][x-2] = CANTSET
+
+    # ブロックと角で接する地点を左上から時計回りに
+    if boardMine[y-2][x-2] != CANTSET:
+        boardMine[y-2][x-2] = ABLESET
+
+    if boardMine[y-2][x] != CANTSET:
+        boardMine[y-2][x] = ABLESET
+
+    if boardMine[y-1][x+3] != CANTSET:
+        boardMine[y-1][x+3] = ABLESET
+
+    if boardMine[y+1][x+3] != CANTSET:
+        boardMine[y+1][x+3] = ABLESET
+
+    if boardMine[y+1][x-2] != CANTSET:
+        boardMine[y+1][x-2] = ABLESET
+
+    # ブロック自体を左上から時計回りに
+    boardOpponent[y][x] = CANTSET
+    boardOpponent[y][x+1] = CANTSET
+    boardOpponent[y][x+2] = CANTSET
+    boardOpponent[y][x-1] = CANTSET
+    boardOpponent[y-1][x-1] = CANTSET
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
     if selectedDirection == 1: # 初期向き
