@@ -146,5 +146,11 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
             changeTileStatus2(boardMine, boardOpponent, x, y)
             return True
 
+    # elif selectedDirection == 3: # 初期向きから180°時計回りに
+    #     if settableCheck3(boardMine, x, y):
+    #         changeTileImage3(colorImage, colorRect, x, y, surface, tileLength)
+    #         changeTileStatus3(boardMine, boardOpponent, x, y)
+    #         return True
+
 if __name__ == '__main__':
     main()
