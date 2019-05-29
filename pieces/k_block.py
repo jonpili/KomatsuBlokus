@@ -135,6 +135,13 @@ def changeTileStatus2(boardMine, boardOpponent, x, y):
     boardOpponent[y][x-1] = CANTSET
     boardOpponent[y-1][x-1] = CANTSET
 
+def changeTileImage5(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x-2), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x+1), tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * (x+1), tileLength * (y-1)))
+
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
     if selectedDirection == 1: # 初期向き
         if settableCheck1(boardMine, x, y):
@@ -155,14 +162,16 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
     #         return True
 
     elif selectedDirection == 5: # 初期向き
-        boardMine = np.asarray(boardMine).T
-        boardOpponent = np.asarray(boardOpponent).T
-        if settableCheck1(boardMine, y, x):
-            changeTileImage1(colorImage, colorRect, y, x, surface, tileLength)
-            changeTileStatus1(boardMine, boardOpponent, y, x)
-            boardMine = np.asarray(boardMine).T
-            boardOpponent = np.asarray(boardOpponent).T
-            return True, boardMine, boardOpponent
+        boardMineTrans = np.asarray(boardMine).T
+        boardOpponentTrans = np.asarray(boardOpponent).T
+        if settableCheck1(boardMineTrans, y, x):
+            changeTileImage5(colorImage, colorRect, y, x, surface, tileLength)
+            changeTileStatus1(boardMineTrans, boardOpponentTrans, y, x)
+            for width in boardMineTrans:
+                print(width)
+            boardMine = np.asarray(boardMineTrans).T
+            boardOpponent = np.asarray(boardOpponentTrans).T
+            return True
 
 if __name__ == '__main__':
     main()
