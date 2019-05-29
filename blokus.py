@@ -96,7 +96,7 @@ def main():
             # 枠の分はスキップ
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
-    whoTurn = checkBoard(GREEN)
+    whoTurn = checkBoard(YELLOW)
     selectedBlock, selectedDirection = selectBlock()
 
     while True:
