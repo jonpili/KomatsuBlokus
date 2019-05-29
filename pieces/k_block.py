@@ -135,6 +135,13 @@ def changeTileStatus2(boardMine, boardOpponent, x, y):
     boardOpponent[y][x-1] = CANTSET
     boardOpponent[y-1][x-1] = CANTSET
 
+def changeTileImage3(colorImage, colorRect, x, y, surface, tileLength):
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y-1)))
+    surface.blit(colorImage, colorRect.move(tileLength * (x+1), tileLength * (y-1)))
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+2)))
+    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
+
 def changeTileImage5(colorImage, colorRect, x, y, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
     surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
@@ -155,22 +162,17 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
             changeTileStatus2(boardMine, boardOpponent, x, y)
             return True
 
-    # elif selectedDirection == 3: # 初期向きから180°時計回りに
-    #     if settableCheck3(boardMine, x, y):
-    #         changeTileImage3(colorImage, colorRect, x, y, surface, tileLength)
-    #         changeTileStatus3(boardMine, boardOpponent, x, y)
-    #         return True
+    elif selectedDirection == 3: # 初期向きから180°時計回りに
+        pass
 
-    elif selectedDirection == 5: # 初期向き
-        boardMineTrans = np.asarray(boardMine).T
-        boardOpponentTrans = np.asarray(boardOpponent).T
-        if settableCheck1(boardMineTrans, y, x):
+    elif selectedDirection == 5: # 初期向きから裏向きに
+        boardMine = boardMine.T
+        boardOpponent = boardOpponent.T
+        if settableCheck1(boardMine, y, x):
             changeTileImage5(colorImage, colorRect, y, x, surface, tileLength)
-            changeTileStatus1(boardMineTrans, boardOpponentTrans, y, x)
-            for width in boardMineTrans:
-                print(width)
-            boardMine = np.asarray(boardMineTrans).T
-            boardOpponent = np.asarray(boardOpponentTrans).T
+            changeTileStatus1(boardMine, boardOpponent, y, x)
+            boardMine = boardMine.T
+            boardOpponent = boardOpponent.T
             return True
 
 if __name__ == '__main__':
