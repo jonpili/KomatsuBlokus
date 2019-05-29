@@ -1,3 +1,5 @@
+import numpy as np
+
 BLANK   = 0
 CANTSET = 1
 ABLESET = 2
@@ -151,6 +153,16 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
     #         changeTileImage3(colorImage, colorRect, x, y, surface, tileLength)
     #         changeTileStatus3(boardMine, boardOpponent, x, y)
     #         return True
+
+    elif selectedDirection == 5: # 初期向き
+        boardMine = np.asarray(boardMine).T
+        boardOpponent = np.asarray(boardOpponent).T
+        if settableCheck1(boardMine, y, x):
+            changeTileImage1(colorImage, colorRect, y, x, surface, tileLength)
+            changeTileStatus1(boardMine, boardOpponent, y, x)
+            boardMine = np.asarray(boardMine).T
+            boardOpponent = np.asarray(boardOpponent).T
+            return True, boardMine, boardOpponent
 
 if __name__ == '__main__':
     main()
