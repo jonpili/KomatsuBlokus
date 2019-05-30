@@ -52,7 +52,15 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
     [0,0,0,0,0,0,0]
     ])
 
-    if selectedDirection == 1: # 初期向き
+    if selectedDirection == 0: # 初期向き
+        if settableCheck(blockShape, boardMine, x, y):
+            changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
+            return True
+
+    elif selectedDirection == 1: # 裏向き
+        blockShape = np.rot90(blockShape.T, -1)
+        blockInfluences = np.rot90(blockInfluences.T, -1)
         if settableCheck(blockShape, boardMine, x, y):
             changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
@@ -66,7 +74,15 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
             return True
 
-    elif selectedDirection == 3: # 初期向きから180°時計回りに
+    elif selectedDirection == 3: # 裏向きから90°反時計回りに
+        blockShape = blockShape.T
+        blockInfluences = blockInfluences.T
+        if settableCheck(blockShape, boardMine, x, y):
+            changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
+            return True
+
+    elif selectedDirection == 4: # 初期向きから180°時計回りに
         blockShape = np.rot90(blockShape, -2)
         blockInfluences = np.rot90(blockInfluences, -2)
         if settableCheck(blockShape, boardMine, x, y):
@@ -74,9 +90,25 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
             return True
 
-    elif selectedDirection == 4: # 初期向きから270°時計回りに
+    elif selectedDirection == 5: # 裏向きから180°反時計回りに
+        blockShape = np.rot90(blockShape.T, -3)
+        blockInfluences = np.rot90(blockInfluences.T, -3)
+        if settableCheck(blockShape, boardMine, x, y):
+            changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
+            return True
+
+    elif selectedDirection == 6: # 初期向きから270°時計回りに
         blockShape = np.rot90(blockShape, -3)
         blockInfluences = np.rot90(blockInfluences, -3)
+        if settableCheck(blockShape, boardMine, x, y):
+            changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
+            return True
+
+    elif selectedDirection == 7: # 裏向きから270°反時計回りに
+        blockShape = np.rot90(blockShape.T, -2)
+        blockInfluences = np.rot90(blockInfluences.T, -2)
         if settableCheck(blockShape, boardMine, x, y):
             changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
