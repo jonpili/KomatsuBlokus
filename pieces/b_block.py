@@ -17,7 +17,7 @@ def settableCheck(blockShape, boardMine, x, y):
         if boardMine[y + coord[0] - 1][x + coord[1] - 1] == ABLESET:
             return True
 
-def changeTileImage(blockShape, colorImage, colorRect, x, y, surface, tileLength):
+def changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength):
     for coord in np.argwhere(blockShape == CANTSET):
         surface.blit(colorImage, colorRect.move(tileLength * (x + coord[1] - 1), tileLength * (y + coord[0] - 1)))
 
@@ -38,7 +38,7 @@ def settableCheck2(boardMine, x, y):
         if boardMine[y][x] == ABLESET or boardMine[y][x-1] == ABLESET:
             return True
 
-def changeTileImage2(colorImage, colorRect, x, y, surface, tileLength):
+def changeBoardImage2(colorImage, colorRect, x, y, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
     surface.blit(colorImage, colorRect.move(tileLength * (x-1), tileLength * y))
 
@@ -89,13 +89,13 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
 
     if selectedDirection == 1: # 初期向き
         if settableCheck(blockShape, boardMine, x, y):
-            changeTileImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
             return True
 
     elif selectedDirection == 2: # 初期向きから90°時計回りに
         if settableCheck2(boardMine, x, y):
-            changeTileImage2(colorImage, colorRect, x, y, surface, tileLength)
+            changeBoardImage2(colorImage, colorRect, x, y, surface, tileLength)
             changeTileStatus2(boardMine, boardOpponent, x, y)
             return True
 
