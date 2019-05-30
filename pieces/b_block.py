@@ -7,18 +7,19 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
-def settableCheck1(boardMine, x, y):
-    # for i in range(len(blockShape)):
-    #     for j in range(len(blockShape)):
-    #         tileStatus = blockShape[i][j]
-    #         if tileStatus == CANTSET:
-    if boardMine[y][x] != CANTSET and boardMine[y+1][x] != CANTSET:
-        if boardMine[y][x] == ABLESET or boardMine[y+1][x] == ABLESET:
+def settableCheck(blockShape, boardMine, x, y):
+    # 1つでもCANTSETがあれば置けない
+    for coord in np.argwhere(blockShape == CANTSET):
+        if boardMine[y + coord[0] - 1][x + coord[1] - 1] == CANTSET:
+            return False
+    # 1つでもABLESETがあれば置ける
+    for coord in np.argwhere(blockShape == CANTSET):
+        if boardMine[y + coord[0] - 1][x + coord[1] - 1] == ABLESET:
             return True
 
-def changeTileImage1(colorImage, colorRect, x, y, surface, tileLength):
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-    surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * (y+1)))
+def changeTileImage(blockShape, colorImage, colorRect, x, y, surface, tileLength):
+    for coord in np.argwhere(blockShape == CANTSET):
+        surface.blit(colorImage, colorRect.move(tileLength * (x + coord[1] - 1), tileLength * (y + coord[0] - 1)))
 
 def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y):
     # ブロックの影響を自分のボードに適用
@@ -28,21 +29,9 @@ def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, 
         if boardMine[y + coord[0] - 2][x + coord[1] - 2] != CANTSET:
             boardMine[y + coord[0] - 2][x + coord[1] - 2] = ABLESET
 
-    # for i in range(len(blockInfluences)):
-    #     for j in range(len(blockInfluences)):
-    #         tileStatus = blockInfluences[i][j]
-    #         if tileStatus == CANTSET:
-    #             boardMine[y+i-2][x+j-2] = CANTSET
-    #         elif tileStatus == ABLESET:
-    #             if boardMine[y+i-2][x+j-2] != CANTSET:
-    #                 boardMine[y+i-2][x+j-2] = ABLESET
-
-    # ブロックの形を自分以外のボードに適用
-    for i in range(len(blockShape)):
-        for j in range(len(blockShape)):
-            tileStatus = blockShape[i][j]
-            if tileStatus == CANTSET:
-                boardOpponent[y+i-1][x+j-1] = CANTSET
+    # ブロックの影響を自分以外のボードに適用
+    for coord in np.argwhere(blockShape == CANTSET):
+        boardOpponent[y + coord[0] - 1][x + coord[1] - 1] = CANTSET
 
 def settableCheck2(boardMine, x, y):
     if boardMine[y][x] != CANTSET and boardMine[y][x-1] != CANTSET:
@@ -98,11 +87,9 @@ def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, 
     [0,2,1,2,0]
     ])
 
-    print(np.argwhere(blockInfluences == ABLESET)[0][0])
-
     if selectedDirection == 1: # 初期向き
-        if settableCheck1(boardMine, x, y):
-            changeTileImage1(colorImage, colorRect, x, y, surface, tileLength)
+        if settableCheck(blockShape, boardMine, x, y):
+            changeTileImage(blockShape, colorImage, colorRect, x, y, surface, tileLength)
             changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y)
             return True
 
