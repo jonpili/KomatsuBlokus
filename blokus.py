@@ -1,6 +1,7 @@
 import pygame
 import sys
 import re
+import numpy as np
 
 from pieces import a_block
 from pieces import b_block
@@ -31,6 +32,7 @@ def makeBoard():
     for i in range(tileNumber):
         board[i + 1][0]              = CANTSET
         board[i + 1][tileNumber + 1] = CANTSET
+    board = np.asarray(board)
     return board
 
 # 初期位置を設定
