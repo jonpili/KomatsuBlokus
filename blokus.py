@@ -5,6 +5,7 @@ import numpy as np
 
 from pieces import a_block
 from pieces import b_block
+from pieces import l_block
 
 tileLength = 50
 tileNumber = 8
