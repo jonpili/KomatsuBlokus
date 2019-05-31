@@ -5,6 +5,7 @@ import numpy as np
 
 from pieces import a_block
 from pieces import b_block
+from pieces import o_block
 
 tileLength = 50
 tileNumber = 8
@@ -120,6 +121,10 @@ def main():
                             if b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'o':
+                            if o_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(GREEN)
+                                selectedBlock, selectedDirection = selectBlock()
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
@@ -129,6 +134,10 @@ def main():
                                 selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'b':
                             if b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(YELLOW)
+                                selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'o':
+                            if o_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
 
