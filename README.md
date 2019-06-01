@@ -17,3 +17,4 @@
 - 全21種のブロックとそれに対応するアルファベット（黒マスは回転軸）
 - 引用元：[古川 晋也（2014）C 言語による BlokusDuo 対戦プログラムの作成](http://www.hpc.se.ritsumei.ac.jp/papers/b14/furukawa.pdf)
 ![ブロック一覧表](https://github.com/JoeTakasuna/KomatsuBlokus/blob/master/%E3%83%95%E3%82%99%E3%83%AD%E3%83%83%E3%82%AF%E4%B8%80%E8%A6%A7%E8%A1%A8.png)
+![向き一覧表](https://github.com/JoeTakasuna/KomatsuBlokus/blob/master/%E5%90%91%E3%81%8D%E4%B8%80%E8%A6%A7%E8%A1%A8.png)
