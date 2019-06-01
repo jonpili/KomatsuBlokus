@@ -5,6 +5,25 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
+def display():
+    print('')
+    print('【選択中のブロック】')
+
+    # 上の枠
+    print('　', end='')
+    print('＿', end='')
+    print('　')
+
+    # 1を黒四角に、0を空白に置換
+    print('｜', end='')
+    print('䨻', end='')
+    print('｜')
+
+    # 下の枠
+    print('　', end='')
+    print('￣', end='')
+    print('　')
+
 def changeTileImage(colorImage, colorRect, x, y, surface, tileLength):
     surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
 

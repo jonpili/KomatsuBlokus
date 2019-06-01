@@ -80,8 +80,12 @@ def selectBlock():
     return selectedBlock, selectedDirection
 
 def displayBlock(selectedBlock, selectedDirection):
-    if selectedBlock == 'b':
+    if selectedBlock == 'a':
+        a_block.display(selectedDirection)
+    elif selectedBlock == 'b':
         b_block.display(selectedDirection)
+    elif selectedBlock == 'k':
+        k_block.display(selectedDirection)
 
 def main():
     pygame.init()
