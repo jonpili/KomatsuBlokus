@@ -7,6 +7,37 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
+blockShape = np.asarray([
+[0,0,0],
+[0,1,0],
+[0,1,0]
+])
+
+blockInfluences = np.asarray([
+[0,0,0,0,0],
+[0,2,1,2,0],
+[0,1,1,1,0],
+[0,1,1,1,0],
+[0,2,1,2,0]
+])
+
+def display(selectedDirection):
+    global blockShape
+    global blockInfluences
+
+    if selectedDirection == 0: # 初期向き
+        displayPrint(blockShape)
+
+def displayPrint(blockShape):
+    print('')
+    print('【選択中のブロック】')
+    print('')
+    blockShape = np.where(blockShape > 0, '䨻', '　')
+    for line in blockShape:
+        for col in line:
+            print(col, end='')
+        print('')
+
 def settableCheck(blockShape, boardMine, x, y):
     # 1つでもCANTSETがあれば置けない
     for coord in np.argwhere(blockShape == CANTSET):
@@ -34,19 +65,8 @@ def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, 
         boardOpponent[y + coord[0] - 1][x + coord[1] - 1] = CANTSET
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
-    blockShape = np.asarray([
-    [0,0,0],
-    [0,1,0],
-    [0,1,0]
-    ])
-
-    blockInfluences = np.asarray([
-    [0,0,0,0,0],
-    [0,2,1,2,0],
-    [0,1,1,1,0],
-    [0,1,1,1,0],
-    [0,2,1,2,0]
-    ])
+    global blockShape
+    global blockInfluences
 
     if selectedDirection == 0: # 初期向き
         if settableCheck(blockShape, boardMine, x, y):

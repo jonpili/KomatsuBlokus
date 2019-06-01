@@ -74,8 +74,13 @@ def selectBlock():
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
+    displayBlock(selectedBlock, selectedDirection)
 
     return selectedBlock, selectedDirection
+
+def displayBlock(selectedBlock, selectedDirection):
+    if selectedBlock == 'b':
+        b_block.display(selectedDirection)
 
 def main():
     pygame.init()
