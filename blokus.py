@@ -17,7 +17,7 @@ from pieces import k_block
 # from pieces import l_block
 # from pieces import m_block
 # from pieces import n_block
-# from pieces import o_block
+from pieces import o_block
 # from pieces import p_block
 # from pieces import q_block
 # from pieces import r_block
@@ -126,8 +126,8 @@ def displayBlock(selectedBlock, selectedDirection):
     #     m_block.display(selectedDirection)
     # elif selectedBlock == 'n':
     #     n_block.display(selectedDirection)
-    # elif selectedBlock == 'o':
-    #     o_block.display(selectedDirection)
+    elif selectedBlock == 'o':
+        o_block.display(selectedDirection)
     # elif selectedBlock == 'p':
     #     p_block.display(selectedDirection)
     # elif selectedBlock == 'q':
@@ -232,10 +232,10 @@ def main():
                         #     if n_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                         #         whoTurn = checkBoard(GREEN)
                         #         selectedBlock, selectedDirection = selectBlock()
-                        # elif selectedBlock == 'o':
-                        #     if o_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
-                        #         whoTurn = checkBoard(GREEN)
-                        #         selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'o':
+                            if o_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(GREEN)
+                                selectedBlock, selectedDirection = selectBlock()
                         # elif selectedBlock == 'p':
                         #     if p_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                         #         whoTurn = checkBoard(GREEN)
@@ -319,10 +319,10 @@ def main():
                         #     if n_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                         #         whoTurn = checkBoard(YELLOW)
                         #         selectedBlock, selectedDirection = selectBlock()
-                        # elif selectedBlock == 'o':
-                        #     if o_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
-                        #         whoTurn = checkBoard(YELLOW)
-                        #         selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'o':
+                            if o_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(YELLOW)
+                                selectedBlock, selectedDirection = selectBlock()
                         # elif selectedBlock == 'p':
                         #     if p_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                         #         whoTurn = checkBoard(YELLOW)
