@@ -87,6 +87,8 @@ def displayBlock(selectedBlock, selectedDirection):
         b_block.display(selectedDirection)
     elif selectedBlock == 'k':
         k_block.display(selectedDirection)
+    elif selectedBlock == 'p':
+        p_block.display(selectedDirection)
 
 def main():
     pygame.init()
