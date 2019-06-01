@@ -7,51 +7,53 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
-blockShape = np.asarray([
-[0,0,0],
-[0,1,0],
-[0,1,0]
-])
+def setBlockInfo():
+    blockShape = np.asarray([
+    [0,0,0],
+    [0,1,0],
+    [0,1,0]
+    ])
 
-blockInfluences = np.asarray([
-[0,0,0,0,0],
-[0,2,1,2,0],
-[0,1,1,1,0],
-[0,1,1,1,0],
-[0,2,1,2,0]
-])
+    blockInfluences = np.asarray([
+    [0,0,0,0,0],
+    [0,2,1,2,0],
+    [0,1,1,1,0],
+    [0,1,1,1,0],
+    [0,2,1,2,0]
+    ])
+    return blockShape, blockInfluences
 
 def display(selectedDirection):
-    global blockShape
+    blockShape, blockInfluences = setBlockInfo()
 
     if selectedDirection == 0: # 初期向き
         pass
     elif selectedDirection == 1: # 裏向き
-        blockShapeAppearance = np.rot90(blockShape.T, -1)
+        blockShape = np.rot90(blockShape.T, -1)
     elif selectedDirection == 2: # 初期向きから90°時計回りに
-        blockShapeAppearance = np.rot90(blockShape, -1)
+        blockShape = np.rot90(blockShape, -1)
     elif selectedDirection == 3: # 裏向きから90°反時計回りに
-        blockShapeAppearance = blockShape.T
+        blockShape = blockShape.T
     elif selectedDirection == 4: # 初期向きから180°時計回りに
-        blockShapeAppearance = np.rot90(blockShape, -2)
+        blockShape = np.rot90(blockShape, -2)
     elif selectedDirection == 5: # 裏向きから180°反時計回りに
-        blockShapeAppearance = np.rot90(blockShape.T, -3)
+        blockShape = np.rot90(blockShape.T, -3)
     elif selectedDirection == 6: # 初期向きから270°時計回りに
-        blockShapeAppearance = np.rot90(blockShape, -3)
+        blockShape = np.rot90(blockShape, -3)
     elif selectedDirection == 7: # 裏向きから270°反時計回りに
-        blockShapeAppearance = np.rot90(blockShape.T, -2)
+        blockShape = np.rot90(blockShape.T, -2)
 
     print('')
     print('【選択中のブロック】')
 
     # 上の枠
     print('　', end='')
-    for i in range(len(blockShapeAppearance)):
+    for i in range(len(blockShape)):
         print('＿', end='')
     print('　')
 
     # 1を黒四角に、0を空白に置換
-    for line in np.where(blockShapeAppearance > 0, '䨻', '　'):
+    for line in np.where(blockShape > 0, '䨻', '　'):
         print('｜', end='')
         for col in line:
             print(col, end='')
@@ -59,7 +61,7 @@ def display(selectedDirection):
     print('　', end='')
 
     # 下の枠
-    for i in range(len(blockShapeAppearance)):
+    for i in range(len(blockShape)):
         print('￣', end='')
     print('　')
 
@@ -90,8 +92,7 @@ def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, 
         boardOpponent[y + coord[0] - 1][x + coord[1] - 1] = CANTSET
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
-    global blockShape
-    global blockInfluences
+    blockShape, blockInfluences = setBlockInfo()
 
     if selectedDirection == 0: # 初期向き
         if settableCheck(blockShape, boardMine, x, y):

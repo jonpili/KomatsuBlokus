@@ -64,7 +64,7 @@ def checkBoard(color):
     return whoTurn
 
 def selectBlock():
-    selectedBlock     = input('ブロックを選択してください：')
+    selectedBlock = input('ブロックを選択してください：')
     while not re.match('[a-u]{1}', selectedBlock):
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
