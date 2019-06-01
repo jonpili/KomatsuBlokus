@@ -186,8 +186,9 @@ def main():
                         ):
                             whoTurn = checkBoard(GREEN)
                             selectedBlock, selectedDirection = selectBlock()
-                        else:
-                            print('ここには置けません')
+
+                        else: print('ここには置けません')
+                    else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
@@ -216,8 +217,9 @@ def main():
                         ):
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock()
-                        else:
-                            print('ここには置けません')
+                            
+                        else: print('ここには置けません')
+                    else: print('ここには置けません')
 
 if __name__ == '__main__':
     main()
