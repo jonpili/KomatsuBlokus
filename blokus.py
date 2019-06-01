@@ -81,7 +81,7 @@ def selectBlock():
 
 def displayBlock(selectedBlock, selectedDirection):
     if selectedBlock == 'a':
-        a_block.display(selectedDirection)
+        a_block.display()
     elif selectedBlock == 'b':
         b_block.display(selectedDirection)
     elif selectedBlock == 'k':
