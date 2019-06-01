@@ -21,6 +21,7 @@ def setBlockInfo():
     [0,1,1,1,0],
     [0,2,1,2,0]
     ])
+    
     return blockShape, blockInfluences
 
 def display(selectedDirection):
