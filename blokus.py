@@ -167,9 +167,17 @@ def main():
 
     while True:
         for event in pygame.event.get():
+            # ESCAPEキーが押されたらゲーム終了
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.quit()
-                sys.exit() # ESCAPEキーが押されたら終了
+                sys.exit()
+            # Zキーが押されたらブロック選択キャンセル
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+                # print('')
+                print('\n選択がキャンセルされました\n')
+                # print('')
+                selectedBlock, selectedDirection = selectBlock()
+            # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
                 xpos = int(pygame.mouse.get_pos()[0]/tileLength) # 右方向に正
