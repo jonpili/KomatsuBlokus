@@ -152,9 +152,7 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                # print('')
                 print('\n選択がキャンセルされました\n')
-                # print('')
                 selectedBlock, selectedDirection = selectBlock()
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
