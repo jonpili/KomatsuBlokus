@@ -5,6 +5,7 @@ import numpy as np
 
 from pieces import a_block
 from pieces import b_block
+from pieces import k_block
 from pieces import q_block
 
 tileLength = 50
@@ -65,7 +66,7 @@ def checkBoard(color):
     return whoTurn
 
 def selectBlock():
-    selectedBlock     = input('ブロックを選択してください：')
+    selectedBlock = input('ブロックを選択してください：')
     while not re.match('[a-u]{1}', selectedBlock):
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
@@ -75,8 +76,19 @@ def selectBlock():
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
+    displayBlock(selectedBlock, selectedDirection)
 
     return selectedBlock, selectedDirection
+
+def displayBlock(selectedBlock, selectedDirection):
+    if selectedBlock == 'a':
+        a_block.display()
+    elif selectedBlock == 'b':
+        b_block.display(selectedDirection)
+    elif selectedBlock == 'k':
+        k_block.display(selectedDirection)
+    elif selectedBlock == 'q':
+        q_block.display(selectedDirection)
 
 def main():
     pygame.init()
@@ -121,6 +133,10 @@ def main():
                             if b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
                                 selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'k':
+                            if k_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(GREEN)
+                                selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'q':
                             if q_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(GREEN)
@@ -136,11 +152,14 @@ def main():
                             if b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
+                        elif selectedBlock == 'k':
+                            if k_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
+                                whoTurn = checkBoard(YELLOW)
+                                selectedBlock, selectedDirection = selectBlock()
                         elif selectedBlock == 'q':
                             if q_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                                 whoTurn = checkBoard(YELLOW)
                                 selectedBlock, selectedDirection = selectBlock()
-
 
 if __name__ == '__main__':
     main()
