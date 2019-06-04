@@ -9,7 +9,7 @@ from pieces import c_block
 # from pieces import d_block
 # from pieces import e_block
 # from pieces import f_block
-# from pieces import g_block
+from pieces import g_block
 # from pieces import h_block
 # from pieces import i_block
 # from pieces import j_block
@@ -104,7 +104,7 @@ def displayBlock(selectedBlock, selectedDirection):
     # elif selectedBlock == 'd': d_block.display(selectedDirection)
     # elif selectedBlock == 'e': e_block.display(selectedDirection)
     # elif selectedBlock == 'f': f_block.display(selectedDirection)
-    # elif selectedBlock == 'g': g_block.display(selectedDirection)
+    elif selectedBlock == 'g': g_block.display(selectedDirection)
     # elif selectedBlock == 'h': h_block.display(selectedDirection)
     # elif selectedBlock == 'i': i_block.display(selectedDirection)
     # elif selectedBlock == 'j': j_block.display(selectedDirection)
@@ -168,7 +168,7 @@ def main():
                         # or (selectedBlock == 'd' and d_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'f' and f_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'g' and g_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'g' and g_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'h' and h_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'i' and i_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'j' and j_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
@@ -199,7 +199,7 @@ def main():
                         # or (selectedBlock == 'd' and d_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'f' and f_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'g' and g_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'g' and g_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'h' and h_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'i' and i_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'j' and j_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
