@@ -5,7 +5,7 @@ import numpy as np
 
 from pieces import a_block
 from pieces import b_block
-# from pieces import c_block
+from pieces import c_block
 # from pieces import d_block
 # from pieces import e_block
 # from pieces import f_block
@@ -100,7 +100,7 @@ def selectBlock():
 def displayBlock(selectedBlock, selectedDirection):
     if selectedBlock == 'a': a_block.display()
     elif selectedBlock == 'b': b_block.display(selectedDirection)
-    # elif selectedBlock == 'c': c_block.display(selectedDirection)
+    elif selectedBlock == 'c': c_block.display(selectedDirection)
     # elif selectedBlock == 'd': d_block.display(selectedDirection)
     # elif selectedBlock == 'e': e_block.display(selectedDirection)
     # elif selectedBlock == 'f': f_block.display(selectedDirection)
@@ -164,7 +164,7 @@ def main():
                         if (
                         (selectedBlock == 'a' and a_block.main(greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'b' and b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'c' and c_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'c' and c_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'd' and d_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'f' and f_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
@@ -195,7 +195,7 @@ def main():
                         if (
                         (selectedBlock == 'a' and a_block.main(yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'b' and b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'c' and c_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'c' and c_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'd' and d_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'f' and f_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
@@ -217,7 +217,7 @@ def main():
                         ):
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock()
-                            
+
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
