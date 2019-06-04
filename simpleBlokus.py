@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+# clone dekimasita
+
 tileLength = 50
 tileNumber = 5
 
