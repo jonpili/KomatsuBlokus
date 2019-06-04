@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+# わーい！
+
 tileLength = 50
 tileNumber = 5
 
