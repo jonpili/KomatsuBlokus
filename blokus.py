@@ -5,23 +5,23 @@ import numpy as np
 
 from pieces import a_block
 from pieces import b_block
-# from pieces import c_block
+from pieces import c_block
 # from pieces import d_block
 # from pieces import e_block
-# from pieces import f_block
-# from pieces import g_block
+from pieces import f_block
+from pieces import g_block
 # from pieces import h_block
 # from pieces import i_block
 # from pieces import j_block
 from pieces import k_block
-# from pieces import l_block
-# from pieces import m_block
+from pieces import l_block
+from pieces import m_block
 from pieces import n_block
 # from pieces import o_block
 # from pieces import p_block
 # from pieces import q_block
 # from pieces import r_block
-# from pieces import s_block
+from pieces import s_block
 # from pieces import t_block
 # from pieces import u_block
 
@@ -100,23 +100,23 @@ def selectBlock():
 def displayBlock(selectedBlock, selectedDirection):
     if selectedBlock == 'a': a_block.display()
     elif selectedBlock == 'b': b_block.display(selectedDirection)
-    # elif selectedBlock == 'c': c_block.display(selectedDirection)
+    elif selectedBlock == 'c': c_block.display(selectedDirection)
     # elif selectedBlock == 'd': d_block.display(selectedDirection)
     # elif selectedBlock == 'e': e_block.display(selectedDirection)
-    # elif selectedBlock == 'f': f_block.display(selectedDirection)
-    # elif selectedBlock == 'g': g_block.display(selectedDirection)
+    elif selectedBlock == 'f': f_block.display(selectedDirection)
+    elif selectedBlock == 'g': g_block.display(selectedDirection)
     # elif selectedBlock == 'h': h_block.display(selectedDirection)
     # elif selectedBlock == 'i': i_block.display(selectedDirection)
     # elif selectedBlock == 'j': j_block.display(selectedDirection)
     elif selectedBlock == 'k': k_block.display(selectedDirection)
-    # elif selectedBlock == 'l': l_block.display(selectedDirection)
-    # elif selectedBlock == 'm': m_block.display(selectedDirection)
+    elif selectedBlock == 'l': l_block.display(selectedDirection)
+    elif selectedBlock == 'm': m_block.display(selectedDirection)
     elif selectedBlock == 'n': n_block.display(selectedDirection)
     # elif selectedBlock == 'o': o_block.display(selectedDirection)
     # elif selectedBlock == 'p': p_block.display(selectedDirection)
     # elif selectedBlock == 'q': q_block.display(selectedDirection)
     # elif selectedBlock == 'r': r_block.display(selectedDirection)
-    # elif selectedBlock == 's': s_block.display(selectedDirection)
+    elif selectedBlock == 's': s_block.display(selectedDirection)
     # elif selectedBlock == 't': t_block.display(selectedDirection)
     # elif selectedBlock == 'u': u_block.display(selectedDirection)
 
@@ -152,9 +152,7 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                # print('')
                 print('\n選択がキャンセルされました\n')
-                # print('')
                 selectedBlock, selectedDirection = selectBlock()
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -166,60 +164,62 @@ def main():
                         if (
                         (selectedBlock == 'a' and a_block.main(greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'b' and b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'c' and c_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'c' and c_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'd' and d_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'f' and f_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'g' and g_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'f' and f_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'g' and g_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'h' and h_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'i' and i_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'j' and j_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'k' and k_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'l' and l_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'm' and m_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'l' and l_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'm' and m_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'n' and n_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'o' and o_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'p' and p_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'q' and q_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 's' and s_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 's' and s_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(GREEN)
                             selectedBlock, selectedDirection = selectBlock()
-                        else:
-                            print('ここには置けません')
+
+                        else: print('ここには置けません')
+                    else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
                         if (
                         (selectedBlock == 'a' and a_block.main(yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'b' and b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'c' and c_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'c' and c_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'd' and d_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'e' and e_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'f' and f_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'g' and g_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'f' and f_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'g' and g_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'h' and h_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'i' and i_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'j' and j_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'k' and k_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'l' and l_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'm' and m_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'l' and l_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 'm' and m_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'n' and n_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'o' and o_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'p' and p_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'q' and q_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 's' and s_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 's' and s_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock()
-                        else:
-                            print('ここには置けません')
+
+                        else: print('ここには置けません')
+                    else: print('ここには置けません')
 
 if __name__ == '__main__':
     main()
