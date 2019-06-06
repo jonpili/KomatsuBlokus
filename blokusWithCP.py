@@ -97,6 +97,13 @@ def selectBlock():
 
     return selectedBlock, selectedDirection
 
+def selectBlockByCP():
+    selectedBlock = 'a'
+    selectedDirection = 0
+    displayBlock(selectedBlock, selectedDirection)
+
+    return selectedBlock, selectedDirection
+
 def displayBlock(selectedBlock, selectedDirection):
     if selectedBlock == 'a': a_block.display()
     elif selectedBlock == 'b': b_block.display(selectedDirection)
@@ -185,7 +192,7 @@ def main():
                         # or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock()
+                            selectedBlock, selectedDirection = selectBlockByCP()
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
