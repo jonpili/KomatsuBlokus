@@ -4,8 +4,6 @@ import re
 import numpy as np
 import random
 
-#a
-
 from pieces import a_block
 from pieces import b_block
 from pieces import c_block
