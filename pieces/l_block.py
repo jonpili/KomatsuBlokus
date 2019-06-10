@@ -7,8 +7,6 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
-<<<<<<< HEAD
-=======
 def setBlockInfo():
     blockShape = np.asarray([
     [0,0,1,0,0],
@@ -72,7 +70,6 @@ def display(selectedDirection):
         print('￣', end='')
     print('　')
 
->>>>>>> f7b4dbed495aea40fe43778d046e499b0e86904c
 def settableCheck(blockShape, boardMine, x, y):
     # 1つでもCANTSETがあれば置けない
     for coord in np.argwhere(blockShape == CANTSET):
@@ -100,27 +97,7 @@ def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, 
         boardOpponent[y + coord[0] - 2][x + coord[1] - 2] = CANTSET
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
-<<<<<<< HEAD
-    blockShape = np.asarray([
-    [0,0,1,0,0],
-    [0,0,1,0,0],
-    [0,1,1,0,0],
-    [0,1,0,0,0],
-    [0,0,0,0,0]
-    ])
-
-    blockInfluences = np.asarray([
-    [0,0,2,1,2,0,0],
-    [0,0,1,1,1,0,0],
-    [0,2,1,1,1,0,0],
-    [0,1,1,1,1,0,0],
-    [0,1,1,1,2,0,0],
-    [0,2,1,2,0,0,0],
-    [0,0,0,0,0,0,0]
-    ])
-=======
     blockShape, blockInfluences = setBlockInfo()
->>>>>>> f7b4dbed495aea40fe43778d046e499b0e86904c
 
     if selectedDirection == 0: # 初期向き
         if settableCheck(blockShape, boardMine, x, y):
