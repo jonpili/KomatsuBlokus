@@ -22,7 +22,7 @@ from pieces import p_block
 from pieces import q_block
 # from pieces import r_block
 from pieces import s_block
-# from pieces import t_block
+from pieces import t_block
 from pieces import u_block
 
 tileLength = 50
@@ -117,7 +117,7 @@ def displayBlock(selectedBlock, selectedDirection):
     elif selectedBlock == 'q': q_block.display(selectedDirection)
     # elif selectedBlock == 'r': r_block.display(selectedDirection)
     elif selectedBlock == 's': s_block.display(selectedDirection)
-    # elif selectedBlock == 't': t_block.display(selectedDirection)
+    elif selectedBlock == 't': t_block.display(selectedDirection)
     elif selectedBlock == 'u': u_block.display(selectedDirection)
 
 def main():
@@ -181,7 +181,7 @@ def main():
                         or (selectedBlock == 'q' and q_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 's' and s_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(GREEN)
@@ -212,7 +212,7 @@ def main():
                         or (selectedBlock == 'q' and q_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 's' and s_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(YELLOW)
