@@ -14,3 +14,4 @@ array = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 array = np.asarray(array).T
 
 print(array[2][1])
+#aaaaaaaaaaaaaaaaaaaa
