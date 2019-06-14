@@ -84,12 +84,12 @@ def checkBoard(color):
 
 def selectBlock():
     selectedBlock = input('ブロックを選択してください：')
-    while not re.match('[a-u]{1}', selectedBlock):
+    while re.search('[^a-u]', selectedBlock) or re.search('[a-u]{2,}', selectedBlock) or selectedBlock == '':
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
 
     selectedDirection = input('向きを選択してください：')
-    while not re.match('[0-7]{1}', selectedDirection):
+    while re.search('[^0-7]', selectedDirection) or re.search('[0-7]{2,}', selectedDirection) or selectedDirection == '':
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
