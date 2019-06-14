@@ -9,17 +9,17 @@ YELLOW = 2
 
 def setBlockInfo():
     blockShape = np.asarray([
-    [0,0,0],
-    [0,1,0],
-    [0,1,0]
+    [1,0,0],
+    [1,1,1],
+    [0,0,1]
     ])
 
     blockInfluences = np.asarray([
-    [0,0,0,0,0],
-    [0,2,1,2,0],
-    [0,1,1,1,0],
-    [0,1,1,1,0],
-    [0,2,1,2,0]
+    [2,1,2,0,0],
+    [1,1,1,1,2],
+    [1,1,1,1,1],
+    [2,1,1,1,1],
+    [0,0,2,1,2]
     ])
 
     return blockShape, blockInfluences
