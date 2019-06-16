@@ -83,13 +83,16 @@ def checkBoard(color):
     return whoTurn
 
 def selectBlock():
+    blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
+    blockNumbers = str(list(range(8))) # 0から7の配列
+    
     selectedBlock = input('ブロックを選択してください：')
-    while re.search('[^a-u]', selectedBlock) or re.search('[a-u]{2,}', selectedBlock) or selectedBlock == '':
+    while not selectedBlock in blockSpells:
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
 
     selectedDirection = input('向きを選択してください：')
-    while re.search('[^0-7]', selectedDirection) or re.search('[0-7]{2,}', selectedDirection) or selectedDirection == '':
+    while not selectedDirection in blockNumbers:
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
