@@ -22,7 +22,7 @@ from pieces import p_block
 from pieces import q_block
 # from pieces import r_block
 from pieces import s_block
-from pieces import t_block
+# from pieces import t_block
 from pieces import u_block
 
 tileLength = 50
@@ -41,6 +41,10 @@ BLUE   = 4 # 将来的に実装
 screenWidth  = tileLength * (tileNumber + 2)
 screenHeight = tileLength * (tileNumber + 2)
 tileLimit    = tileLength * tileNumber
+
+#使ったブロックのリスト
+greenUsedBlocks = []
+yellowUsedBlocks = []
 
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
@@ -82,11 +86,23 @@ def checkBoard(color):
     pygame.display.flip()
     return whoTurn
 
-def selectBlock():
+def selectBlock(whoTurn):
     selectedBlock = input('ブロックを選択してください：')
     while not re.match('[a-u]{1}', selectedBlock):
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
+
+    if whoTurn == GREEN:
+        while selectedBlock in greenUsedBlocks:
+            print('そのブロックは既に使っています')
+            selectedBlock = input('ブロックを選択してください：')
+        greenUsedBlocks.append(selectedBlock)
+
+    if whoTurn == YELLOW:
+        while selectedBlock in yellowUsedBlocks:
+            print('そのブロックは既に使っています')
+            selectedBlock = input('ブロックを選択してください：')
+        yellowUsedBlocks.append(selectedBlock)
 
     selectedDirection = input('向きを選択してください：')
     while not re.match('[0-7]{1}', selectedDirection):
@@ -117,7 +133,7 @@ def displayBlock(selectedBlock, selectedDirection):
     elif selectedBlock == 'q': q_block.display(selectedDirection)
     # elif selectedBlock == 'r': r_block.display(selectedDirection)
     elif selectedBlock == 's': s_block.display(selectedDirection)
-    elif selectedBlock == 't': t_block.display(selectedDirection)
+    # elif selectedBlock == 't': t_block.display(selectedDirection)
     elif selectedBlock == 'u': u_block.display(selectedDirection)
 
 def main():
@@ -142,7 +158,7 @@ def main():
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
     whoTurn = checkBoard(YELLOW)
-    selectedBlock, selectedDirection = selectBlock()
+    selectedBlock, selectedDirection = selectBlock(YELLOW)
 
     while True:
         for event in pygame.event.get():
@@ -152,8 +168,12 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                print('\n選択がキャンセルされました\n')
-                selectedBlock, selectedDirection = selectBlock()
+                if whoTurn == GREEN:
+                    print('\n選択がキャンセルされました\n')
+                    selectedBlock, selectedDirection = selectBlock(GREEN)
+                if whoTurn == YELLOW:
+                    print('\n選択がキャンセルされました\n')
+                    selectedBlock, selectedDirection = selectBlock(YELLOW)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
@@ -181,11 +201,11 @@ def main():
                         or (selectedBlock == 'q' and q_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 's' and s_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
+                        # or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock()
+                            selectedBlock, selectedDirection = selectBlock(GREEN)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
@@ -212,11 +232,11 @@ def main():
                         or (selectedBlock == 'q' and q_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         # or (selectedBlock == 'r' and r_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 's' and s_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
+                        # or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
                             whoTurn = checkBoard(YELLOW)
-                            selectedBlock, selectedDirection = selectBlock()
+                            selectedBlock, selectedDirection = selectBlock(YELLOW)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
