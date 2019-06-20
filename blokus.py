@@ -42,6 +42,10 @@ screenWidth  = tileLength * (tileNumber + 2)
 screenHeight = tileLength * (tileNumber + 2)
 tileLimit    = tileLength * tileNumber
 
+#使ったブロックのリスト
+greenUsedBlocks = []
+yellowUsedBlocks = []
+
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
     # 枠を作成
@@ -72,17 +76,17 @@ def checkBoard(color):
     for width in boardYellow:
         print(width)
 
-    if color == YELLOW:
+    if color == GREEN:
         whoTurn = GREEN
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif color == GREEN:
+    elif color == YELLOW:
         whoTurn = YELLOW
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
     pygame.display.flip()
     return whoTurn
 
-def selectBlock():
+def selectBlock(whoTurn):
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
 
@@ -90,6 +94,18 @@ def selectBlock():
     while not selectedBlock in blockSpells:
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
+
+    if whoTurn == GREEN:
+        while selectedBlock in greenUsedBlocks:
+            print('そのブロックは既に使っています')
+            selectedBlock = input('ブロックを選択してください：')
+        greenUsedBlocks.append(selectedBlock)
+
+    if whoTurn == YELLOW:
+        while selectedBlock in yellowUsedBlocks:
+            print('そのブロックは既に使っています')
+            selectedBlock = input('ブロックを選択してください：')
+        yellowUsedBlocks.append(selectedBlock)
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
@@ -157,8 +173,8 @@ def main():
             # 枠の分はスキップ
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
-    whoTurn = checkBoard(YELLOW)
-    selectedBlock, selectedDirection = selectBlock()
+    whoTurn = checkBoard(GREEN)
+    selectedBlock, selectedDirection = selectBlock(GREEN)
 
     while not checkBlock(boardGreen):
         print('そのブロックを置く場所がありません')
@@ -172,8 +188,12 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                print('\n選択がキャンセルされました\n')
-                selectedBlock, selectedDirection = selectBlock()
+                if whoTurn == GREEN:
+                    print('\n選択がキャンセルされました\n')
+                    selectedBlock, selectedDirection = selectBlock(GREEN)
+                if whoTurn == YELLOW:
+                    print('\n選択がキャンセルされました\n')
+                    selectedBlock, selectedDirection = selectBlock(YELLOW)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
@@ -204,8 +224,8 @@ def main():
                         or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
-                            whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock()
+                            whoTurn = checkBoard(YELLOW)
+                            selectedBlock, selectedDirection = selectBlock(YELLOW)
 
                             while not checkBlock(boardYellow):
                                 print('そのブロックを置く場所がありません')
@@ -239,8 +259,8 @@ def main():
                         or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
-                            whoTurn = checkBoard(YELLOW)
-                            selectedBlock, selectedDirection = selectBlock()
+                            whoTurn = checkBoard(GREEN)
+                            selectedBlock, selectedDirection = selectBlock(GREEN)
 
                             while not checkBlock(boardGreen):
                                 print('そのブロックを置く場所がありません')
