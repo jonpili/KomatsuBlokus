@@ -95,17 +95,17 @@ def selectBlock(whoTurn):
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
 
-    if whoTurn == GREEN:
-        while selectedBlock in greenUsedBlocks:
-            print('そのブロックは既に使っています')
-            selectedBlock = input('ブロックを選択してください：')
-        greenUsedBlocks.append(selectedBlock)
-
-    if whoTurn == YELLOW:
-        while selectedBlock in yellowUsedBlocks:
-            print('そのブロックは既に使っています')
-            selectedBlock = input('ブロックを選択してください：')
-        yellowUsedBlocks.append(selectedBlock)
+    # if whoTurn == GREEN:
+    #     while selectedBlock in greenUsedBlocks:
+    #         print('そのブロックは既に使っています')
+    #         selectedBlock = input('ブロックを選択してください：')
+    #     greenUsedBlocks.append(selectedBlock)
+    #
+    # if whoTurn == YELLOW:
+    #     while selectedBlock in yellowUsedBlocks:
+    #         print('そのブロックは既に使っています')
+    #         selectedBlock = input('ブロックを選択してください：')
+    #     yellowUsedBlocks.append(selectedBlock)
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
@@ -116,15 +116,15 @@ def selectBlock(whoTurn):
 
     return selectedBlock, selectedDirection
 
-def checkBlock(boardMine):
+def checkBlock(selectedBlockFunction, boardMine):
 
     checkBlock = False
 
-    blockShape, blockInfluences = k_block.setBlockInfo()
+    blockShape, blockInfluences = selectedBlockFunction.setBlockInfo()
 
     for x in range(tileNumber + 2):
         for y in range(tileNumber + 2):
-            if k_block.settableCheck(blockShape, boardMine, x, y):
+            if selectedBlockFunction.settableCheck(blockShape, boardMine, x, y):
                 checkBlock = True
 
     return checkBlock
@@ -176,9 +176,9 @@ def main():
     whoTurn = checkBoard(GREEN)
     selectedBlock, selectedDirection = selectBlock(GREEN)
 
-    while not checkBlock(boardGreen):
+    while not checkBlock(k_block, boardGreen):
         print('そのブロックを置く場所がありません')
-        selectedBlock, selectedDirection = selectBlock()
+        selectedBlock, selectedDirection = selectBlock(GREEN)
 
     while True:
         for event in pygame.event.get():
@@ -227,9 +227,9 @@ def main():
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock(YELLOW)
 
-                            while not checkBlock(boardYellow):
+                            while not checkBlock(k_block, boardYellow):
                                 print('そのブロックを置く場所がありません')
-                                selectedBlock, selectedDirection = selectBlock()
+                                selectedBlock, selectedDirection = selectBlock(YELLOW)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
@@ -262,9 +262,9 @@ def main():
                             whoTurn = checkBoard(GREEN)
                             selectedBlock, selectedDirection = selectBlock(GREEN)
 
-                            while not checkBlock(boardGreen):
+                            while not checkBlock(k_block, boardGreen):
                                 print('そのブロックを置く場所がありません')
-                                selectedBlock, selectedDirection = selectBlock()
+                                selectedBlock, selectedDirection = selectBlock(GREEN)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
