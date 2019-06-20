@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 BLANK   = 0
 CANTSET = 1
@@ -58,7 +59,6 @@ def display(selectedDirection):
     print('　')
 
     # 1を黒四角に、0を空白に置換
-    import math
     center = math.floor(len(blockShape)/2)
 
     for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
