@@ -5,7 +5,7 @@ ABLESET = 2
 GREEN  = 1
 YELLOW = 2
 
-def display():
+def display(selectedDirection):
     print('')
     print('【選択中のブロック】')
 
