@@ -186,7 +186,7 @@ def main():
     whoTurn = checkBoard(GREEN)
     selectedBlock, selectedDirection = selectBlock(GREEN)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-    
+
     while not checkBlock(k_block, boardGreen):
         print('そのブロックを置く場所がありません')
         selectedBlock, selectedDirection = selectBlock(GREEN)
@@ -215,6 +215,7 @@ def main():
                         if eval(selectedBlock + '_block').main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock(YELLOW)
+                            rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
 
                             while not checkBlock(k_block, boardYellow):
                                 print('そのブロックを置く場所がありません')
@@ -228,6 +229,7 @@ def main():
                         if eval(selectedBlock + '_block').main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(GREEN)
                             selectedBlock, selectedDirection = selectBlock(GREEN)
+                            rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
 
                             while not checkBlock(k_block, boardGreen):
                                 print('そのブロックを置く場所がありません')
