@@ -9,21 +9,17 @@ array = [
         ]
 
 array = np.asarray(array)
-#print(array)
 
-import math
+def test_0():
+    print('わーい')
 
-center = math.floor(len(array)/2)
-array = np.where(array > 0, '□', '　')
-for indexLine, line in enumerate(array):
-    print('｜', end='')
-    for indexCol, col in enumerate(line):
-        if indexLine == center and indexCol == center:
-            print('■', end='')
-        else:
-            print(col, end='')
-    print('｜')
-print('　', end='')
-       #np.where(blockShape > 0 , '□', '　'):
-    #print('｜', end='')
-    #line(np.where(blockShape[1,1] == 1, '■', '  '))
+def test_1():
+    print('いえーい')
+
+def test_2():
+    print('やっほー！')
+
+name = 'test_'
+
+for i in range(3):
+    eval(name + str(i))()
