@@ -116,6 +116,36 @@ def selectBlock(whoTurn):
 
     return selectedBlock, selectedDirection
 
+def rotateBlock(selectedBlock, selectedDirection):
+    blockShape, blockInfluences = eval(selectedBlock + '_block').setBlockInfo()
+
+    if selectedDirection == 0: # 初期向き
+        rotatedBlockShape = blockShape
+        rotatedBlockInfluences = blockInfluences
+    elif selectedDirection == 1: # 裏向き
+        rotatedBlockShape = np.rot90(blockShape.T, -1)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -1)
+    elif selectedDirection == 2: # 初期向きから90°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -1)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -1)
+    elif selectedDirection == 3: # 裏向きから90°反時計回りに
+        rotatedBlockShape = blockShape.T
+        rotatedBlockInfluences = blockInfluences.T
+    elif selectedDirection == 4: # 初期向きから180°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -2)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -2)
+    elif selectedDirection == 5: # 裏向きから180°反時計回りに
+        rotatedBlockShape = np.rot90(blockShape.T, -3)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -3)
+    elif selectedDirection == 6: # 初期向きから270°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -3)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -3)
+    elif selectedDirection == 7: # 裏向きから270°反時計回りに
+        rotatedBlockShape = np.rot90(blockShape.T, -2)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -2)
+
+    return rotatedBlockShape, rotatedBlockInfluences
+
 def checkBlock(selectedBlockFunction, boardMine):
 
     checkBlock = False
@@ -155,7 +185,8 @@ def main():
 
     whoTurn = checkBoard(GREEN)
     selectedBlock, selectedDirection = selectBlock(GREEN)
-
+    rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+    
     while not checkBlock(k_block, boardGreen):
         print('そのブロックを置く場所がありません')
         selectedBlock, selectedDirection = selectBlock(GREEN)
