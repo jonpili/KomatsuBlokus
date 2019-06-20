@@ -56,7 +56,7 @@ def display(selectedDirection):
 
     # 1を黒四角に、0を空白に置換
     center = math.floor(len(blockShape)/2)
-　　
+
     for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
         print('｜', end='')
         for indexCol, col in enumerate(line):
