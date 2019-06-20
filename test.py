@@ -1,4 +1,5 @@
 import numpy as np
+import test1
 
 array = [
         [0,0,1,0,0],
@@ -10,16 +11,4 @@ array = [
 
 array = np.asarray(array)
 
-def test_0():
-    print('わーい')
-
-def test_1():
-    print('いえーい')
-
-def test_2():
-    print('やっほー！')
-
-name = 'test_'
-
-for i in range(3):
-    eval(name + str(i))()
+eval('test1').main()
