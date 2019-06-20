@@ -16,7 +16,7 @@ def display():
 
     # 1を黒四角に、0を空白に置換
     print('｜', end='')
-    print('䨻', end='')
+    print('■', end='')
     print('｜')
 
     # 下の枠

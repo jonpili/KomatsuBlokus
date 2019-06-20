@@ -1,36 +1,29 @@
 import numpy as np
 
-blockShape = [
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,0,1,0,0],
-             [0,1,1,0,0],
-             [0,0,0,0,0]
-             ]
+array = [
+        [0,0,1,0,0],
+        [0,0,1,0,0],
+        [0,0,1,0,0],
+        [0,1,1,0,0],
+        [0,0,0,0,0]
+        ]
 
-blockShape = np.asarray(blockShape)
-print(blockShape)
+array = np.asarray(array)
+#print(array)
 
-blockCenter = round(len(blockShape)/2)
+import math
 
-# 上の枠
-print('　', end='')
-for i in range(len(blockShape)):
-    print('＿', end='')
-print('　')
-
-# 1を黒四角に、0を空白に置換
-for lineIndex, line in enumerate(np.where(blockShape > 0, '䨻', '　')):
+center = math.floor(len(array)/2)
+array = np.where(array > 0, '□', '　')
+for indexLine, line in enumerate(array):
     print('｜', end='')
-    for colIndex, col in enumerate(line):
-        if lineIndex == blockCenter and colIndex == blockCenter:
-            print('口', end='')
+    for indexCol, col in enumerate(line):
+        if indexLine == center and indexCol == center:
+            print('■', end='')
         else:
             print(col, end='')
     print('｜')
 print('　', end='')
-
-# 下の枠
-for i in range(len(blockShape)):
-    print('￣', end='')
-print('　')
+       #np.where(blockShape > 0 , '□', '　'):
+    #print('｜', end='')
+    #line(np.where(blockShape[1,1] == 1, '■', '  '))
