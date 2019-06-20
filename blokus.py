@@ -85,7 +85,7 @@ def checkBoard(color):
 def selectBlock():
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
-    
+
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         print('入力が間違っています')
@@ -99,6 +99,19 @@ def selectBlock():
     displayBlock(selectedBlock, selectedDirection)
 
     return selectedBlock, selectedDirection
+
+def checkBlock(boardMine):
+
+    checkBlock = False
+
+    blockShape, blockInfluences = k_block.setBlockInfo()
+
+    for x in range(tileNumber + 2):
+        for y in range(tileNumber + 2):
+            if k_block.settableCheck(blockShape, boardMine, x, y):
+                checkBlock = True
+
+    return checkBlock
 
 def displayBlock(selectedBlock, selectedDirection):
     if selectedBlock == 'a': a_block.display()
@@ -147,6 +160,10 @@ def main():
     whoTurn = checkBoard(YELLOW)
     selectedBlock, selectedDirection = selectBlock()
 
+    while not checkBlock(boardGreen):
+        print('そのブロックを置く場所がありません')
+        selectedBlock, selectedDirection = selectBlock()
+
     while True:
         for event in pygame.event.get():
             # ESCAPEキーが押されたらゲーム終了
@@ -190,6 +207,10 @@ def main():
                             whoTurn = checkBoard(GREEN)
                             selectedBlock, selectedDirection = selectBlock()
 
+                            while not checkBlock(boardYellow):
+                                print('そのブロックを置く場所がありません')
+                                selectedBlock, selectedDirection = selectBlock()
+
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
@@ -220,6 +241,10 @@ def main():
                         ):
                             whoTurn = checkBoard(YELLOW)
                             selectedBlock, selectedDirection = selectBlock()
+
+                            while not checkBlock(boardGreen):
+                                print('そのブロックを置く場所がありません')
+                                selectedBlock, selectedDirection = selectBlock()
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
