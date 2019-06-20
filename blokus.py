@@ -76,10 +76,10 @@ def checkBoard(color):
     for width in boardYellow:
         print(width)
 
-    if color == YELLOW:
+    if color == GREEN:
         whoTurn = GREEN
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif color == GREEN:
+    elif color == YELLOW:
         whoTurn = YELLOW
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
@@ -160,8 +160,8 @@ def main():
             # 枠の分はスキップ
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
-    whoTurn = checkBoard(YELLOW)
-    selectedBlock, selectedDirection = selectBlock(YELLOW)
+    whoTurn = checkBoard(GREEN)
+    selectedBlock, selectedDirection = selectBlock(GREEN)
 
     while True:
         for event in pygame.event.get():
@@ -207,8 +207,8 @@ def main():
                         or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
-                            whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock(GREEN)
+                            whoTurn = checkBoard(YELLOW)
+                            selectedBlock, selectedDirection = selectBlock(YELLOW)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
@@ -238,8 +238,8 @@ def main():
                         or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
                         ):
-                            whoTurn = checkBoard(YELLOW)
-                            selectedBlock, selectedDirection = selectBlock(YELLOW)
+                            whoTurn = checkBoard(GREEN)
+                            selectedBlock, selectedDirection = selectBlock(GREEN)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
