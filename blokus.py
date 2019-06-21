@@ -86,7 +86,7 @@ def checkBoard(color):
     pygame.display.flip()
     return whoTurn
 
-def selectBlock(whoTurn):
+def selectBlock():
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
 
@@ -94,18 +94,6 @@ def selectBlock(whoTurn):
     while not selectedBlock in blockSpells:
         print('入力が間違っています')
         selectedBlock = input('ブロックを選択してください：')
-
-    if whoTurn == GREEN:
-        while selectedBlock in greenUsedBlocks:
-            print('そのブロックは既に使っています')
-            selectedBlock = input('ブロックを選択してください：')
-        greenUsedBlocks.append(selectedBlock)
-
-    if whoTurn == YELLOW:
-        while selectedBlock in yellowUsedBlocks:
-            print('そのブロックは既に使っています')
-            selectedBlock = input('ブロックを選択してください：')
-        yellowUsedBlocks.append(selectedBlock)
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
@@ -116,28 +104,49 @@ def selectBlock(whoTurn):
 
     return selectedBlock, selectedDirection
 
+def rotateBlock(selectedBlock, selectedDirection):
+    blockShape, blockInfluences = eval(selectedBlock + '_block').setBlockInfo()
+
+    if selectedDirection == 0: # 初期向き
+        rotatedBlockShape = blockShape
+        rotatedBlockInfluences = blockInfluences
+    elif selectedDirection == 1: # 裏向き
+        rotatedBlockShape = np.rot90(blockShape.T, -1)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -1)
+    elif selectedDirection == 2: # 初期向きから90°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -1)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -1)
+    elif selectedDirection == 3: # 裏向きから90°反時計回りに
+        rotatedBlockShape = blockShape.T
+        rotatedBlockInfluences = blockInfluences.T
+    elif selectedDirection == 4: # 初期向きから180°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -2)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -2)
+    elif selectedDirection == 5: # 裏向きから180°反時計回りに
+        rotatedBlockShape = np.rot90(blockShape.T, -3)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -3)
+    elif selectedDirection == 6: # 初期向きから270°時計回りに
+        rotatedBlockShape = np.rot90(blockShape, -3)
+        rotatedBlockInfluences = np.rot90(blockInfluences, -3)
+    elif selectedDirection == 7: # 裏向きから270°反時計回りに
+        rotatedBlockShape = np.rot90(blockShape.T, -2)
+        rotatedBlockInfluences = np.rot90(blockInfluences.T, -2)
+
+    return rotatedBlockShape, rotatedBlockInfluences
+
+def checkBlock(selectedBlock, rotatedBlockShape, boardMine):
+
+    checkBlock = False
+
+    for x in range(tileNumber + 2):
+        for y in range(tileNumber + 2):
+            if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
+                checkBlock = True
+
+    return checkBlock
+
 def displayBlock(selectedBlock, selectedDirection):
-    if selectedBlock == 'a': a_block.display()
-    elif selectedBlock == 'b': b_block.display(selectedDirection)
-    elif selectedBlock == 'c': c_block.display(selectedDirection)
-    elif selectedBlock == 'd': d_block.display(selectedDirection)
-    elif selectedBlock == 'e': e_block.display(selectedDirection)
-    elif selectedBlock == 'f': f_block.display(selectedDirection)
-    elif selectedBlock == 'g': g_block.display(selectedDirection)
-    # elif selectedBlock == 'h': h_block.display(selectedDirection)
-    # elif selectedBlock == 'i': i_block.display(selectedDirection)
-    # elif selectedBlock == 'j': j_block.display(selectedDirection)
-    elif selectedBlock == 'k': k_block.display(selectedDirection)
-    elif selectedBlock == 'l': l_block.display(selectedDirection)
-    elif selectedBlock == 'm': m_block.display(selectedDirection)
-    elif selectedBlock == 'n': n_block.display(selectedDirection)
-    elif selectedBlock == 'o': o_block.display(selectedDirection)
-    elif selectedBlock == 'p': p_block.display(selectedDirection)
-    elif selectedBlock == 'q': q_block.display(selectedDirection)
-    elif selectedBlock == 'r': r_block.display(selectedDirection)
-    elif selectedBlock == 's': s_block.display(selectedDirection)
-    elif selectedBlock == 't': t_block.display(selectedDirection)
-    elif selectedBlock == 'u': u_block.display(selectedDirection)
+    eval(selectedBlock + '_block').display(selectedDirection)
 
 def main():
     pygame.init()
@@ -161,7 +170,15 @@ def main():
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
     whoTurn = checkBoard(GREEN)
-    selectedBlock, selectedDirection = selectBlock(GREEN)
+    selectedBlock, selectedDirection = selectBlock()
+    rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+    while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+        print('そのブロックを置く場所がありません')
+        selectedBlock, selectedDirection = selectBlock()
+        rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+    greenUsedBlocks.append(selectedBlock)
 
     while True:
         for event in pygame.event.get():
@@ -184,62 +201,44 @@ def main():
                 ypos = int(pygame.mouse.get_pos()[1]/tileLength) # 下方向に正
                 if whoTurn == GREEN:
                     if boardGreen[ypos][xpos] != CANTSET:
-                        if (
-                        (selectedBlock == 'a' and a_block.main(greenImage, greenRect, boardGreen, boardYellow, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'b' and b_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'c' and c_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'd' and d_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'e' and e_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'f' and f_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'g' and g_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'h' and h_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'i' and i_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'j' and j_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'k' and k_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'l' and l_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'm' and m_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'n' and n_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'o' and o_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'p' and p_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'q' and q_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'r' and r_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 's' and s_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 't' and t_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'u' and u_block.main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength))
-                        ):
+                        if eval(selectedBlock + '_block').main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(YELLOW)
-                            selectedBlock, selectedDirection = selectBlock(YELLOW)
+                            selectedBlock, selectedDirection = selectBlock()
+                            rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            while selectedBlock in yellowUsedBlocks:
+                                print('そのブロックは既に使っています')
+                                selectedBlock, selectedDirection = selectBlock()
+                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+                                print('そのブロックを置く場所がありません')
+                                selectedBlock, selectedDirection = selectBlock()
+                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            yellowUsedBlocks.append(selectedBlock)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
                     if boardYellow[ypos][xpos] != CANTSET:
-                        if (
-                        (selectedBlock == 'a' and a_block.main(yellowImage, yellowRect, boardYellow, boardGreen, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'b' and b_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'c' and c_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'd' and d_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'e' and e_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'f' and f_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'g' and g_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'h' and h_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'i' and i_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        # or (selectedBlock == 'j' and j_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'k' and k_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'l' and l_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'm' and m_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'n' and n_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'o' and o_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'p' and p_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'q' and q_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'r' and r_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 's' and s_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 't' and t_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        or (selectedBlock == 'u' and u_block.main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength))
-                        ):
+                        if eval(selectedBlock + '_block').main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock(GREEN)
+                            selectedBlock, selectedDirection = selectBlock()
+                            rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            while selectedBlock in greenUsedBlocks:
+                                print('そのブロックは既に使っています')
+                                selectedBlock, selectedDirection = selectBlock()
+                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+                                print('そのブロックを置く場所がありません')
+                                selectedBlock, selectedDirection = selectBlock()
+                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+                            greenUsedBlocks.append(selectedBlock)
 
                         else: print('ここには置けません')
                     else: print('ここには置けません')
