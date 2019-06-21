@@ -134,16 +134,15 @@ def rotateBlock(selectedBlock, selectedDirection):
 
     return rotatedBlockShape, rotatedBlockInfluences
 
-def checkBlock(selectedBlock, rotatedBlockShape, boardMine):
-
-    checkBlock = False
+def settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardMine):
+    settableAreaExist = False
 
     for x in range(tileNumber + 2):
         for y in range(tileNumber + 2):
             if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
-                checkBlock = True
+                settableAreaExist = True
 
-    return checkBlock
+    return settableAreaExist
 
 def displayBlock(selectedBlock, selectedDirection):
     eval(selectedBlock + '_block').display(selectedDirection)
