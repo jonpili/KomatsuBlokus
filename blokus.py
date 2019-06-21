@@ -187,10 +187,12 @@ def main():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
                 if whoTurn == GREEN:
                     print('\n選択がキャンセルされました\n')
-                    selectedBlock, selectedDirection = selectBlock(GREEN)
+                    greenUsedBlocks.pop()
+                    selectedBlock, selectedDirection = selectBlock()
                 if whoTurn == YELLOW:
                     print('\n選択がキャンセルされました\n')
-                    selectedBlock, selectedDirection = selectBlock(YELLOW)
+                    yellowUsedBlocks.pop()
+                    selectedBlock, selectedDirection = selectBlock()
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
