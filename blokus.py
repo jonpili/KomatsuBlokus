@@ -170,7 +170,7 @@ def main():
     selectedBlock, selectedDirection = selectBlock()
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
 
-    while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+    while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
         print('そのブロックを置く場所がありません')
         selectedBlock, selectedDirection = selectBlock()
         rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
@@ -208,7 +208,7 @@ def main():
                                 selectedBlock, selectedDirection = selectBlock()
                                 rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
 
-                            while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+                            while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
                                 print('そのブロックを置く場所がありません')
                                 selectedBlock, selectedDirection = selectBlock()
                                 rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
@@ -230,7 +230,7 @@ def main():
                                 selectedBlock, selectedDirection = selectBlock()
                                 rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
 
-                            while not checkBlock(selectedBlock, rotatedBlockShape, boardGreen):
+                            while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
                                 print('そのブロックを置く場所がありません')
                                 selectedBlock, selectedDirection = selectBlock()
                                 rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
