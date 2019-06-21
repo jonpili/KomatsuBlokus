@@ -100,7 +100,8 @@ def selectBlock():
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
-    displayBlock(selectedBlock, selectedDirection)
+
+    eval(selectedBlock + '_block').display(selectedDirection)
 
     return selectedBlock, selectedDirection
 
@@ -143,9 +144,6 @@ def settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardMine):
                 settableAreaExist = True
 
     return settableAreaExist
-
-def displayBlock(selectedBlock, selectedDirection):
-    eval(selectedBlock + '_block').display(selectedDirection)
 
 def main():
     pygame.init()
