@@ -3,8 +3,6 @@ import sys
 import re
 import numpy as np
 
-#わーい
-
 from pieces import a_block
 from pieces import b_block
 from pieces import c_block
