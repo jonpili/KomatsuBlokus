@@ -76,6 +76,13 @@ def skipTurn(whoTurn):
     whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
     blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+
+    if whoTurn == GREEN:
+        color2 = 'green'
+    elif whoTurn == YELLOW:
+        color2 = 'yellow'
+    eval(color2 + 'UsedBlocks').pop()
+
     return whoTurn, selectedBlock, selectedDirection
 
 def checkBoard(color):
@@ -221,14 +228,13 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                if whoTurn == GREEN:
-                    print('\n選択がキャンセルされました\n')
-                    greenUsedBlocks.pop()
-                    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
-                if whoTurn == YELLOW:
-                    print('\n選択がキャンセルされました\n')
-                    yellowUsedBlocks.pop()
-                    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+                if whoTurn == 1:
+                    color = 'green'
+                elif whoTurn == 2:
+                    color = 'yellow'
+                print('\n選択がキャンセルされました\n')
+                eval(color + 'UsedBlocks').pop()
+                whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
