@@ -105,18 +105,18 @@ def selectBlock(whoTurn):
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
             selectedBlock, selectedDirection = skipTurn(whoTurn)
+            return selectedBlock, selectedDirection
         else:
             print('入力が間違っています')
             selectedBlock = input('ブロックを選択してください：')
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
-        if selectedDirection == 'x':
-            skipTurn(whoTurn)
-            selectedBlock, selectedDirection = skipTurn(whoTurn)
-        else:
-            print('入力が間違っています')
-            selectedDirection = input('向きを選択してください：')
+        # if selectedDirection == 'x':
+        #     skipTurn(whoTurn)
+        #     selectedBlock, selectedDirection = skipTurn(whoTurn)
+        print('入力が間違っています')
+        selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
 
     eval(selectedBlock + '_block').display(selectedDirection)
