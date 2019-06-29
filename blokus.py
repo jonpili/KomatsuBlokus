@@ -239,6 +239,8 @@ def main():
                 print('\n選択がキャンセルされました\n')
                 eval(color + 'UsedBlocks').pop()
                 whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+                blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
