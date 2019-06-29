@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import platform
 
 BLANK   = 0
 CANTSET = 1
@@ -60,16 +61,28 @@ def display(selectedDirection):
 
     # 1を黒四角に、0を空白に置換
     center = math.floor(len(blockShape)/2)
+    pf = platform.system()
 
-    for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
-        print('｜', end='')
-        for indexCol, col in enumerate(line):
-            if indexLine == center and indexCol == center:
-                print('■', end='')
-            else:
-                print(col, end='')
-        print('｜')
-    print('　', end='')
+    if pf == 'Windows':
+        for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
+            print('｜', end='')
+            for indexCol, col in enumerate(line):
+                if indexLine == center and indexCol == center:
+                    print('■', end='')
+                else:
+                    print(col, end='')
+            print('｜')
+        print('　', end='')
+    else:
+        for indexLine, line in enumerate(np.where(blockShape > 0, '䨻', '　')):
+            print('｜', end='')
+            for indexCol, col in enumerate(line):
+                if indexLine == center and indexCol == center:
+                    print('䨻', end='')
+                else:
+                    print(col, end='')
+            print('｜')
+        print('　', end='')
 
     # 下の枠
     for i in range(len(blockShape)):
