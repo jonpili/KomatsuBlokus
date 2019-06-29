@@ -85,7 +85,22 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
+greenTurnPassed = False
+yellowTurnPassed = False
+
 def checkBoard(color):
+    if color == GREEN:
+        colorSpell = 'green'
+    elif color == YELLOW:
+        colorSpell = 'yellow'
+
+    # if eval(colorSpell + 'TurnPassed'):
+    #     # whoTurn, selectedBlock, selectedDirection = skipTurn(color)
+    #     # if color == GREEN:
+    #     #     checkBoard(YELLOW)
+    #     # elif color == YELLOW:
+    #     #     checkBoard(GREEN)
+    #     return color
     print('')
     print('ーーーーー緑色の盤面ーーーーー')
     for width in greenBoard:
@@ -95,22 +110,22 @@ def checkBoard(color):
         print(width)
 
     if color == GREEN:
-        whoTurn = GREEN
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
     elif color == YELLOW:
-        whoTurn = YELLOW
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
+    if eval(colorSpell + 'TurnPassed'):
+        print('あなたはすでにパスしたので、xを入力してください')
     pygame.display.flip()
-    return whoTurn
+    return color
 
 def selectBlock(whoTurn):
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
 
-    if whoTurn == 1:
+    if whoTurn == GREEN:
         color = 'green'
-    elif whoTurn == 2:
+    elif whoTurn == YELLOW:
         color = 'yellow'
 
     print('既に使っているブロック')
@@ -120,6 +135,8 @@ def selectBlock(whoTurn):
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
+            print(color)
+            # eval(color + 'TurnPassed') = True
             whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
             return whoTurn, selectedBlock, selectedDirection
         else:
