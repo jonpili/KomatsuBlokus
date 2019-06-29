@@ -140,8 +140,8 @@ def rotateBlock(selectedBlock, selectedDirection):
 def settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardMine):
     settableAreaExist = False
 
-    for x in range(tileNumber + 2):
-        for y in range(tileNumber + 2):
+    for x in range(1, tileNumber + 1):
+        for y in range(1, tileNumber + 1):
             if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
                 settableAreaExist = True
 
