@@ -76,6 +76,7 @@ def skipTurn(whoTurn):
     selectedBlock, selectedDirection = selectBlock(whoTurn)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
     blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    return selectedBlock, selectedDirection
 
 def checkBoard(color):
     print('')
@@ -103,7 +104,7 @@ def selectBlock(whoTurn):
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
-            skipTurn(whoTurn)
+            selectedBlock, selectedDirection = skipTurn(whoTurn)
         else:
             print('入力が間違っています')
             selectedBlock = input('ブロックを選択してください：')
@@ -112,6 +113,7 @@ def selectBlock(whoTurn):
     while not selectedDirection in blockNumbers:
         if selectedDirection == 'x':
             skipTurn(whoTurn)
+            selectedBlock, selectedDirection = skipTurn(whoTurn)
         else:
             print('入力が間違っています')
             selectedDirection = input('向きを選択してください：')
