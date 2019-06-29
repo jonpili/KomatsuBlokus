@@ -101,6 +101,15 @@ def selectBlock(whoTurn):
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
 
+    if whoTurn == 1:
+        color = 'green'
+    elif whoTurn == 2:
+        color = 'yellow'
+
+    print('既に使っているブロック')
+    print(eval(color + 'UsedBlocks'))
+    print('')
+
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
@@ -112,9 +121,6 @@ def selectBlock(whoTurn):
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
-        # if selectedDirection == 'x':
-        #     skipTurn(whoTurn)
-        #     selectedBlock, selectedDirection = skipTurn(whoTurn)
         print('入力が間違っています')
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
@@ -223,16 +229,6 @@ def main():
                     print('\n選択がキャンセルされました\n')
                     yellowUsedBlocks.pop()
                     whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
-            # Xキーが押されたらターンをスキップ
-            # if event.type == pygame.KEYDOWN and event.key == pygame.K_x:
-            #     if whoTurn == GREEN:
-            #         color = YELLOW
-            #     elif whoTurn == YELLOW:
-            #         color = GREEN
-            #     whoTurn = checkBoard(color)
-            #     selectedBlock, selectedDirection = selectBlock(whoTurn)
-            #     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-            #     blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
