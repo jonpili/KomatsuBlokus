@@ -208,8 +208,15 @@ def main():
                     yellowUsedBlocks.pop()
                     selectedBlock, selectedDirection = selectBlock()
             # Xキーが押されたらターンをスキップ
-            # if event.type == pygame.KEYDOWN and event.key == pygame.K_x:
-
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_x:
+                if whoTurn == GREEN:
+                    color = YELLOW
+                elif whoTurn == YELLOW:
+                    color = GREEN
+                whoTurn = checkBoard(color)
+                selectedBlock, selectedDirection = selectBlock()
+                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+                blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
