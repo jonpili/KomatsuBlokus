@@ -45,6 +45,7 @@ tileLimit    = tileLength * tileNumber
 #使ったブロックのリスト
 greenUsedBlocks = []
 yellowUsedBlocks = []
+turnPassedList = [False, False] # GREEN, YELLOWの順番
 
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
@@ -59,41 +60,75 @@ def makeBoard():
     return board
 
 # 初期位置を設定
-boardGreen = makeBoard()
-boardGreen[3][3] = ABLESET
+greenBoard = makeBoard()
+greenBoard[3][3] = ABLESET
 
-boardYellow = makeBoard()
-boardYellow[6][6] = ABLESET
+yellowBoard = makeBoard()
+yellowBoard[6][6] = ABLESET
 
 surface = pygame.display.set_mode((screenWidth, screenHeight))
+
+def skipTurn(whoTurn):
+    if whoTurn == GREEN:
+        color = YELLOW
+    elif whoTurn == YELLOW:
+        color = GREEN
+    whoTurn = checkBoard(color)
+    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+    rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+    blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+
+    if whoTurn == GREEN:
+        color2 = 'green'
+    elif whoTurn == YELLOW:
+        color2 = 'yellow'
+    eval(color2 + 'UsedBlocks').pop()
+
+    return whoTurn, selectedBlock, selectedDirection
 
 def checkBoard(color):
     print('')
     print('ーーーーー緑色の盤面ーーーーー')
-    for width in boardGreen:
+    for width in greenBoard:
         print(width)
     print('ーーーーー黄色の盤面ーーーーー')
-    for width in boardYellow:
+    for width in yellowBoard:
         print(width)
 
     if color == GREEN:
-        whoTurn = GREEN
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
     elif color == YELLOW:
-        whoTurn = YELLOW
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
-    pygame.display.flip()
-    return whoTurn
+    if turnPassedList[color - 1]:
+        print('あなたは既にパスしたので、xを入力してください')
+        print('')
 
-def selectBlock():
+    pygame.display.flip()
+    return color
+
+def selectBlock(whoTurn):
     blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     blockNumbers = str(list(range(8))) # 0から7の配列
 
+    if whoTurn == GREEN:
+        color = 'green'
+    elif whoTurn == YELLOW:
+        color = 'yellow'
+
+    print('既に使っているブロック')
+    print(eval(color + 'UsedBlocks'))
+    print('')
+
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
-        print('入力が間違っています')
-        selectedBlock = input('ブロックを選択してください：')
+        if selectedBlock == 'x':
+            turnPassedList[whoTurn - 1] = True
+            whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
+            return whoTurn, selectedBlock, selectedDirection
+        else:
+            print('入力が間違っています')
+            selectedBlock = input('ブロックを選択してください：')
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
@@ -103,7 +138,7 @@ def selectBlock():
 
     eval(selectedBlock + '_block').display(selectedDirection)
 
-    return selectedBlock, selectedDirection
+    return whoTurn, selectedBlock, selectedDirection
 
 def rotateBlock(selectedBlock, selectedDirection):
     blockShape, blockInfluences = eval(selectedBlock + '_block').setBlockInfo()
@@ -134,6 +169,24 @@ def rotateBlock(selectedBlock, selectedDirection):
         rotatedBlockInfluences = np.rot90(blockInfluences.T, -2)
 
     return rotatedBlockShape, rotatedBlockInfluences
+
+def blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
+    if whoTurn == 1:
+        color = 'green'
+    elif whoTurn == 2:
+        color = 'yellow'
+
+    while selectedBlock in eval(color + 'UsedBlocks'):
+        print('そのブロックは既に使っています')
+        whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+        rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+    while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, eval(color + 'Board')):
+        print('そのブロックを置く場所がありません')
+        whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+        rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
+
+    eval(color + 'UsedBlocks').append(selectedBlock)
 
 def settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardMine):
     settableAreaExist = False
@@ -167,15 +220,9 @@ def main():
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
     whoTurn = checkBoard(GREEN)
-    selectedBlock, selectedDirection = selectBlock()
+    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-    while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
-        print('そのブロックを置く場所がありません')
-        selectedBlock, selectedDirection = selectBlock()
-        rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-    greenUsedBlocks.append(selectedBlock)
+    blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     while True:
         for event in pygame.event.get():
@@ -185,60 +232,35 @@ def main():
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                if whoTurn == GREEN:
-                    print('\n選択がキャンセルされました\n')
-                    greenUsedBlocks.pop()
-                    selectedBlock, selectedDirection = selectBlock()
-                if whoTurn == YELLOW:
-                    print('\n選択がキャンセルされました\n')
-                    yellowUsedBlocks.pop()
-                    selectedBlock, selectedDirection = selectBlock()
+                if whoTurn == 1:
+                    color = 'green'
+                elif whoTurn == 2:
+                    color = 'yellow'
+                print('\n選択がキャンセルされました\n')
+                eval(color + 'UsedBlocks').pop()
+                whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
                 xpos = int(pygame.mouse.get_pos()[0]/tileLength) # 右方向に正
                 ypos = int(pygame.mouse.get_pos()[1]/tileLength) # 下方向に正
                 if whoTurn == GREEN:
-                    if boardGreen[ypos][xpos] != CANTSET:
-                        if eval(selectedBlock + '_block').main(greenImage, greenRect, boardGreen, boardYellow, selectedDirection, xpos, ypos, surface, tileLength):
+                    if greenBoard[ypos][xpos] != CANTSET:
+                        if eval(selectedBlock + '_block').main(greenImage, greenRect, greenBoard, yellowBoard, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(YELLOW)
-                            selectedBlock, selectedDirection = selectBlock()
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                             rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            while selectedBlock in yellowUsedBlocks:
-                                print('そのブロックは既に使っています')
-                                selectedBlock, selectedDirection = selectBlock()
-                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
-                                print('そのブロックを置く場所がありません')
-                                selectedBlock, selectedDirection = selectBlock()
-                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            yellowUsedBlocks.append(selectedBlock)
-
+                            blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
-                    if boardYellow[ypos][xpos] != CANTSET:
-                        if eval(selectedBlock + '_block').main(yellowImage, yellowRect, boardYellow, boardGreen, selectedDirection, xpos, ypos, surface, tileLength):
+                    if yellowBoard[ypos][xpos] != CANTSET:
+                        if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
                             whoTurn = checkBoard(GREEN)
-                            selectedBlock, selectedDirection = selectBlock()
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                             rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            while selectedBlock in greenUsedBlocks:
-                                print('そのブロックは既に使っています')
-                                selectedBlock, selectedDirection = selectBlock()
-                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardGreen):
-                                print('そのブロックを置く場所がありません')
-                                selectedBlock, selectedDirection = selectBlock()
-                                rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-
-                            greenUsedBlocks.append(selectedBlock)
-
+                            blockCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
