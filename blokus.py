@@ -45,6 +45,7 @@ tileLimit    = tileLength * tileNumber
 #使ったブロックのリスト
 greenUsedBlocks = []
 yellowUsedBlocks = []
+turnPassedList = [False, False] # GREEN, YELLOWの順番
 
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
@@ -85,22 +86,7 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
-greenTurnPassed = False
-yellowTurnPassed = False
-
 def checkBoard(color):
-    if color == GREEN:
-        colorSpell = 'green'
-    elif color == YELLOW:
-        colorSpell = 'yellow'
-
-    # if eval(colorSpell + 'TurnPassed'):
-    #     # whoTurn, selectedBlock, selectedDirection = skipTurn(color)
-    #     # if color == GREEN:
-    #     #     checkBoard(YELLOW)
-    #     # elif color == YELLOW:
-    #     #     checkBoard(GREEN)
-    #     return color
     print('')
     print('ーーーーー緑色の盤面ーーーーー')
     for width in greenBoard:
@@ -114,8 +100,10 @@ def checkBoard(color):
     elif color == YELLOW:
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
-    if eval(colorSpell + 'TurnPassed'):
-        print('あなたはすでにパスしたので、xを入力してください')
+    if turnPassedList[color - 1]:
+        print('あなたは既にパスしたので、xを入力してください')
+        print('')
+
     pygame.display.flip()
     return color
 
@@ -135,8 +123,7 @@ def selectBlock(whoTurn):
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
-            print(color)
-            # eval(color + 'TurnPassed') = True
+            turnPassedList[whoTurn - 1] = True
             whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
             return whoTurn, selectedBlock, selectedDirection
         else:
