@@ -1,4 +1,6 @@
 import numpy as np
+import math
+import platform
 
 BLANK   = 0
 CANTSET = 1
@@ -9,21 +11,17 @@ YELLOW = 2
 
 def setBlockInfo():
     blockShape = np.asarray([
-    [0,0,0,0,0],
-    [0,0,1,0,0],
-    [0,1,1,1,0],
-    [0,0,1,0,0],
-    [0,0,0,0,0]
+    [0,1,0],
+    [1,1,1],
+    [0,1,0]
     ])
 
     blockInfluences = np.asarray([
-    [0,0,0,0,0,0,0],
-    [0,0,2,1,2,0,0],
-    [0,2,1,1,1,2,0],
-    [0,1,1,1,1,1,0],
-    [0,2,1,1,1,2,0],
-    [0,0,2,1,2,0,0],
-    [0,0,0,0,0,0,0]
+    [0,2,1,2,0],
+    [2,1,1,1,2],
+    [1,1,1,1,1],
+    [2,1,1,1,2],
+    [0,2,1,2,0]
     ])
 
     return blockShape, blockInfluences
@@ -58,12 +56,29 @@ def display(selectedDirection):
     print('　')
 
     # 1を黒四角に、0を空白に置換
-    for line in np.where(blockShape > 0, '䨻', '　'):
-        print('｜', end='')
-        for col in line:
-            print(col, end='')
-        print('｜')
-    print('　', end='')
+    center = math.floor(len(blockShape)/2)
+    pf = platform.system()
+
+    if pf == 'Windows':
+        for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
+            print('｜', end='')
+            for indexCol, col in enumerate(line):
+                if indexLine == center and indexCol == center:
+                    print('■', end='')
+                else:
+                    print(col, end='')
+            print('｜')
+        print('　', end='')
+    else:
+        for indexLine, line in enumerate(np.where(blockShape > 0, '䨻', '　')):
+            print('｜', end='')
+            for indexCol, col in enumerate(line):
+                if indexLine == center and indexCol == center:
+                    print('䨻', end='')
+                else:
+                    print(col, end='')
+            print('｜')
+        print('　', end='')
 
     # 下の枠
     for i in range(len(blockShape)):
@@ -73,28 +88,28 @@ def display(selectedDirection):
 def settableCheck(blockShape, boardMine, x, y):
     # 1つでもCANTSETがあれば置けない
     for coord in np.argwhere(blockShape == CANTSET):
-        if boardMine[y + coord[0] - 2][x + coord[1] - 2] == CANTSET:
+        if boardMine[y + coord[0] - 1][x + coord[1] - 1] == CANTSET:
             return False
     # 1つでもABLESETがあれば置ける
     for coord in np.argwhere(blockShape == CANTSET):
-        if boardMine[y + coord[0] - 2][x + coord[1] - 2] == ABLESET:
+        if boardMine[y + coord[0] - 1][x + coord[1] - 1] == ABLESET:
             return True
 
 def changeBoardImage(blockShape, colorImage, colorRect, x, y, surface, tileLength):
     for coord in np.argwhere(blockShape == CANTSET):
-        surface.blit(colorImage, colorRect.move(tileLength * (x + coord[1] - 2), tileLength * (y + coord[0] - 2)))
+        surface.blit(colorImage, colorRect.move(tileLength * (x + coord[1] - 1), tileLength * (y + coord[0] - 1)))
 
 def changeBoardStatus(blockShape, blockInfluences, boardMine, boardOpponent, x, y):
     # ブロックの影響を自分のボードに適用
     for coord in np.argwhere(blockInfluences == CANTSET):
-        boardMine[y + coord[0] - 3][x + coord[1] - 3] = CANTSET
+        boardMine[y + coord[0] - 2][x + coord[1] - 2] = CANTSET
     for coord in np.argwhere(blockInfluences == ABLESET):
-        if boardMine[y + coord[0] - 3][x + coord[1] - 3] == BLANK:
-            boardMine[y + coord[0] - 3][x + coord[1] - 3] = ABLESET
+        if boardMine[y + coord[0] - 2][x + coord[1] - 2] == BLANK:
+            boardMine[y + coord[0] - 2][x + coord[1] - 2] = ABLESET
 
     # ブロックの影響を自分以外のボードに適用
     for coord in np.argwhere(blockShape == CANTSET):
-        boardOpponent[y + coord[0] - 2][x + coord[1] - 2] = CANTSET
+        boardOpponent[y + coord[0] - 1][x + coord[1] - 1] = CANTSET
 
 def main(colorImage, colorRect, boardMine, boardOpponent, selectedDirection, x, y, surface, tileLength):
     blockShape, blockInfluences = setBlockInfo()
