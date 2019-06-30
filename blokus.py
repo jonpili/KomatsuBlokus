@@ -10,9 +10,9 @@ from pieces import d_block
 from pieces import e_block
 from pieces import f_block
 from pieces import g_block
-# from pieces import h_block
-# from pieces import i_block
-# from pieces import j_block
+from pieces import h_block
+from pieces import i_block
+from pieces import j_block
 from pieces import k_block
 from pieces import l_block
 from pieces import m_block
