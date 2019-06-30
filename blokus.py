@@ -70,11 +70,12 @@ surface = pygame.display.set_mode((screenWidth, screenHeight))
 
 def skipTurn(whoTurn):
     if whoTurn == GREEN:
-        color = YELLOW
+        nextPlayer = YELLOW
     elif whoTurn == YELLOW:
-        color = GREEN
-    whoTurn = checkBoard(color)
-    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+        nextPlayer = GREEN
+
+    checkBoard(nextPlayer)
+    whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
     rotatedBlockShape = rotateBlock(selectedBlock, selectedDirection)
     selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
@@ -86,7 +87,7 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
-def checkBoard(color):
+def checkBoard(whoTurn):
     print('')
     print('ーーーーー緑色の盤面ーーーーー')
     for width in greenBoard:
@@ -95,22 +96,21 @@ def checkBoard(color):
     for width in yellowBoard:
         print(width)
 
-    if color == GREEN:
+    if whoTurn == GREEN:
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif color == YELLOW:
+    elif whoTurn == YELLOW:
         print('＝＝＝＝＝黄のターン＝＝＝＝＝')
 
-    if turnPassedList[color - 1]:
+    if turnPassedList[whoTurn - 1]:
         print('あなたは既にパスしたので、xを入力してください')
         print('')
 
     pygame.display.flip()
-    return color
+
+blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
+blockNumbers = [str(n) for n in range(8)] # 0から7の配列
 
 def selectBlock(whoTurn):
-    blockSpells = [chr(ord('a') + i) for i in range(21)] # aからuの配列
-    blockNumbers = str(list(range(8))) # 0から7の配列
-
     if whoTurn == GREEN:
         color = 'green'
     elif whoTurn == YELLOW:
@@ -222,8 +222,9 @@ def main():
             # 枠の分はスキップ
             surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
 
-    whoTurn = checkBoard(GREEN)
-    whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+    # ゲームスタート処理
+    checkBoard(GREEN)
+    whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
     rotatedBlockShape = rotateBlock(selectedBlock, selectedDirection)
     selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
@@ -252,8 +253,8 @@ def main():
                 if whoTurn == GREEN:
                     if greenBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(greenImage, greenRect, greenBoard, yellowBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                            whoTurn = checkBoard(YELLOW)
-                            whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+                            checkBoard(YELLOW)
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(YELLOW)
                             rotatedBlockShape = rotateBlock(selectedBlock, selectedDirection)
                             selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
@@ -262,8 +263,8 @@ def main():
                 elif whoTurn == YELLOW:
                     if yellowBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                            whoTurn = checkBoard(GREEN)
-                            whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+                            checkBoard(GREEN)
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
                             rotatedBlockShape = rotateBlock(selectedBlock, selectedDirection)
                             selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
