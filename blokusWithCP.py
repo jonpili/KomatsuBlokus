@@ -91,12 +91,12 @@ def skipTurn(whoTurn):
 
 def checkBoard(whoTurn):
     print('')
-    print('ーーーーー緑色の盤面ーーーーー')
-    for width in greenBoard:
-        print(width)
-    print('ーーーーー黄色の盤面ーーーーー')
-    for width in yellowBoard:
-        print(width)
+    # print('ーーーーー緑色の盤面ーーーーー')
+    # for width in greenBoard:
+    #     print(width)
+    # print('ーーーーー黄色の盤面ーーーーー')
+    # for width in yellowBoard:
+    #     print(width)
 
     if whoTurn == GREEN:
         print('＝＝＝＝＝緑のターン＝＝＝＝＝')
@@ -146,8 +146,12 @@ def selectBlock(whoTurn):
 def selectBlockByCP(whoTurn):
     sleep(1)
 
-    selectedBlock     = random.choice([chr(ord('a') + i) for i in range(3)])
+    selectedBlock     = random.choice([chr(ord('a') + i) for i in range(21)])
     selectedDirection = random.choice(range(8))
+
+    eval(selectedBlock + '_block').display(selectedDirection)
+    print('コンピュータは上記ブロックを使おうとしています…')
+    print('')
 
     return whoTurn, selectedBlock, selectedDirection
 
@@ -270,13 +274,15 @@ def selectPositionByCP(selectedBlock, selectedDirection, greenImage, greenRect, 
         print(str(xpos) + ',' + str(ypos))
         if yellowBoard[ypos][xpos] != CANTSET:
             if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
+                print('')
+                print('上記位置に決定しました')
                 checkBoard(GREEN)
                 whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
                 selectedBlock, selectedDirection          = blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                 selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRect, yellowImage, yellowRect)
-            else: print('ここには置けません')
-        else: print('ここには置けません')
+        #     else: print('ここには置けません')
+        # else: print('ここには置けません')
 
 def main():
     pygame.init()
