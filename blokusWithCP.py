@@ -79,7 +79,7 @@ def skipTurn(whoTurn):
     checkBoard(nextPlayer)
     whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-    selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection          = blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     if whoTurn == GREEN:
         color2 = 'green'
@@ -145,8 +145,8 @@ def selectBlock(whoTurn):
 
 def selectBlockByCP(whoTurn):
     sleep(1)
-    
-    selectedBlock     = random.choice([chr(ord('a') + i) for i in range(21)])
+
+    selectedBlock     = random.choice([chr(ord('a') + i) for i in range(3)])
     selectedDirection = random.choice(range(8))
 
     return whoTurn, selectedBlock, selectedDirection
@@ -181,7 +181,7 @@ def rotateBlock(selectedBlock, selectedDirection):
 
     return rotatedBlockShape
 
-def blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
+def blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
     if whoTurn == 1:
         color = 'green'
     elif whoTurn == 2:
@@ -195,6 +195,26 @@ def blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShap
     while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, eval(color + 'Board')):
         print('そのブロックを置く場所がありません')
         whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
+        rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
+
+    eval(color + 'UsedBlocks').append(selectedBlock)
+
+    return selectedBlock, selectedDirection
+
+def blockUsableCheckForCP(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
+    if whoTurn == 1:
+        color = 'green'
+    elif whoTurn == 2:
+        color = 'yellow'
+
+    while selectedBlock in eval(color + 'UsedBlocks'):
+        print('そのブロックは既に使っています')
+        whoTurn, selectedBlock, selectedDirection = selectBlockByCP(whoTurn)
+        rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
+
+    while not settableAreaExistCheck(selectedBlock, rotatedBlockShape, eval(color + 'Board')):
+        print('そのブロックを置く場所がありません')
+        whoTurn, selectedBlock, selectedDirection = selectBlockByCP(whoTurn)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
 
     eval(color + 'UsedBlocks').append(selectedBlock)
@@ -228,7 +248,7 @@ def selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRe
                 eval(color + 'UsedBlocks').pop()
                 whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                selectedBlock, selectedDirection          = blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/tileLength) # 右方向に正
@@ -238,7 +258,7 @@ def selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRe
                         checkBoard(YELLOW)
                         whoTurn, selectedBlock, selectedDirection = selectBlockByCP(YELLOW)
                         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                        selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                        selectedBlock, selectedDirection          = blockUsableCheckForCP(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         selectPositionByCP(selectedBlock, selectedDirection, greenImage, greenRect, yellowImage, yellowRect)
                     else: print('ここには置けません')
                 else: print('ここには置けません')
@@ -253,7 +273,7 @@ def selectPositionByCP(selectedBlock, selectedDirection, greenImage, greenRect, 
                 checkBoard(GREEN)
                 whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                selectedBlock, selectedDirection          = blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                 selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRect, yellowImage, yellowRect)
             else: print('ここには置けません')
         else: print('ここには置けません')
@@ -283,7 +303,7 @@ def main():
     checkBoard(GREEN)
     whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-    selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection          = blockUsableCheckForPlayer(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
     selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRect, yellowImage, yellowRect)
 
 if __name__ == '__main__':
