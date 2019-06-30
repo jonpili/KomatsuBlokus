@@ -120,6 +120,7 @@ def selectBlock(whoTurn):
     print(eval(color + 'UsedBlocks'))
     print('')
 
+    # Xキーが入力されたらターンスキップ
     selectedBlock = input('ブロックを選択してください：')
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
