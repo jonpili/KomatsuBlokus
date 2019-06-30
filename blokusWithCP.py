@@ -28,7 +28,7 @@ from pieces import t_block
 from pieces import u_block
 
 tileLength = 50
-tileNumber = 8
+tileNumber = 14
 
 BLANK   = 0 # ブロックは置かれていない
 CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
@@ -63,10 +63,10 @@ def makeBoard():
 
 # 初期位置を設定
 greenBoard = makeBoard()
-greenBoard[3][3] = ABLESET
+greenBoard[5][5] = ABLESET
 
 yellowBoard = makeBoard()
-yellowBoard[6][6] = ABLESET
+yellowBoard[10][10] = ABLESET
 
 surface = pygame.display.set_mode((screenWidth, screenHeight))
 
@@ -269,8 +269,8 @@ def selectPositionByPlayer(selectedBlock, selectedDirection, greenImage, greenRe
 
 def selectPositionByCP(selectedBlock, selectedDirection, greenImage, greenRect, yellowImage, yellowRect):
     while True:
-        xpos = random.randint(1, 8)
-        ypos = random.randint(1, 8)
+        xpos = random.randint(1, 14)
+        ypos = random.randint(1, 14)
         print(str(xpos) + ',' + str(ypos))
         if yellowBoard[ypos][xpos] != CANTSET:
             if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
