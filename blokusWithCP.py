@@ -3,6 +3,7 @@ import sys
 import re
 import numpy as np
 import random
+from time import sleep
 
 from pieces import a_block
 from pieces import b_block
@@ -143,9 +144,10 @@ def selectBlock(whoTurn):
     return whoTurn, selectedBlock, selectedDirection
 
 def selectBlockByCP(whoTurn):
-    selectedBlock = 'a'
-    selectedDirection = 0
-    eval(selectedBlock + '_block').display(selectedDirection)
+    sleep(1)
+    
+    selectedBlock     = random.choice([chr(ord('a') + i) for i in range(21)])
+    selectedDirection = random.choice(range(8))
 
     return whoTurn, selectedBlock, selectedDirection
 
