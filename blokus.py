@@ -76,7 +76,7 @@ def skipTurn(whoTurn):
     whoTurn = checkBoard(color)
     whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-    rotatedBlockShape, rotatedBlockInfluences = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     if whoTurn == GREEN:
         color2 = 'green'
@@ -188,7 +188,7 @@ def blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShap
 
     eval(color + 'UsedBlocks').append(selectedBlock)
 
-    return rotatedBlockShape, rotatedBlockInfluences
+    return selectedBlock, selectedDirection
 
 def settableAreaExistCheck(selectedBlock, rotatedBlockShape, boardMine):
     settableAreaExist = False
@@ -224,7 +224,7 @@ def main():
     whoTurn = checkBoard(GREEN)
     whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
     rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-    rotatedBlockShape, rotatedBlockInfluences = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     while True:
         for event in pygame.event.get():
@@ -242,7 +242,7 @@ def main():
                 eval(color + 'UsedBlocks').pop()
                 whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                 rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-                rotatedBlockShape, rotatedBlockInfluences = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # ボード外エラー回避の為1マス右下に
@@ -254,7 +254,7 @@ def main():
                             whoTurn = checkBoard(YELLOW)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                             rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-                            rotatedBlockShape, rotatedBlockInfluences = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
@@ -264,7 +264,7 @@ def main():
                             whoTurn = checkBoard(GREEN)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(whoTurn)
                             rotatedBlockShape, rotatedBlockInfluences = rotateBlock(selectedBlock, selectedDirection)
-                            rotatedBlockShape, rotatedBlockInfluences = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            selectedBlock, selectedDirection = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
