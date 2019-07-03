@@ -47,6 +47,9 @@ greenUsedBlocks = []
 yellowUsedBlocks = []
 turnPassedList = [False, False] # GREEN, YELLOWの順番
 
+#ゲームの終了条件
+gameFinish = False
+
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
     # 枠を作成
