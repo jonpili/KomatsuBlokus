@@ -47,9 +47,6 @@ greenUsedBlocks = []
 yellowUsedBlocks = []
 turnPassedList = [False, False] # GREEN, YELLOWの順番
 
-#ゲームの終了条件
-gameFinish = False
-
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
     # 枠を作成
@@ -77,12 +74,9 @@ def skipTurn(whoTurn):
     elif whoTurn == YELLOW:
         nextPlayer = GREEN
 
-    gameFinish = scoreCheck()
-    if gameFinish:
-        print('終わりです')
-        pass
+    if checkBoard(nextPlayer):
+        return None
     else:
-        checkBoard(nextPlayer)
         whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
         selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
@@ -93,7 +87,7 @@ def skipTurn(whoTurn):
             color2 = 'yellow'
         eval(color2 + 'UsedBlocks').pop()
 
-    return whoTurn, selectedBlock, selectedDirection
+        return whoTurn, selectedBlock, selectedDirection
 
 def scoreCheck():
     if all(turnPassedList):
@@ -104,9 +98,10 @@ def scoreCheck():
         yellowRemainingBlock = list(set(blockSpells) - set(yellowUsedBlocks))
         greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
         yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
+        #結果発表
         print('ゲームは終了です')
-        print(greenScore)
-        print(yellowScore)
+        print('緑色の点数は' + str(greenScore) + '点です')
+        print('黄色の点数は' + str(yellowScore) + '点です')
 
         if greenScore < yellowScore:
             print('勝者は「緑色」です')
@@ -124,24 +119,29 @@ def scoreCheck():
         return False
 
 def checkBoard(whoTurn):
-    print('')
-    print('ーーーーー緑色の盤面ーーーーー')
-    for width in greenBoard:
-        print(width)
-    print('ーーーーー黄色の盤面ーーーーー')
-    for width in yellowBoard:
-        print(width)
-
-    if whoTurn == GREEN:
-        print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif whoTurn == YELLOW:
-        print('＝＝＝＝＝黄のターン＝＝＝＝＝')
-
-    if turnPassedList[whoTurn - 1]:
-        print('あなたは既にパスしたので、xを入力してください')
+    if scoreCheck():
+        return True
+    else:
         print('')
+        print('ーーーーー緑色の盤面ーーーーー')
+        for width in greenBoard:
+            print(width)
+        print('ーーーーー黄色の盤面ーーーーー')
+        for width in yellowBoard:
+            print(width)
 
-    pygame.display.flip()
+        if whoTurn == GREEN:
+            print('＝＝＝＝＝緑のターン＝＝＝＝＝')
+        elif whoTurn == YELLOW:
+            print('＝＝＝＝＝黄のターン＝＝＝＝＝')
+
+        if turnPassedList[whoTurn - 1]:
+            print('あなたは既にパスしたので、xを入力してください')
+            print('')
+
+        pygame.display.flip()
+
+        return False
 
 blockSpells  = [chr(ord('a') + i) for i in range(21)] # aからuの配列
 blockNumbers = [str(n) for n in range(8)] # 0から7の配列
@@ -288,10 +288,6 @@ def main():
                 if whoTurn == GREEN:
                     if greenBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(greenImage, greenRect, greenBoard, yellowBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                            gameFinish = scoreCheck()
-                            if gameFinish:
-                                break
-                            else:
                                 checkBoard(YELLOW)
                                 whoTurn, selectedBlock, selectedDirection = selectBlock(YELLOW)
                                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
@@ -302,10 +298,6 @@ def main():
                 elif whoTurn == YELLOW:
                     if yellowBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                            gameFinish = scoreCheck()
-                            if gameFinish:
-                                break
-                            else:
                                 checkBoard(GREEN)
                                 whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
                                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
