@@ -87,7 +87,38 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
+def scoreCheck(whoTurn):
+    if whoTurn == GREEN:
+        color = 'green'
+    elif whoTurn == YELLOW:
+        color = 'yellow'
+
+    if all(turnPassedList) or len(eval(color + 'UsedBlocks')) == 21:
+        #スコア表
+        scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
+        #スコアチェック
+        greenRemainingBlock = list(set(blockSpells) - set(greenUsedBlocks))
+        yellowRemainingBlock = list(set(blockSpells) - set(yellowUsedBlocks))
+        greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
+        yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
+        print('ゲームは終了です')
+        print(greenScore)
+        print(yellowScore)
+
+        if greenScore < yellowScore:
+            print('勝者は「緑色」です')
+        elif greenScore > yellowScore:
+            print('勝者は「黄色」です')
+        else:
+            if len(greenRemainingBlock) < len(yellowRemainingBlock):
+                print('勝者は「緑色」です')
+            elif len(greenRemainingBlock) > len(yellowRemainingBlock):
+                print('勝者は「黄色」です')
+            else:
+                print('引き分けです')
+
 def checkBoard(whoTurn):
+    scoreCheck(whoTurn)
     print('')
     print('ーーーーー緑色の盤面ーーーーー')
     for width in greenBoard:
@@ -117,7 +148,7 @@ def selectBlock(whoTurn):
         color = 'yellow'
 
     print('既に使っているブロック')
-    print(eval(color + 'UsedBlocks'))
+    print((eval(color + 'UsedBlocks')))
     print('')
 
     # Xキーが入力されたらターンスキップ
