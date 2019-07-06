@@ -74,20 +74,17 @@ def skipTurn(whoTurn):
     elif whoTurn == YELLOW:
         nextPlayer = GREEN
 
-    if checkBoard(nextPlayer):
-        return None
-    else:
-        whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
-        rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-        selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
+    rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
+    selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
-        if whoTurn == GREEN:
-            color2 = 'green'
-        elif whoTurn == YELLOW:
-            color2 = 'yellow'
-        eval(color2 + 'UsedBlocks').pop()
+    if whoTurn == GREEN:
+        color2 = 'green'
+    elif whoTurn == YELLOW:
+        color2 = 'yellow'
+    eval(color2 + 'UsedBlocks').pop()
 
-        return whoTurn, selectedBlock, selectedDirection
+    return whoTurn, selectedBlock, selectedDirection
 
 def scoreCheck():
     if all(turnPassedList):
@@ -140,7 +137,6 @@ def checkBoard(whoTurn):
             print('')
 
         pygame.display.flip()
-
         return False
 
 blockSpells  = [chr(ord('a') + i) for i in range(21)] # aからuの配列
@@ -161,8 +157,12 @@ def selectBlock(whoTurn):
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
             turnPassedList[whoTurn - 1] = True
-            whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
-            return whoTurn, selectedBlock, selectedDirection
+
+            if scoreCheck():
+                sys.exit()
+            else:
+                whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
+                return whoTurn, selectedBlock, selectedDirection
         else:
             print('入力が間違っています')
             selectedBlock = input('ブロックを選択してください：')
@@ -288,20 +288,20 @@ def main():
                 if whoTurn == GREEN:
                     if greenBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(greenImage, greenRect, greenBoard, yellowBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                                checkBoard(YELLOW)
-                                whoTurn, selectedBlock, selectedDirection = selectBlock(YELLOW)
-                                rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                                selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            checkBoard(YELLOW)
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(YELLOW)
+                            rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
+                            selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
                     if yellowBoard[ypos][xpos] != CANTSET:
                         if eval(selectedBlock + '_block').main(yellowImage, yellowRect, yellowBoard, greenBoard, selectedDirection, xpos, ypos, surface, tileLength):
-                                checkBoard(GREEN)
-                                whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
-                                rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                                selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            checkBoard(GREEN)
+                            whoTurn, selectedBlock, selectedDirection = selectBlock(GREEN)
+                            rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
+                            selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
