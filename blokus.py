@@ -149,7 +149,7 @@ def selectBlock(whoTurn):
         color = 'yellow'
 
     print('既に使っているブロック')
-    print((eval(color + 'UsedBlocks')))
+    print(sorted(eval(color + 'UsedBlocks')))
     print('')
 
     # Xキーが入力されたらターンスキップ
