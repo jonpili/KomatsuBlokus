@@ -206,9 +206,9 @@ def main():
     surface.fill((0,0,0)) # 黒で塗りつぶし
     pygame.display.set_caption('Mini Blokus')
 
-    tileImage   = pygame.image.load('tile.bmp').convert()
-    greenImage  = pygame.image.load('green.bmp').convert()
-    yellowImage = pygame.image.load('yellow.bmp').convert()
+    tileImage   = pygame.image.load('image/tile.bmp').convert()
+    greenImage  = pygame.image.load('image/green.bmp').convert()
+    yellowImage = pygame.image.load('image/yellow.bmp').convert()
 
     tileRect   = tileImage.get_rect() # 画像と同じサイズの長方形座標を取得
     greenRect  = greenImage.get_rect()
