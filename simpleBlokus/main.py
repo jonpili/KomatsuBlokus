@@ -52,10 +52,10 @@ class Game():
         board  = [[self.BRANK for width in range(self.tileNumber + 2)] for height in range(self.tileNumber + 2)]
         # 枠を作成
         for i in range(self.tileNumber + 2):
-            board[0][i]              = self.CANTSET
+            board[0][i]                   = self.CANTSET
             board[self.tileNumber + 1][i] = self.CANTSET
         for i in range(self.tileNumber):
-            board[i + 1][0]              = self.CANTSET
+            board[i + 1][0]                   = self.CANTSET
             board[i + 1][self.tileNumber + 1] = self.CANTSET
         return board
 
