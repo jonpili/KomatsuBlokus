@@ -74,7 +74,6 @@ def skipTurn(whoTurn):
     elif whoTurn == YELLOW:
         nextPlayer = GREEN
 
-    checkBoard(nextPlayer)
     whoTurn, selectedBlock, selectedDirection = selectBlock(nextPlayer)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
     selectedBlock, selectedDirection          = blockUsableCheck(whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
@@ -87,25 +86,58 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
+def scoreCheck():
+    if all(turnPassedList):
+        #スコア表
+        scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
+        #スコアチェック
+        greenRemainingBlock = list(set(blockSpells) - set(greenUsedBlocks))
+        yellowRemainingBlock = list(set(blockSpells) - set(yellowUsedBlocks))
+        greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
+        yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
+        #結果発表
+        print('ゲームは終了です')
+        print('緑色の点数は' + str(greenScore) + '点です')
+        print('黄色の点数は' + str(yellowScore) + '点です')
+
+        if greenScore < yellowScore:
+            print('勝者は「緑色」です')
+        elif greenScore > yellowScore:
+            print('勝者は「黄色」です')
+        else:
+            if len(greenRemainingBlock) < len(yellowRemainingBlock):
+                print('勝者は「緑色」です')
+            elif len(greenRemainingBlock) > len(yellowRemainingBlock):
+                print('勝者は「黄色」です')
+            else:
+                print('引き分けです')
+        return True
+    else:
+        return False
+
 def checkBoard(whoTurn):
-    print('')
-    print('ーーーーー緑色の盤面ーーーーー')
-    for width in greenBoard:
-        print(width)
-    print('ーーーーー黄色の盤面ーーーーー')
-    for width in yellowBoard:
-        print(width)
-
-    if whoTurn == GREEN:
-        print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-    elif whoTurn == YELLOW:
-        print('＝＝＝＝＝黄のターン＝＝＝＝＝')
-
-    if turnPassedList[whoTurn - 1]:
-        print('あなたは既にパスしたので、xを入力してください')
+    if scoreCheck():
+        return True
+    else:
         print('')
+        print('ーーーーー緑色の盤面ーーーーー')
+        for width in greenBoard:
+            print(width)
+        print('ーーーーー黄色の盤面ーーーーー')
+        for width in yellowBoard:
+            print(width)
 
-    pygame.display.flip()
+        if whoTurn == GREEN:
+            print('＝＝＝＝＝緑のターン＝＝＝＝＝')
+        elif whoTurn == YELLOW:
+            print('＝＝＝＝＝黄のターン＝＝＝＝＝')
+
+        if turnPassedList[whoTurn - 1]:
+            print('あなたは既にパスしたので、xを入力してください')
+            print('')
+
+        pygame.display.flip()
+        return False
 
 blockSpells  = [chr(ord('a') + i) for i in range(21)] # aからuの配列
 blockNumbers = [str(n) for n in range(8)] # 0から7の配列
@@ -117,7 +149,7 @@ def selectBlock(whoTurn):
         color = 'yellow'
 
     print('既に使っているブロック')
-    print(eval(color + 'UsedBlocks'))
+    print(sorted(eval(color + 'UsedBlocks')))
     print('')
 
     # Xキーが入力されたらターンスキップ
@@ -125,8 +157,12 @@ def selectBlock(whoTurn):
     while not selectedBlock in blockSpells:
         if selectedBlock == 'x':
             turnPassedList[whoTurn - 1] = True
-            whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
-            return whoTurn, selectedBlock, selectedDirection
+
+            if scoreCheck():
+                sys.exit()
+            else:
+                whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
+                return whoTurn, selectedBlock, selectedDirection
         else:
             print('入力が間違っています')
             selectedBlock = input('ブロックを選択してください：')
