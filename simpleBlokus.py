@@ -94,47 +94,50 @@ def checkBoard(color):
     pygame.display.flip()
     return whoTurn
 
-def main():
-    pygame.init()
-    surface.fill((0,0,0)) # 黒で塗りつぶし
-    pygame.display.set_caption('Mini Blokus')
+class Game():
+    def __init__(self):
+        pygame.init()
+        surface.fill((0,0,0)) # 黒で塗りつぶし
+        pygame.display.set_caption('Mini Blokus')
 
-    tileImage   = pygame.image.load('tile.bmp').convert()
-    greenImage  = pygame.image.load('green.bmp').convert()
-    yellowImage = pygame.image.load('yellow.bmp').convert()
+        self.tileImage   = pygame.image.load('tile.bmp').convert()
+        self.greenImage  = pygame.image.load('green.bmp').convert()
+        self.yellowImage = pygame.image.load('yellow.bmp').convert()
 
-    tileRect   = tileImage.get_rect() # 画像と同じサイズの長方形座標を取得
-    greenRect  = greenImage.get_rect()
-    yellowRect = yellowImage.get_rect()
+        self.tileRect   = self.tileImage.get_rect() # 画像と同じサイズの長方形座標を取得
+        self.greenRect  = self.greenImage.get_rect()
+        self.yellowRect = self.yellowImage.get_rect()
 
-    pygame.mouse.set_visible(True) #マウスポインターの表示をオン
+        pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
-    # タイルで画面を埋める
-    for i in range(0, tileLimit, tileLength):
-        for j in range(0, tileLimit, tileLength):
-            # 枠の分はスキップ
-            surface.blit(tileImage, tileRect.move((i + tileLength), (j + tileLength)))
+    def main(self):
 
-    whoTurn = checkBoard(GREEN)
+        # タイルで画面を埋める
+        for i in range(0, tileLimit, tileLength):
+            for j in range(0, tileLimit, tileLength):
+                # 枠の分はスキップ
+                surface.blit(self.tileImage, self.tileRect.move((i + tileLength), (j + tileLength)))
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit() # ESCAPEキーが押されたら終了
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # ボード外エラー回避の為1マス右下に
-                xpos = int(pygame.mouse.get_pos()[0]/tileLength) # 右方向に正
-                ypos = int(pygame.mouse.get_pos()[1]/tileLength) # 下方向に正
-                if whoTurn == GREEN:
-                    if boardGreen[ypos][xpos] != CANTSET:
-                        if pointBlock(xpos, ypos, GREEN, greenImage, greenRect):
-                            whoTurn = checkBoard(YELLOW)
+        whoTurn = checkBoard(GREEN)
 
-                elif whoTurn == YELLOW:
-                    if boardYellow[ypos][xpos] != CANTSET:
-                        if pointBlock(xpos, ypos, YELLOW, yellowImage, yellowRect):
-                            whoTurn = checkBoard(GREEN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit() # ESCAPEキーが押されたら終了
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # ボード外エラー回避の為1マス右下に
+                    xpos = int(pygame.mouse.get_pos()[0]/tileLength) # 右方向に正
+                    ypos = int(pygame.mouse.get_pos()[1]/tileLength) # 下方向に正
+                    if whoTurn == GREEN:
+                        if boardGreen[ypos][xpos] != CANTSET:
+                            if pointBlock(xpos, ypos, GREEN, self.greenImage, self.greenRect):
+                                whoTurn = checkBoard(YELLOW)
+
+                    elif whoTurn == YELLOW:
+                        if boardYellow[ypos][xpos] != CANTSET:
+                            if pointBlock(xpos, ypos, YELLOW, self.yellowImage, self.yellowRect):
+                                whoTurn = checkBoard(GREEN)
 
 if __name__ == '__main__':
-    main()
+    Game().main()
