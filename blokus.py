@@ -111,6 +111,8 @@ def scoreCheck():
                 print('勝者は「黄色」です')
             else:
                 print('引き分けです')
+
+        turnPassedList[0] = False
         return True
     else:
         return False
@@ -159,7 +161,7 @@ def selectBlock(whoTurn):
             turnPassedList[whoTurn - 1] = True
 
             if scoreCheck():
-                sys.exit()
+                pass
             else:
                 whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
                 return whoTurn, selectedBlock, selectedDirection
