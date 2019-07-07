@@ -1,6 +1,6 @@
 import pygame
 import sys
-import PointBlock
+import Start
 
 class Game():
     tileLength = 50
@@ -59,52 +59,11 @@ class Game():
             board[i + 1][self.tileNumber + 1] = self.CANTSET
         return board
 
-    def start(self):
-        whoTurn = self.checkBoard(self.GREEN)
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit() # ESCAPEキーが押されたら終了
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    # ボード外エラー回避の為1マス右下に
-                    xpos = int(pygame.mouse.get_pos()[0]/self.tileLength) # 右方向に正
-                    ypos = int(pygame.mouse.get_pos()[1]/self.tileLength) # 下方向に正
-
-                    block = PointBlock.PointBlock()
-
-                    if whoTurn == self.GREEN:
-                        if self.boardGREEN[ypos][xpos] != self.CANTSET:
-                            if block.pointBlock(self, xpos, ypos, self.GREEN):
-                                whoTurn = self.checkBoard(self.YELLOW)
-
-                    elif whoTurn == self.YELLOW:
-                        if self.boardYELLOW[ypos][xpos] != self.CANTSET:
-                            if block.pointBlock(self, xpos, ypos, self.YELLOW):
-                                whoTurn = self.checkBoard(self.GREEN)
-
-    def checkBoard(self, color):
-        print('')
-        print('ーーーー緑の盤面ーーーー')
-        for width in self.boardGREEN:
-            print(width)
-        print('ーーーー黄の盤面ーーーー')
-        for width in self.boardYELLOW:
-            print(width)
-
-        if color == self.GREEN:
-            print('＝＝＝緑色のターン＝＝＝')
-        elif color == self.YELLOW:
-            print('＝＝＝黄色のターン＝＝＝')
-
-        pygame.display.flip()
-        return color
-
 def main():
     game = Game()
+    start = Start.Start()
     print('＝＝＝＝＝ゲーム開始＝＝＝＝＝')
-    game.start()
+    start.main(game)
 
 if __name__ == '__main__':
     main()
