@@ -70,13 +70,17 @@ class Game():
                     # ボード外エラー回避の為1マス右下に
                     xpos = int(pygame.mouse.get_pos()[0]/self.tileLength) # 右方向に正
                     ypos = int(pygame.mouse.get_pos()[1]/self.tileLength) # 下方向に正
+
+                block = PointBlock()
                     if whoTurn == self.GREEN:
                         if self.boardGREEN[ypos][xpos] != self.CANTSET:
+                            block.pointBlock()
                             if self.pointBlock(xpos, ypos, self.GREEN, self.GREENImage, self.GREENRect):
                                 whoTurn = self.checkBoard(self.YELLOW)
 
                     elif whoTurn == self.YELLOW:
                         if self.boardYELLOW[ypos][xpos] != self.CANTSET:
+                            block.pointBlock()
                             if self.pointBlock(xpos, ypos, self.YELLOW, self.YELLOWImage, self.YELLOWRect):
                                 whoTurn = self.checkBoard(self.GREEN)
 
@@ -97,6 +101,7 @@ class Game():
         pygame.display.flip()
         return color
 
+class PointBlock():
     def pointBlock(self, x, y, color, colorImage, colorRect):
         if color == self.GREEN:
             if self.boardGREEN[y][x] == self.ABLESET:
@@ -140,6 +145,9 @@ def main():
     game = Game()
     print('＝＝＝＝＝ゲーム開始＝＝＝＝＝')
     game.start()
+    pointBlock = pointBlock()
+    pointBlock.pointBlock()
+
 
 if __name__ == '__main__':
     main()
