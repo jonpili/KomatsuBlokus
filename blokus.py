@@ -32,7 +32,7 @@ BLANK   = 0 # ブロックは置かれていない
 CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
 ABLESET = 2 # 自分のブロックが角で接している
 
-GREEN  = 1
+GREEN  = 1 # 'green'がいいかも
 YELLOW = 2
 RED    = 3 # 将来的に実装
 BLUE   = 4 # 将来的に実装
