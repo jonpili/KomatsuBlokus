@@ -45,7 +45,12 @@ tileLimit    = tileLength * tileNumber
 #使ったブロックのリスト
 greenUsedBlocks = []
 yellowUsedBlocks = []
+
+#パスリスト
 turnPassedList = [False, False] # GREEN, YELLOWの順番
+
+#スコア表
+scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
 
 def makeBoard():
     board  = [[BLANK for width in range(tileNumber + 2)] for height in range(tileNumber + 2)]
@@ -86,10 +91,9 @@ def skipTurn(whoTurn):
 
     return whoTurn, selectedBlock, selectedDirection
 
+# class: Judge():
 def scoreCheck():
     if all(turnPassedList):
-        #スコア表
-        scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
         #スコアチェック
         greenRemainingBlock = list(set(blockSpells) - set(greenUsedBlocks))
         yellowRemainingBlock = list(set(blockSpells) - set(yellowUsedBlocks))
