@@ -16,36 +16,6 @@ screenWidth  = tileLength * (tileNumber + 2)
 screenHeight = tileLength * (tileNumber + 2)
 tileLimit    = tileLength * tileNumber
 
-
-
-def changeTileStatus(x, y, board1, board2):
-    # ブロック自体を左上から時計回りに
-    board1[y][x] = CANTSET
-
-    # ブロックと辺で接する地点を左上から時計回りに
-    board1[y][x-1] = CANTSET
-    board1[y-1][x] = CANTSET
-    board1[y][x+1] = CANTSET
-    board1[y+1][x] = CANTSET
-
-    # ブロックと角で接する地点を左上から時計回りに
-    if board1[y-1][x-1] != CANTSET:
-        board1[y-1][x-1] = ABLESET
-
-    if board1[y-1][x+1] != CANTSET:
-        board1[y-1][x+1] = ABLESET
-
-    if board1[y+1][x+1] != CANTSET:
-        board1[y+1][x+1] = ABLESET
-
-    if board1[y+1][x-1] != CANTSET:
-        board1[y+1][x-1] = ABLESET
-
-    # ブロック自体を左上から時計回りに
-    board2[y][x] = CANTSET
-
-
-
 class Game():
     pygame.init()
     surface = pygame.display.set_mode((screenWidth, screenHeight))
@@ -131,14 +101,40 @@ class Game():
         if color == GREEN:
             if self.boardGreen[y][x] == ABLESET:
                 self.surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-                changeTileStatus(x, y, self.boardGreen, self.boardYellow)
+                self.changeTileStatus(x, y, self.boardGreen, self.boardYellow)
                 return True
 
         elif color == YELLOW:
             if self.boardYellow[y][x] == ABLESET:
                 self.surface.blit(colorImage, colorRect.move(tileLength * x, tileLength * y))
-                changeTileStatus(x, y, self.boardYellow, self.boardGreen)
+                self.changeTileStatus(x, y, self.boardYellow, self.boardGreen)
                 return True
+
+    def changeTileStatus(self, x, y, board1, board2):
+        # ブロック自体を左上から時計回りに
+        board1[y][x] = CANTSET
+
+        # ブロックと辺で接する地点を左上から時計回りに
+        board1[y][x-1] = CANTSET
+        board1[y-1][x] = CANTSET
+        board1[y][x+1] = CANTSET
+        board1[y+1][x] = CANTSET
+
+        # ブロックと角で接する地点を左上から時計回りに
+        if board1[y-1][x-1] != CANTSET:
+            board1[y-1][x-1] = ABLESET
+
+        if board1[y-1][x+1] != CANTSET:
+            board1[y-1][x+1] = ABLESET
+
+        if board1[y+1][x+1] != CANTSET:
+            board1[y+1][x+1] = ABLESET
+
+        if board1[y+1][x-1] != CANTSET:
+            board1[y+1][x-1] = ABLESET
+
+        # ブロック自体を左上から時計回りに
+        board2[y][x] = CANTSET
 
 def main():
     game = Game()
