@@ -165,7 +165,7 @@ def selectBlock(whoTurn):
             turnPassedList[whoTurn - 1] = True
 
             if scoreCheck():
-                pass
+                sys.exit()
             else:
                 whoTurn, selectedBlock, selectedDirection = skipTurn(whoTurn)
                 return whoTurn, selectedBlock, selectedDirection
