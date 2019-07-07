@@ -75,25 +75,6 @@ def pointBlock(x, y, color, colorImage, colorRect):
             changeTileStatus(x, y, boardYellow, boardGreen)
             return True
 
-def checkBoard(color):
-    print('')
-    print('ーーーー緑の盤面ーーーー')
-    for width in boardGreen:
-        print(width)
-    print('ーーーー黄の盤面ーーーー')
-    for width in boardYellow:
-        print(width)
-
-    if color == GREEN:
-        whoTurn = GREEN
-        print('＝＝＝緑色のターン＝＝＝')
-    elif color == YELLOW:
-        whoTurn = YELLOW
-        print('＝＝＝黄色のターン＝＝＝')
-
-    pygame.display.flip()
-    return whoTurn
-
 class Game():
     def __init__(self):
         pygame.init()
@@ -110,15 +91,14 @@ class Game():
 
         pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
-    def main(self):
-
         # タイルで画面を埋める
         for i in range(0, tileLimit, tileLength):
             for j in range(0, tileLimit, tileLength):
                 # 枠の分はスキップ
                 surface.blit(self.tileImage, self.tileRect.move((i + tileLength), (j + tileLength)))
 
-        whoTurn = checkBoard(GREEN)
+    def main(self):
+        whoTurn = self.checkBoard(GREEN)
 
         while True:
             for event in pygame.event.get():
@@ -132,12 +112,29 @@ class Game():
                     if whoTurn == GREEN:
                         if boardGreen[ypos][xpos] != CANTSET:
                             if pointBlock(xpos, ypos, GREEN, self.greenImage, self.greenRect):
-                                whoTurn = checkBoard(YELLOW)
+                                whoTurn = self.checkBoard(YELLOW)
 
                     elif whoTurn == YELLOW:
                         if boardYellow[ypos][xpos] != CANTSET:
                             if pointBlock(xpos, ypos, YELLOW, self.yellowImage, self.yellowRect):
-                                whoTurn = checkBoard(GREEN)
+                                whoTurn = self.checkBoard(GREEN)
+
+    def checkBoard(self, color):
+        print('')
+        print('ーーーー緑の盤面ーーーー')
+        for width in boardGreen:
+            print(width)
+        print('ーーーー黄の盤面ーーーー')
+        for width in boardYellow:
+            print(width)
+
+        if color == GREEN:
+            print('＝＝＝緑色のターン＝＝＝')
+        elif color == YELLOW:
+            print('＝＝＝黄色のターン＝＝＝')
+
+        pygame.display.flip()
+        return color
 
 if __name__ == '__main__':
     Game().main()
