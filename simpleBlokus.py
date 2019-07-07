@@ -97,7 +97,7 @@ class Game():
                 # 枠の分はスキップ
                 surface.blit(self.tileImage, self.tileRect.move((i + tileLength), (j + tileLength)))
 
-    def main(self):
+    def start(self):
         whoTurn = self.checkBoard(GREEN)
 
         while True:
@@ -136,5 +136,10 @@ class Game():
         pygame.display.flip()
         return color
 
+def main():
+    game = Game()
+    print('＝＝＝＝＝ゲーム開始＝＝＝＝＝')
+    game.start()
+
 if __name__ == '__main__':
-    Game().main()
+    main()
