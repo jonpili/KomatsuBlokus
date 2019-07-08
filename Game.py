@@ -38,7 +38,7 @@ class Game():
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
     pygame.init()
-    pygame.display.set_caption('Mini Blokus')
+    pygame.display.set_caption('Komatsu Blokus')
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     TILE_IMAGE   = pygame.image.load('image/tile.bmp').convert()
