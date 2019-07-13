@@ -290,14 +290,33 @@ def start(game):
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
-class Block:
-    self.selected = []
+class Block():
+    def __init__(self):
+        self.selected = {
+            'shape': np.asarray([
+            [0,0,1,0,0],
+            [0,0,1,0,0],
+            [0,0,1,0,0],
+            [0,0,1,0,0],
+            [0,0,1,0,0]
+            ]),
+            'influence': np.asarray([
+            [0,0,2,1,2,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,2,1,2,0,0]
+            ]),
+            'score': 5
+        }
 
-    def call_block(selected_shape):
+    def call_block(self, selected_shape):
         # selected_shapeに従ってDBから持ってくる
         self.selected = [0,1]
 
-    def rotate_block(selected_direction):
+    def rotate_block(self, selected_direction):
         # self.selectedBlockをselected_directionに従って回転
         self.selected = [1,0]
 
