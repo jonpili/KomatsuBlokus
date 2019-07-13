@@ -1,5 +1,5 @@
 import pygame
-
+#TODO　3つのメソッドを作る
 class Game():
     TILE_NUMBER = 8
     TILE_LENGTH = 50
