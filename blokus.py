@@ -290,6 +290,7 @@ def start(game):
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
+# TODO: ボードクラス完成後に完成させる
 class Block():
     def __init__(self):
         self.selected = {
