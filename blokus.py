@@ -290,6 +290,17 @@ def start(game):
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
+class Block:
+    self.selected = []
+
+    def call_block(selected_shape):
+        # selected_shapeに従ってDBから持ってくる
+        self.selected = [0,1]
+
+    def rotate_block(selected_direction):
+        # self.selectedBlockをselected_directionに従って回転
+        self.selected = [1,0]
+
 def main():
     game = Game.Game()
     start(game)
