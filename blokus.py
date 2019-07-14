@@ -37,37 +37,38 @@ turnPassedList = [False, False] # GREEN, YELLOWの順番
 #スコア表
 scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
 
+# TODO: Gameクラスのプロパティから引っ張ってくる
 GREEN  = 'green'
 YELLOW = 'yellow'
 RED    = 'red' # 将来的に実装
 BLUE   = 'blue' # 将来的に実装
-
-BLANK   = 0 # ブロックは置かれていない
-CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
-ABLESET = 2 # 自分のブロックが角で接している
+#
+# BLANK   = 0 # ブロックは置かれていない
+# CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
+# ABLESET = 2 # 自分のブロックが角で接している
 
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
-def make_board():
-    board  = [[BLANK for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
-    # 枠を作成
-    for i in range(TILE_NUMBER + 2):
-        board[0][i]              = CANTSET
-        board[TILE_NUMBER + 1][i] = CANTSET
-    for i in range(TILE_NUMBER):
-        board[i + 1][0]              = CANTSET
-        board[i + 1][TILE_NUMBER + 1] = CANTSET
-    board = np.asarray(board)
-    return board
+# def make_board():
+#     board  = [[BLANK for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
+#     # 枠を作成
+#     for i in range(TILE_NUMBER + 2):
+#         board[0][i]              = CANTSET
+#         board[TILE_NUMBER + 1][i] = CANTSET
+#     for i in range(TILE_NUMBER):
+#         board[i + 1][0]              = CANTSET
+#         board[i + 1][TILE_NUMBER + 1] = CANTSET
+#     board = np.asarray(board)
+#     return board
+#
+# green_board = make_board()
+# green_board[3][3] = ABLESET
+#
+# yellow_board = make_board()
+# yellow_board[6][6] = ABLESET
 
-green_board = make_board()
-green_board[3][3] = ABLESET
-
-yellow_board = make_board()
-yellow_board[6][6] = ABLESET
-
-def skipTurn(game, whoTurn):
+def skipTurn(game, board, whoTurn):
     if whoTurn == GREEN:
         nextPlayer = YELLOW
     elif whoTurn == YELLOW:
@@ -75,7 +76,7 @@ def skipTurn(game, whoTurn):
 
     whoTurn, selectedBlock, selectedDirection = selectBlock(game, nextPlayer)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-    selectedBlock, selectedDirection          = blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     if whoTurn == GREEN:
         color2 = 'green'
@@ -115,31 +116,31 @@ def scoreCheck():
     else:
         return False
 
-def checkBoard(game, whoTurn):
-    if scoreCheck():
-        return True
-    else:
-        print('')
-        print('ーーーーー緑色の盤面ーーーーー')
-        for width in green_board:
-            print(width)
-        print('ーーーーー黄色の盤面ーーーーー')
-        for width in yellow_board:
-            print(width)
-
-        if whoTurn == GREEN:
-            print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-            if turnPassedList[0]:
-                print('あなたは既にパスしたので、xを入力してください')
-                print('')
-        elif whoTurn == YELLOW:
-            print('＝＝＝＝＝黄のターン＝＝＝＝＝')
-            if turnPassedList[1]:
-                print('あなたは既にパスしたので、xを入力してください')
-                print('')
-
-        pygame.display.flip()
-        return False
+# def checkBoard(game, board, whoTurn):
+#     if scoreCheck():
+#         return True
+#     else:
+#         print('')
+#         print('ーーーーー緑色の盤面ーーーーー')
+#         for width in board.green_board:
+#             print(width)
+#         print('ーーーーー黄色の盤面ーーーーー')
+#         for width in board.yellow_board:
+#             print(width)
+#
+#         if whoTurn == GREEN:
+#             print('＝＝＝＝＝緑のターン＝＝＝＝＝')
+#             if turnPassedList[0]:
+#                 print('あなたは既にパスしたので、xを入力してください')
+#                 print('')
+#         elif whoTurn == YELLOW:
+#             print('＝＝＝＝＝黄のターン＝＝＝＝＝')
+#             if turnPassedList[1]:
+#                 print('あなたは既にパスしたので、xを入力してください')
+#                 print('')
+#
+#         pygame.display.flip()
+#         return False
 
 blockSpells  = [chr(ord('a') + i) for i in range(21)] # aからuの配列
 blockNumbers = [str(n) for n in range(8)] # 0から7の配列
@@ -166,7 +167,7 @@ def selectBlock(game, whoTurn):
             if scoreCheck():
                 sys.exit()
             else:
-                whoTurn, selectedBlock, selectedDirection = skipTurn(game, whoTurn)
+                whoTurn, selectedBlock, selectedDirection = skipTurn(game, board, whoTurn)
                 return whoTurn, selectedBlock, selectedDirection
         else:
             print('入力が間違っています')
@@ -212,7 +213,7 @@ def rotateBlock(selectedBlock, selectedDirection):
 
     return rotatedBlockShape
 
-def blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
+def blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape):
     if whoTurn == GREEN:
         color = 'green'
     elif whoTurn == YELLOW:
@@ -223,7 +224,7 @@ def blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlo
         whoTurn, selectedBlock, selectedDirection = selectBlock(game, whoTurn)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
 
-    while not settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, eval(color + '_board')):
+    while not settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, eval('board.' + color + '_board')):
         print('そのブロックを置く場所がありません')
         whoTurn, selectedBlock, selectedDirection = selectBlock(game, whoTurn)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
@@ -242,12 +243,12 @@ def settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, boardMine):
 
     return settableAreaExist
 
-def start(game):
+def start(game, board):
     # ゲームスタート処理
-    checkBoard(game, GREEN)
+    board.checkBoard(game, GREEN)
     whoTurn, selectedBlock, selectedDirection = selectBlock(game, GREEN)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-    selectedBlock, selectedDirection          = blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+    selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
 
     while True:
         for event in pygame.event.get():
@@ -265,30 +266,83 @@ def start(game):
                 eval(color + 'UsedBlocks').pop()
                 whoTurn, selectedBlock, selectedDirection = selectBlock(game, whoTurn)
                 rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                selectedBlock, selectedDirection          = blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
                 ypos = int(pygame.mouse.get_pos()[1]/game.TILE_LENGTH) # 下方向に正
                 if whoTurn == GREEN:
-                    if green_board[ypos][xpos] != CANTSET:
-                        if eval(selectedBlock + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, green_board, yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
-                            checkBoard(game, YELLOW)
+                    if board.green_board[ypos][xpos] != board.CANTSET:
+                        if eval(selectedBlock + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
+                            board.checkBoard(game, YELLOW)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(game, YELLOW)
                             rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                            selectedBlock, selectedDirection          = blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
                 elif whoTurn == YELLOW:
-                    if yellow_board[ypos][xpos] != CANTSET:
-                        if eval(selectedBlock + '_block').main(game.YELLOW_IMAGE, game.YELLOW_RECT, yellow_board, green_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
-                            checkBoard(game,GREEN)
+                    if board.yellow_board[ypos][xpos] != board.CANTSET:
+                        if eval(selectedBlock + '_block').main(game.YELLOW_IMAGE, game.YELLOW_RECT, board.yellow_board, board.green_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
+                            board.checkBoard(game,GREEN)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(game, GREEN)
                             rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
-                            selectedBlock, selectedDirection          = blockUsableCheck(game, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
+                            selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
                         else: print('ここには置けません')
                     else: print('ここには置けません')
+
+class Board():
+    BLANK   = 0 # ブロックは置かれていない
+    CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
+    ABLESET = 2 # 自分のブロックが角で接している
+
+    def __init__(self):
+        self.status = self.make_board()
+        # 緑色のスタート地点
+        self.status[3][3][0] = self.ABLESET
+        # 黄色のスタート地点
+        self.status[6][6][1] = self.ABLESET
+
+        self.green_board = list(map(lambda x: list(map(lambda y: y[0], x)), self.status))
+        self.yellow_board = list(map(lambda x: list(map(lambda y: y[1], x)), self.status))
+
+    def make_board(self):
+        board  = [[[self.BLANK, self.BLANK] for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
+        # 枠を作成
+        for i in range(TILE_NUMBER + 2):
+            board[0][i]              = [self.CANTSET, self.CANTSET]
+            board[TILE_NUMBER + 1][i] = [self.CANTSET, self.CANTSET]
+        for i in range(TILE_NUMBER):
+            board[i + 1][0]              = [self.CANTSET, self.CANTSET]
+            board[i + 1][TILE_NUMBER + 1] = [self.CANTSET, self.CANTSET]
+        board = np.asarray(board)
+        return board
+
+    def checkBoard(self, game, whoTurn):
+        if scoreCheck():
+            return True
+        else:
+            print('')
+            print('ーーーーー緑色の盤面ーーーーー')
+            for width in self.green_board:
+                print(width)
+            print('ーーーーー黄色の盤面ーーーーー')
+            for width in self.yellow_board:
+                print(width)
+
+            if whoTurn == GREEN:
+                print('＝＝＝＝＝緑のターン＝＝＝＝＝')
+                if turnPassedList[0]:
+                    print('あなたは既にパスしたので、xを入力してください')
+                    print('')
+            elif whoTurn == YELLOW:
+                print('＝＝＝＝＝黄のターン＝＝＝＝＝')
+                if turnPassedList[1]:
+                    print('あなたは既にパスしたので、xを入力してください')
+                    print('')
+
+            pygame.display.flip()
+            return False
 
 # TODO: ボードクラス完成後に完成させる
 class Block():
@@ -323,7 +377,8 @@ class Block():
 
 def main():
     game = Game.Game()
-    start(game)
+    board = Board()
+    start(game, board)
 
 if __name__ == '__main__':
     main()
