@@ -183,7 +183,7 @@ def settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, boardMine):
 
 def start(game, board):
     # ゲームスタート処理
-    board.checkBoard(game, GREEN)
+    board.check_status(game, GREEN)
     whoTurn, selectedBlock, selectedDirection = selectBlock(game, board, GREEN)
     rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
     selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
@@ -208,7 +208,7 @@ def start(game, board):
                 if whoTurn == GREEN:
                     if board.green_board[ypos][xpos] != board.CANTSET:
                         if eval(selectedBlock + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
-                            board.checkBoard(game, YELLOW)
+                            board.check_status(game, YELLOW)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(game, board, YELLOW)
                             rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
                             selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
@@ -218,7 +218,7 @@ def start(game, board):
                 elif whoTurn == YELLOW:
                     if board.yellow_board[ypos][xpos] != board.CANTSET:
                         if eval(selectedBlock + '_block').main(game.YELLOW_IMAGE, game.YELLOW_RECT, board.yellow_board, board.green_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
-                            board.checkBoard(game,GREEN)
+                            board.check_status(game,GREEN)
                             whoTurn, selectedBlock, selectedDirection = selectBlock(game, board, GREEN)
                             rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
                             selectedBlock, selectedDirection          = blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rotatedBlockShape)
@@ -252,7 +252,7 @@ class Board():
         board = np.asarray(board)
         return board
 
-    def checkBoard(self, game, whoTurn):
+    def check_status(self, game, whoTurn):
         if scoreCheck():
             return True
         else:
