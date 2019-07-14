@@ -37,10 +37,11 @@ turnPassedList = [False, False] # GREEN, YELLOWの順番
 #スコア表
 scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
 
-# GREEN  = 'green'
-# YELLOW = 'yellow'
-# RED    = 'red' # 将来的に実装
-# BLUE   = 'blue' # 将来的に実装
+# TODO: Gameクラスのプロパティから引っ張ってくる
+GREEN  = 'green'
+YELLOW = 'yellow'
+RED    = 'red' # 将来的に実装
+BLUE   = 'blue' # 将来的に実装
 #
 # BLANK   = 0 # ブロックは置かれていない
 # CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
@@ -115,16 +116,16 @@ def scoreCheck():
     else:
         return False
 
-def checkBoard(game, whoTurn):
+def checkBoard(game, board, whoTurn):
     if scoreCheck():
         return True
     else:
         print('')
         print('ーーーーー緑色の盤面ーーーーー')
-        for width in green_board:
+        for width in board.green_board:
             print(width)
         print('ーーーーー黄色の盤面ーーーーー')
-        for width in yellow_board:
+        for width in board.yellow_board:
             print(width)
 
         if whoTurn == GREEN:
@@ -291,18 +292,19 @@ def start(game):
                     else: print('ここには置けません')
 
 class Board():
-    GREEN  = 'green'
-    YELLOW = 'yellow'
-    RED    = 'red' # 将来的に実装
-    BLUE   = 'blue' # 将来的に実装
-
     BLANK   = 0 # ブロックは置かれていない
     CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
     ABLESET = 2 # 自分のブロックが角で接している
 
     def __init__(self):
         self.status = self.make_board()
-        print(self.status)
+        # 緑色のスタート地点
+        self.status[3][3][0] = self.ABLESET
+        # 黄色のスタート地点
+        self.status[6][6][1] = self.ABLESET
+
+        self.green_board = list(map(lambda x: list(map(lambda y: y[0], x)), self.status))
+        self.yellow_board = list(map(lambda x: list(map(lambda y: y[1], x)), self.status))
 
     def make_board(self):
         board  = [[[self.BLANK, self.BLANK] for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
@@ -315,12 +317,6 @@ class Board():
             board[i + 1][TILE_NUMBER + 1] = [self.CANTSET, self.CANTSET]
         board = np.asarray(board)
         return board
-
-    # green_board = make_board()
-    # green_board[3][3] = ABLESET
-    #
-    # yellow_board = make_board()
-    # yellow_board[6][6] = ABLESET
 
 # TODO: ボードクラス完成後に完成させる
 class Block():
