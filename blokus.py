@@ -162,7 +162,7 @@ def blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rot
         whoTurn, selectedBlock, selectedDirection = selectBlock(game, board, whoTurn)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
 
-    while not settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, eval('board.' + whoTurn + '_board')):
+    while not board.settable_area_exist_check(game, selectedBlock, rotatedBlockShape, eval('board.' + whoTurn + '_board')):
         print('そのブロックを置く場所がありません')
         whoTurn, selectedBlock, selectedDirection = selectBlock(game, board, whoTurn)
         rotatedBlockShape                         = rotateBlock(selectedBlock, selectedDirection)
@@ -170,16 +170,6 @@ def blockUsableCheck(game, board, whoTurn, selectedBlock, selectedDirection, rot
     eval(whoTurn + 'UsedBlocks').append(selectedBlock)
 
     return selectedBlock, selectedDirection
-
-def settableAreaExistCheck(game, selectedBlock, rotatedBlockShape, boardMine):
-    settableAreaExist = False
-
-    for x in range(1, TILE_NUMBER + 1):
-        for y in range(1, TILE_NUMBER + 1):
-            if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
-                settableAreaExist = True
-
-    return settableAreaExist
 
 def start(game, board):
     # ゲームスタート処理
@@ -277,6 +267,16 @@ class Board():
 
             pygame.display.flip()
             return False
+
+    def settable_area_exist_check(self, game, selectedBlock, rotatedBlockShape, boardMine):
+        settable_area_exist = False
+
+        for x in range(1, TILE_NUMBER + 1):
+            for y in range(1, TILE_NUMBER + 1):
+                if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
+                    settable_area_exist = True
+
+        return settable_area_exist
 
 # TODO: ボードクラス完成後に完成させる
 class Block():
