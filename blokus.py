@@ -273,10 +273,20 @@ class Board():
 
         for x in range(1, TILE_NUMBER + 1):
             for y in range(1, TILE_NUMBER + 1):
-                if eval(selectedBlock + '_block').settableCheck(rotatedBlockShape, boardMine, x, y):
+                if self.settableCheck(rotatedBlockShape, boardMine, x, y):
                     settable_area_exist = True
 
         return settable_area_exist
+
+    def settableCheck(self, blockShape, boardMine, x, y):
+        # 1つでもCANTSETがあれば置けない
+        for coord in np.argwhere(blockShape == self.CANTSET):
+            if boardMine[y + coord[0] - 2][x + coord[1] - 2] == self.CANTSET:
+                return False
+        # 1つでもABLESETがあれば置ける
+        for coord in np.argwhere(blockShape == self.CANTSET):
+            if boardMine[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
+                return True
 
 # TODO: ボードクラス完成後に完成させる
 class Block():
