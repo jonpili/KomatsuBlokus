@@ -15,7 +15,7 @@ yellowUsedBlocks = []
 #パスリスト
 turnPassedList = [False, False] # GREEN, YELLOWの順番
 
-#スコア表
+#TODO: Block.pyのblock_tableから引っ張ってくる
 scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
 
 # TODO: Gameクラスのプロパティから引っ張ってくる
@@ -27,7 +27,7 @@ BLUE   = 'blue' # 将来的に実装
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
-def skipTurn(board, who_turn):
+def pass(board, who_turn):
     if who_turn == GREEN:
         next_player = YELLOW
     elif who_turn == YELLOW:
@@ -40,7 +40,7 @@ def skipTurn(board, who_turn):
 
     return block, who_turn
 
-def scoreCheck():
+def score_check():
     if all(turnPassedList):
         #スコアチェック
         greenRemainingBlock = list(set(blockSpells) - set(greenUsedBlocks))
@@ -91,10 +91,10 @@ def select_block(board, who_turn):
                 elif who_turn == YELLOW:
                     turnPassedList[1] = True
 
-                if scoreCheck():
+                if score_check():
                     sys.exit()
                 else:
-                    block, who_turn = skipTurn(board, who_turn)
+                    block, who_turn = pass(board, who_turn)
                     return block, who_turn
             else:
                 print('入力が間違っています\n')
