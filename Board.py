@@ -64,7 +64,7 @@ class Board():
         pygame.display.flip()
         return False
 
-    def settable_area_exist_check(self, game, selected_block, rotated_block_shape, board_mine):
+    def settable_area_exist_check(self, rotated_block_shape, board_mine):
         settable_area_exist = False
 
         for x in range(1, TILE_NUMBER + 1):
