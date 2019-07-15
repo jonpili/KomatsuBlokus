@@ -78,23 +78,28 @@ def selectBlock(game, board, whoTurn):
     print(sorted(eval(whoTurn + 'UsedBlocks')))
     print('')
 
-    # Xキーが入力されたらターンスキップ
     selected_block = input('ブロックを選択してください：')
-    while not selected_block in blockSpells:
-        if selected_block == 'x':
-            if whoTurn == GREEN:
-                turnPassedList[0] = True
-            elif whoTurn == YELLOW:
-                turnPassedList[1] = True
 
-            if scoreCheck():
-                sys.exit()
-            else:
-                block, whoTurn, selected_block = skipTurn(game, board, whoTurn)
-                return block, whoTurn, selected_block
-        else:
-            print('入力が間違っています')
+    while selected_block in eval(whoTurn + 'UsedBlocks') or not selected_block in blockSpells:
+        if selected_block in eval(whoTurn + 'UsedBlocks'):
+            print('そのブロックは既に使っています\n')
             selected_block = input('ブロックを選択してください：')
+        else:
+            # Xキーが入力されたらターンスキップ
+            if selected_block == 'x':
+                if whoTurn == GREEN:
+                    turnPassedList[0] = True
+                elif whoTurn == YELLOW:
+                    turnPassedList[1] = True
+
+                if scoreCheck():
+                    sys.exit()
+                else:
+                    block, whoTurn, selected_block = skipTurn(game, board, whoTurn)
+                    return block, whoTurn, selected_block
+            else:
+                print('入力が間違っています\n')
+                selected_block = input('ブロックを選択してください：')
 
     selectedDirection = input('向きを選択してください：')
     while not selectedDirection in blockNumbers:
@@ -103,20 +108,15 @@ def selectBlock(game, board, whoTurn):
     selectedDirection = int(selectedDirection)
 
     block = Block.Block(selected_block, selectedDirection)
+    eval(whoTurn + 'UsedBlocks').append(selected_block)
 
     return block, whoTurn, selected_block
 
 def blockUsableCheck(game, board, block, whoTurn, selected_block):
-    while selected_block in eval(whoTurn + 'UsedBlocks'):
-        print('そのブロックは既に使っています')
-        block, whoTurn, selected_block = selectBlock(game, board, whoTurn)
-
     while not board.settable_area_exist_check(game.TILE_NUMBER, block.selected['shape'], eval('board.' + whoTurn + '_board')):
         print('そのブロックを置く場所がありません')
+        eval(whoTurn + 'UsedBlocks').pop()
         block, whoTurn, selected_block = selectBlock(game, board, whoTurn)
-
-    eval(whoTurn + 'UsedBlocks').append(selected_block)
-
     return selected_block
 
 def start(game, board):
