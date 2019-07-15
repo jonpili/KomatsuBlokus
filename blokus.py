@@ -7,28 +7,6 @@ import Game
 import Board
 import Block
 
-from pieces import a_block
-from pieces import b_block
-from pieces import c_block
-from pieces import d_block
-from pieces import e_block
-from pieces import f_block
-from pieces import g_block
-from pieces import h_block
-from pieces import i_block
-from pieces import j_block
-from pieces import k_block
-from pieces import l_block
-from pieces import m_block
-from pieces import n_block
-from pieces import o_block
-from pieces import p_block
-from pieces import q_block
-from pieces import r_block
-from pieces import s_block
-from pieces import t_block
-from pieces import u_block
-
 #使ったブロックのリスト
 greenUsedBlocks = []
 yellowUsedBlocks = []
@@ -166,7 +144,6 @@ def start(game, board):
                 ypos = int(pygame.mouse.get_pos()[1]/game.TILE_LENGTH) # 下方向に正
                 if whoTurn == GREEN:
                     if board.green_board[ypos][xpos] != board.CANTSET:
-                        # if eval(selected_block + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
                         if board.settable_check(block.selected['shape'], board.green_board, xpos, ypos):
                             board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                             board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
