@@ -1,26 +1,16 @@
 import pygame
 import numpy as np
 
-# TODO: Gameクラスのプロパティから引っ張ってくる
-GREEN  = 'green'
-YELLOW = 'yellow'
-RED    = 'red' # 将来的に実装
-BLUE   = 'blue' # 将来的に実装
-
 # TODO: Playerクラスのプロパティから引っ張ってくる
-#パスリスト
 turnPassedList = [False, False] # GREEN, YELLOWの順番
-
-# TODO: Gameクラスのプロパティから引っ張ってくる
-TILE_NUMBER = 8
 
 class Board():
     BLANK   = 0 # ブロックは置かれていない
     CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
     ABLESET = 2 # 自分のブロックが角で接している
 
-    def __init__(self):
-        self.status = self.make_board()
+    def __init__(self, TILE_NUMBER):
+        self.status = self.make_board(TILE_NUMBER)
         # 緑色のスタート地点
         self.status[3][3][0] = self.ABLESET
         # 黄色のスタート地点
@@ -29,7 +19,7 @@ class Board():
         self.green_board = list(map(lambda x: list(map(lambda y: y[0], x)), self.status))
         self.yellow_board = list(map(lambda x: list(map(lambda y: y[1], x)), self.status))
 
-    def make_board(self):
+    def make_board(self, TILE_NUMBER):
         board  = [[[self.BLANK, self.BLANK] for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
         # 枠を作成
         for i in range(TILE_NUMBER + 2):
@@ -50,12 +40,12 @@ class Board():
         for width in self.yellow_board:
             print(width)
 
-        if whoTurn == GREEN:
+        if whoTurn == game.GREEN:
             print('＝＝＝＝＝緑のターン＝＝＝＝＝')
             if turnPassedList[0]:
                 print('あなたは既にパスしたので、xを入力してください')
                 print('')
-        elif whoTurn == YELLOW:
+        elif whoTurn == game.YELLOW:
             print('＝＝＝＝＝黄のターン＝＝＝＝＝')
             if turnPassedList[1]:
                 print('あなたは既にパスしたので、xを入力してください')
@@ -64,7 +54,7 @@ class Board():
         pygame.display.flip()
         return False
 
-    def settable_area_exist_check(self, block_shape, board_mine):
+    def settable_area_exist_check(self, TILE_NUMBER, block_shape, board_mine):
         settable_area_exist = False
 
         for x in range(1, TILE_NUMBER + 1):

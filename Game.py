@@ -4,6 +4,11 @@ class Game():
     TILE_NUMBER = 8
     TILE_LENGTH = 50
 
+    GREEN  = 'green'
+    YELLOW = 'yellow'
+    RED    = 'red' # 将来的に実装
+    BLUE   = 'blue' # 将来的に実装
+
     # タイルの設置はボード外エラー回避の為2マス広く
     SCREEN_WIDTH  = TILE_LENGTH * (TILE_NUMBER + 2)
     SCREEN_HEIGHT = TILE_LENGTH * (TILE_NUMBER + 2)

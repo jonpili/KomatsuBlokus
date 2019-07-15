@@ -112,7 +112,7 @@ def blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirect
         print('そのブロックは既に使っています')
         block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, whoTurn)
 
-    while not board.settable_area_exist_check(block.selected['shape'], eval('board.' + whoTurn + '_board')):
+    while not board.settable_area_exist_check(game.TILE_NUMBER, block.selected['shape'], eval('board.' + whoTurn + '_board')):
         print('そのブロックを置く場所がありません')
         block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, whoTurn)
 
@@ -166,7 +166,7 @@ def start(game, board):
 
 def main():
     game  = Game.Game()
-    board = Board.Board()
+    board = Board.Board(game.TILE_NUMBER)
     start(game, board)
 
 if __name__ == '__main__':
