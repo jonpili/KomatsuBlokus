@@ -178,7 +178,9 @@ def start(game, board):
 
                 elif whoTurn == YELLOW:
                     if board.yellow_board[ypos][xpos] != board.CANTSET:
-                        if eval(selected_block + '_block').main(game.YELLOW_IMAGE, game.YELLOW_RECT, board.yellow_board, board.green_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
+                        if board.settable_check(block.selected['shape'], board.yellow_board, xpos, ypos):
+                            board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
+                            board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                             board.check_status(game,GREEN)
                             block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, GREEN)
                             selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection)
