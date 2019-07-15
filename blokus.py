@@ -4,6 +4,7 @@ import re
 import numpy as np
 
 import Game
+import Block
 
 from pieces import a_block
 from pieces import b_block
@@ -288,64 +289,10 @@ class Board():
             if board_mine[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
 
-# TODO: ボードクラス完成後に完成させる
-class Block():
-    def __init__(self):
-        self.call_block('j')
-        self.rotate_block(2)
-
-    def call_block(self, selected_shape_index):
-        # selected_shapeに従ってDBから持ってくる
-        self.selected = {
-            'shape': np.asarray([
-            [0,0,1,0,0],
-            [0,0,1,0,0],
-            [0,0,1,0,0],
-            [0,0,1,0,0],
-            [0,0,1,0,0]
-            ]),
-            'influence': np.asarray([
-            [0,0,2,1,2,0,0],
-            [0,0,1,1,1,0,0],
-            [0,0,1,1,1,0,0],
-            [0,0,1,1,1,0,0],
-            [0,0,1,1,1,0,0],
-            [0,0,1,1,1,0,0],
-            [0,0,2,1,2,0,0]
-            ]),
-            'score': 5
-        }
-
-    def rotate_block(self, selected_direction_index):
-        if selected_direction_index == 0: # 初期向き
-            self.selected['shape']     = self.selected['shape']
-            self.selected['influence'] = self.selected['influence']
-        elif selected_direction_index == 1: # 裏向き
-            self.selected['shape']     = np.rot90(self.selected['shape'].T, -1)
-            self.selected['influence'] = np.rot90(self.selected['influence'].T, -1)
-        elif selected_direction_index == 2: # 初期向きから90°時計回りに
-            self.selected['shape']     = np.rot90(self.selected['shape'], -1)
-            self.selected['influence'] = np.rot90(self.selected['influence'], -1)
-        elif selected_direction_index == 3: # 裏向きから90°反時計回りに
-            self.selected['shape']     = self.selected['shape'].T
-            self.selected['influence'] = self.selected['influence'].T
-        elif selected_direction_index == 4: # 初期向きから180°時計回りに
-            self.selected['shape']     = np.rot90(self.selected['shape'], -2)
-            self.selected['influence'] = np.rot90(self.selected['influence'], -2)
-        elif selected_direction_index == 5: # 裏向きから180°反時計回りに
-            self.selected['shape']     = np.rot90(self.selected['shape'].T, -3)
-            self.selected['influence'] = np.rot90(self.selected['influence'].T, -3)
-        elif selected_direction_index == 6: # 初期向きから270°時計回りに
-            self.selected['shape']     = np.rot90(self.selected['shape'], -3)
-            self.selected['influence'] = np.rot90(self.selected['influence'], -3)
-        elif selected_direction_index == 7: # 裏向きから270°反時計回りに
-            self.selected['shape']     = np.rot90(self.selected['shape'].T, -2)
-            self.selected['influence'] = np.rot90(self.selected['influence'].T, -2)
-
 def main():
-    game = Game.Game()
+    game  = Game.Game()
     board = Board()
-    block = Block()
+    block = Block.Block()
     start(game, board)
 
 if __name__ == '__main__':
