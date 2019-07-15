@@ -56,8 +56,7 @@ def skipTurn(game, board, whoTurn):
         nextPlayer = GREEN
 
     block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, nextPlayer)
-    rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
-    selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape)
+    selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, block.selected['shape'])
 
     eval(whoTurn + 'UsedBlocks').pop()
 
@@ -130,46 +129,14 @@ def selectBlock(game, board, whoTurn):
 
     return block, whoTurn, selected_block, selectedDirection
 
-def rotateBlock(selected_block, selectedDirection):
-    block_shape, block_influences = eval(selected_block + '_block').setBlockInfo()
-
-    if selectedDirection == 0: # 初期向き
-        rotated_block_shape      = block_shape
-        rotatedBlockInfluences = block_influences
-    elif selectedDirection == 1: # 裏向き
-        rotated_block_shape      = np.rot90(block_shape.T, -1)
-        rotatedBlockInfluences = np.rot90(block_influences.T, -1)
-    elif selectedDirection == 2: # 初期向きから90°時計回りに
-        rotated_block_shape      = np.rot90(block_shape, -1)
-        rotatedBlockInfluences = np.rot90(block_influences, -1)
-    elif selectedDirection == 3: # 裏向きから90°反時計回りに
-        rotated_block_shape      = block_shape.T
-        rotatedBlockInfluences = block_influences.T
-    elif selectedDirection == 4: # 初期向きから180°時計回りに
-        rotated_block_shape      = np.rot90(block_shape, -2)
-        rotatedBlockInfluences = np.rot90(block_influences, -2)
-    elif selectedDirection == 5: # 裏向きから180°反時計回りに
-        rotated_block_shape      = np.rot90(block_shape.T, -3)
-        rotatedBlockInfluences = np.rot90(block_influences.T, -3)
-    elif selectedDirection == 6: # 初期向きから270°時計回りに
-        rotated_block_shape      = np.rot90(block_shape, -3)
-        rotatedBlockInfluences = np.rot90(block_influences, -3)
-    elif selectedDirection == 7: # 裏向きから270°反時計回りに
-        rotated_block_shape      = np.rot90(block_shape.T, -2)
-        rotatedBlockInfluences = np.rot90(block_influences.T, -2)
-
-    return rotated_block_shape
-
 def blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape):
     while selected_block in eval(whoTurn + 'UsedBlocks'):
         print('そのブロックは既に使っています')
         block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, whoTurn)
-        rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
 
     while not board.settable_area_exist_check(block.selected['shape'], eval('board.' + whoTurn + '_board')):
         print('そのブロックを置く場所がありません')
         block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, whoTurn)
-        rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
 
     eval(whoTurn + 'UsedBlocks').append(selected_block)
 
@@ -179,8 +146,7 @@ def start(game, board):
     # ゲームスタート処理
     board.check_status(game, GREEN)
     block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, GREEN)
-    rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
-    selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape)
+    selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, block.selected['shape'])
 
     while True:
         for event in pygame.event.get():
@@ -193,8 +159,7 @@ def start(game, board):
                 print('\n選択がキャンセルされました\n')
                 eval(whoTurn + 'UsedBlocks').pop()
                 block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, whoTurn)
-                rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
-                selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape)
+                selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, block.selected['shape'])
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
@@ -204,8 +169,7 @@ def start(game, board):
                         if eval(selected_block + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
                             board.check_status(game, YELLOW)
                             block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, YELLOW)
-                            rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
-                            selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape)
+                            selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, block.selected['shape'])
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
@@ -214,8 +178,7 @@ def start(game, board):
                         if eval(selected_block + '_block').main(game.YELLOW_IMAGE, game.YELLOW_RECT, board.yellow_board, board.green_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
                             board.check_status(game,GREEN)
                             block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, GREEN)
-                            rotated_block_shape                         = rotateBlock(selected_block, selectedDirection)
-                            selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, rotated_block_shape)
+                            selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection, block.selected['shape'])
                         else: print('ここには置けません')
                     else: print('ここには置けません')
 
