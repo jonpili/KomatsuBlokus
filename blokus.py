@@ -126,8 +126,8 @@ def selectBlock(game, board, whoTurn):
         selectedDirection = input('向きを選択してください：')
     selectedDirection = int(selectedDirection)
 
-    eval(selected_block + '_block').display(selectedDirection)
-
+    block = Block.Block(selected_block, selectedDirection)
+    
     return whoTurn, selected_block, selectedDirection
 
 def rotateBlock(selected_block, selectedDirection):
@@ -222,7 +222,6 @@ def start(game, board):
 def main():
     game  = Game.Game()
     board = Board.Board()
-    block = Block.Block()
     start(game, board)
 
 if __name__ == '__main__':

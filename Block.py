@@ -3,14 +3,13 @@ import math
 import platform
 
 class Block():
-    def __init__(self):
-        self.call_block('j')
-        self.rotate_block(2)
+    def __init__(self, selected_shape_index, selected_direction_index):
+        self.call_block(selected_shape_index)
+        self.rotate_block(selected_direction_index)
         self.show_selected()
 
     def call_block(self, selected_shape_index):
-        # selected_shapeに従ってDBから持ってくる
-        self.selected = block_table['j']
+        self.selected = block_table[selected_shape_index]
 
     def rotate_block(self, selected_direction_index):
         if selected_direction_index == 0: # 初期向き
