@@ -27,7 +27,7 @@ BLUE   = 'blue' # 将来的に実装
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
-def pass(board, who_turn):
+def pass_my_turn(board, who_turn):
     if who_turn == GREEN:
         next_player = YELLOW
     elif who_turn == YELLOW:
@@ -94,7 +94,7 @@ def select_block(board, who_turn):
                 if score_check():
                     sys.exit()
                 else:
-                    block, who_turn = pass(board, who_turn)
+                    block, who_turn = pass_my_turn(board, who_turn)
                     return block, who_turn
             else:
                 print('入力が間違っています\n')
