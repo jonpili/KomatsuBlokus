@@ -70,7 +70,6 @@ def scoreCheck():
     else:
         return False
 
-
 blockSpells  = [chr(ord('a') + i) for i in range(21)] # aからuの配列
 blockNumbers = [str(n) for n in range(8)] # 0から7の配列
 
