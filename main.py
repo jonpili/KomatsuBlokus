@@ -77,15 +77,15 @@ def select_block(board, who_turn):
     print(sorted(eval(who_turn + 'UsedBlocks')))
     print('')
 
-    selected_block = input('ブロックを選択してください：')
+    selected_shape_index = input('ブロックを選択してください：')
 
-    while selected_block in eval(who_turn + 'UsedBlocks') or not selected_block in blockSpells:
-        if selected_block in eval(who_turn + 'UsedBlocks'):
+    while selected_shape_index in eval(who_turn + 'UsedBlocks') or not selected_shape_index in blockSpells:
+        if selected_shape_index in eval(who_turn + 'UsedBlocks'):
             print('そのブロックは既に使っています\n')
-            selected_block = input('ブロックを選択してください：')
+            selected_shape_index = input('ブロックを選択してください：')
         else:
             # Xキーが入力されたらターンスキップ
-            if selected_block == 'x':
+            if selected_shape_index == 'x':
                 if who_turn == GREEN:
                     turnPassedList[0] = True
                 elif who_turn == YELLOW:
@@ -98,16 +98,16 @@ def select_block(board, who_turn):
                     return block, who_turn
             else:
                 print('入力が間違っています\n')
-                selected_block = input('ブロックを選択してください：')
+                selected_shape_index = input('ブロックを選択してください：')
 
-    selectedDirection = input('向きを選択してください：')
-    while not selectedDirection in blockNumbers:
+    selected_direction_index = input('向きを選択してください：')
+    while not selected_direction_index in blockNumbers:
         print('入力が間違っています')
-        selectedDirection = input('向きを選択してください：')
-    selectedDirection = int(selectedDirection)
+        selected_direction_index = input('向きを選択してください：')
+    selected_direction_index = int(selected_direction_index)
 
-    block = Block.Block(selected_block, selectedDirection)
-    eval(who_turn + 'UsedBlocks').append(selected_block)
+    block = Block.Block(selected_shape_index, selected_direction_index)
+    eval(who_turn + 'UsedBlocks').append(selected_shape_index)
 
     return block, who_turn
 
