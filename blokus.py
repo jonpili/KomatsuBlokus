@@ -166,7 +166,10 @@ def start(game, board):
                 ypos = int(pygame.mouse.get_pos()[1]/game.TILE_LENGTH) # 下方向に正
                 if whoTurn == GREEN:
                     if board.green_board[ypos][xpos] != board.CANTSET:
-                        if eval(selected_block + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
+                        # if eval(selected_block + '_block').main(game.GREEN_IMAGE, game.GREEN_RECT, board.green_board, board.yellow_board, selectedDirection, xpos, ypos, game.surface, game.TILE_LENGTH):
+                        if board.settable_check(block.selected['shape'], board.green_board, xpos, ypos):
+                            board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
+                            board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                             board.check_status(game, YELLOW)
                             block, whoTurn, selected_block, selectedDirection = selectBlock(game, board, YELLOW)
                             selected_block, selectedDirection          = blockUsableCheck(game, board, block, whoTurn, selected_block, selectedDirection)

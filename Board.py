@@ -64,12 +64,12 @@ class Board():
         pygame.display.flip()
         return False
 
-    def settable_area_exist_check(self, rotated_block_shape, board_mine):
+    def settable_area_exist_check(self, block_shape, board_mine):
         settable_area_exist = False
 
         for x in range(1, TILE_NUMBER + 1):
             for y in range(1, TILE_NUMBER + 1):
-                if self.settable_check(rotated_block_shape, board_mine, x, y):
+                if self.settable_check(block_shape, board_mine, x, y):
                     settable_area_exist = True
 
         return settable_area_exist
@@ -83,3 +83,19 @@ class Board():
         for coord in np.argwhere(block_shape == self.CANTSET):
             if board_mine[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
+
+    def change_status(self, block_shape, block_influence, board_mine, board_opponent, x, y):
+        # ブロックの影響を自分のボードに適用
+        for coord in np.argwhere(block_influence == self.CANTSET):
+            board_mine[y + coord[0] - 3][x + coord[1] - 3] = self.CANTSET
+        for coord in np.argwhere(block_influence == self.ABLESET):
+            if board_mine[y + coord[0] - 3][x + coord[1] - 3] == self.BLANK:
+                board_mine[y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
+
+        # ブロックの影響を自分以外のボードに適用
+        for coord in np.argwhere(block_shape == self.CANTSET):
+            board_opponent[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
+
+    def change_image(self, block_shape, color_image, color_rect, x, y, surface, TILE_LENGTH):
+        for coord in np.argwhere(block_shape == self.CANTSET):
+            surface.blit(color_image, color_rect.move(TILE_LENGTH * (x + coord[1] - 2), TILE_LENGTH * (y + coord[0] - 2)))

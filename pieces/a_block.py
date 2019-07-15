@@ -30,64 +30,64 @@ def setBlockInfo():
 
     return blockShape, blockInfluences
 
-def display(selectedDirection):
-    blockShape, blockInfluences = setBlockInfo()
-
-    if selectedDirection == 0: # 初期向き
-        pass
-    elif selectedDirection == 1: # 裏向き
-        blockShape = np.rot90(blockShape.T, -1)
-    elif selectedDirection == 2: # 初期向きから90°時計回りに
-        blockShape = np.rot90(blockShape, -1)
-    elif selectedDirection == 3: # 裏向きから90°反時計回りに
-        blockShape = blockShape.T
-    elif selectedDirection == 4: # 初期向きから180°時計回りに
-        blockShape = np.rot90(blockShape, -2)
-    elif selectedDirection == 5: # 裏向きから180°反時計回りに
-        blockShape = np.rot90(blockShape.T, -3)
-    elif selectedDirection == 6: # 初期向きから270°時計回りに
-        blockShape = np.rot90(blockShape, -3)
-    elif selectedDirection == 7: # 裏向きから270°反時計回りに
-        blockShape = np.rot90(blockShape.T, -2)
-
-    print('')
-    print('【選択中のブロック】')
-
-    # 上の枠
-    print('　', end='')
-    for i in range(len(blockShape)):
-        print('＿', end='')
-    print('　')
-
-    # 1を黒四角に、0を空白に置換
-    center = math.floor(len(blockShape)/2)
-    pf = platform.system()
-
-    if pf == 'Windows':
-        for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
-            print('｜', end='')
-            for indexCol, col in enumerate(line):
-                if indexLine == center and indexCol == center:
-                    print('■', end='')
-                else:
-                    print(col, end='')
-            print('｜')
-        print('　', end='')
-    else:
-        for indexLine, line in enumerate(np.where(blockShape > 0, '䨻', '　')):
-            print('｜', end='')
-            for indexCol, col in enumerate(line):
-                if indexLine == center and indexCol == center:
-                    print('䨻', end='')
-                else:
-                    print(col, end='')
-            print('｜')
-        print('　', end='')
-
-    # 下の枠
-    for i in range(len(blockShape)):
-        print('￣', end='')
-    print('　')
+# def display(selectedDirection):
+#     blockShape, blockInfluences = setBlockInfo()
+#
+#     if selectedDirection == 0: # 初期向き
+#         pass
+#     elif selectedDirection == 1: # 裏向き
+#         blockShape = np.rot90(blockShape.T, -1)
+#     elif selectedDirection == 2: # 初期向きから90°時計回りに
+#         blockShape = np.rot90(blockShape, -1)
+#     elif selectedDirection == 3: # 裏向きから90°反時計回りに
+#         blockShape = blockShape.T
+#     elif selectedDirection == 4: # 初期向きから180°時計回りに
+#         blockShape = np.rot90(blockShape, -2)
+#     elif selectedDirection == 5: # 裏向きから180°反時計回りに
+#         blockShape = np.rot90(blockShape.T, -3)
+#     elif selectedDirection == 6: # 初期向きから270°時計回りに
+#         blockShape = np.rot90(blockShape, -3)
+#     elif selectedDirection == 7: # 裏向きから270°反時計回りに
+#         blockShape = np.rot90(blockShape.T, -2)
+#
+#     print('')
+#     print('【選択中のブロック】')
+#
+#     # 上の枠
+#     print('　', end='')
+#     for i in range(len(blockShape)):
+#         print('＿', end='')
+#     print('　')
+#
+#     # 1を黒四角に、0を空白に置換
+#     center = math.floor(len(blockShape)/2)
+#     pf = platform.system()
+#
+#     if pf == 'Windows':
+#         for indexLine, line in enumerate(np.where(blockShape > 0, '□', '　')):
+#             print('｜', end='')
+#             for indexCol, col in enumerate(line):
+#                 if indexLine == center and indexCol == center:
+#                     print('■', end='')
+#                 else:
+#                     print(col, end='')
+#             print('｜')
+#         print('　', end='')
+#     else:
+#         for indexLine, line in enumerate(np.where(blockShape > 0, '䨻', '　')):
+#             print('｜', end='')
+#             for indexCol, col in enumerate(line):
+#                 if indexLine == center and indexCol == center:
+#                     print('䨻', end='')
+#                 else:
+#                     print(col, end='')
+#             print('｜')
+#         print('　', end='')
+#
+#     # 下の枠
+#     for i in range(len(blockShape)):
+#         print('￣', end='')
+#     print('　')
 
 def settableCheck(blockShape, boardMine, x, y):
     # 1つでもCANTSETがあれば置けない
