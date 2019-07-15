@@ -12,8 +12,7 @@ greenUsedBlocks = []
 yellowUsedBlocks = []
 
 # TODO: Playerクラスのプロパティから引っ張ってくる
-#パスリスト
-turnPassedList = [False, False] # GREEN, YELLOWの順番
+turn_passed_list = [False, False] # GREEN, YELLOWの順番
 
 #TODO: Block.pyのblock_tableから引っ張ってくる
 scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
@@ -33,6 +32,8 @@ def pass_my_turn(board, who_turn):
     elif who_turn == YELLOW:
         next_player = GREEN
 
+    print('\n＝＝＝＝＝' + next_player + '\'s Turn＝＝＝＝＝')
+    print('相手がパスしました\n')
     block, who_turn = select_block(board, next_player)
     block_usable_check(board, block, who_turn)
 
@@ -41,7 +42,7 @@ def pass_my_turn(board, who_turn):
     return block, who_turn
 
 def score_check():
-    if all(turnPassedList):
+    if all(turn_passed_list):
         #スコアチェック
         greenRemainingBlock = list(set(blockSpells) - set(greenUsedBlocks))
         yellowRemainingBlock = list(set(blockSpells) - set(yellowUsedBlocks))
@@ -64,7 +65,7 @@ def score_check():
             else:
                 print('引き分けです')
 
-        turnPassedList[0] = False
+        turn_passed_list[0] = False
         return True
     else:
         return False
@@ -87,9 +88,9 @@ def select_block(board, who_turn):
             # Xキーが入力されたらターンスキップ
             if selected_shape_index == 'x':
                 if who_turn == GREEN:
-                    turnPassedList[0] = True
+                    turn_passed_list[0] = True
                 elif who_turn == YELLOW:
-                    turnPassedList[1] = True
+                    turn_passed_list[1] = True
 
                 if score_check():
                     sys.exit()
@@ -119,7 +120,7 @@ def block_usable_check(board, block, who_turn):
 
 def start(game, board):
     # ゲームスタート処理
-    board.check_status(game, GREEN)
+    board.check_status(game, turn_passed_list, GREEN)
     block, who_turn = select_block(board, GREEN)
     block_usable_check(board, block, who_turn)
 
@@ -143,7 +144,7 @@ def start(game, board):
                     if board.settable_check(block.selected['shape'], board.green_board, xpos, ypos):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
-                        board.check_status(game, YELLOW)
+                        board.check_status(game, turn_passed_list, YELLOW)
                         block, who_turn = select_block(board, YELLOW)
                         block_usable_check(board, block, who_turn)
                     else: print('ここには置けません')
@@ -152,7 +153,7 @@ def start(game, board):
                     if board.settable_check(block.selected['shape'], board.yellow_board, xpos, ypos):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
-                        board.check_status(game,GREEN)
+                        board.check_status(game, turn_passed_list, GREEN)
                         block, who_turn = select_block(board, GREEN)
                         block_usable_check(board, block, who_turn)
                     else: print('ここには置けません')

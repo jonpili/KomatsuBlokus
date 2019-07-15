@@ -1,9 +1,6 @@
 import pygame
 import numpy as np
 
-# TODO: Playerクラスのプロパティから引っ張ってくる
-turnPassedList = [False, False] # GREEN, YELLOWの順番
-
 class Board():
     BLANK   = 0 # ブロックは置かれていない
     CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
@@ -31,7 +28,7 @@ class Board():
         board = np.asarray(board)
         return board
 
-    def check_status(self, game, whoTurn):
+    def check_status(self, game, turn_passed_list, who_turn):
         print('')
         print('ーーーーー緑色の盤面ーーーーー')
         for width in self.green_board:
@@ -40,19 +37,18 @@ class Board():
         for width in self.yellow_board:
             print(width)
 
-        if whoTurn == game.GREEN:
-            print('＝＝＝＝＝緑のターン＝＝＝＝＝')
-            if turnPassedList[0]:
+        print('＝＝＝＝＝' + who_turn + '\'s Turn＝＝＝＝＝')
+
+        if who_turn == game.GREEN:
+            if turn_passed_list[0]:
                 print('あなたは既にパスしたので、xを入力してください')
                 print('')
-        elif whoTurn == game.YELLOW:
-            print('＝＝＝＝＝黄のターン＝＝＝＝＝')
-            if turnPassedList[1]:
+        elif who_turn == game.YELLOW:
+            if turn_passed_list[1]:
                 print('あなたは既にパスしたので、xを入力してください')
                 print('')
 
         pygame.display.flip()
-        return False
 
     def settable_area_exist_check(self, TILE_NUMBER, block_shape, board_mine):
         settable_area_exist = False
