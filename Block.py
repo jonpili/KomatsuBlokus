@@ -1,10 +1,12 @@
 import numpy as np
+import math
+import platform
 
 class Block():
     def __init__(self):
         self.call_block('j')
         self.rotate_block(2)
-        print(self.selected['shape'])
+        self.show_selected()
 
     def call_block(self, selected_shape_index):
         # selected_shapeに従ってDBから持ってくる
@@ -35,6 +37,46 @@ class Block():
         elif selected_direction_index == 7: # 裏向きから270°反時計回りに
             self.selected['shape']     = np.rot90(self.selected['shape'].T, -2)
             self.selected['influence'] = np.rot90(self.selected['influence'].T, -2)
+
+    def show_selected(self):
+        print('')
+        print('【選択中のブロック】')
+
+        # 上の枠
+        print('　', end='')
+        for i in range(len(self.selected['shape'])):
+            print('＿', end='')
+        print('　')
+
+        # 1を黒四角に、0を空白に置換
+        center = math.floor(len(self.selected['shape'])/2)
+        pf = platform.system()
+
+        if pf == 'Windows':
+            for indexLine, line in enumerate(np.where(self.selected['shape'] > 0, '□', '　')):
+                print('｜', end='')
+                for indexCol, col in enumerate(line):
+                    if indexLine == center and indexCol == center:
+                        print('■', end='')
+                    else:
+                        print(col, end='')
+                print('｜')
+            print('　', end='')
+        else:
+            for indexLine, line in enumerate(np.where(self.selected['shape'] > 0, '䨻', '　')):
+                print('｜', end='')
+                for indexCol, col in enumerate(line):
+                    if indexLine == center and indexCol == center:
+                        print('䨻', end='')
+                    else:
+                        print(col, end='')
+                print('｜')
+            print('　', end='')
+
+        # 下の枠
+        for i in range(len(self.selected['shape'])):
+            print('￣', end='')
+        print('　')
 
 block_table = {
     'a':{
