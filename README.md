@@ -28,3 +28,11 @@
 | 関数 | 全小文字 + アンダースコア区切り | start_game |
 | 変数 | 全小文字 + アンダースコア区切り | who_turn |
 | 定数 | 全大文字 + アンダースコア区切り | TILE_LENGTH |
+
+## 簡単で網羅的なテスト方法
+1. 緑：j0
+2. 黄：x(check_input：パス)
+3. 緑：j0(check_input：使用済みチェック)
+4. 緑：e0(block_usable_check：置ける場所があるかのチェック)
+5. 緑：a0→zでキャンセル(cancel_selected：キャンセル)
+6. 緑：x(check_input：パス, score_check：点数計算)
