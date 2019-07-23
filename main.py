@@ -102,7 +102,7 @@ def cancel_selected(board, block, who_turn):
     eval(who_turn + 'UsedBlocks').pop()
     block, who_turn = select_block(board, who_turn)
     block_usable_check(board, block, who_turn)
-    return board, block, who_turn
+    return block, who_turn
 
 def pass_my_turn(board, who_turn):
     if who_turn == GREEN:
@@ -116,7 +116,6 @@ def pass_my_turn(board, who_turn):
     block_usable_check(board, block, who_turn)
 
     eval(who_turn + 'UsedBlocks').pop()
-
     return block, who_turn
 
 def block_usable_check(board, block, who_turn):
@@ -139,7 +138,7 @@ def start(game, board):
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                board, block, who_turn = cancel_selected(board, block, who_turn)
+                block, who_turn = cancel_selected(board, block, who_turn)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
