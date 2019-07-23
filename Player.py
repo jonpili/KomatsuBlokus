@@ -19,13 +19,13 @@ class Player():
     def __init__(self, color):
         self.color = color
         self.passed = False
-        self.remaining_blocks = self.block_shape_index_list
+        self.used_blocks = []
         self.selected_shape_index = ''
         self.selected_direction_index = ''
 
     def select_block(self, board):
-        print('既に使っているブロック')
-        print(sorted(eval(self.color + 'UsedBlocks')))
+        print('手持ちのブロックリスト')
+        print([i for i in self.block_shape_index_list if i not in self.used_blocks])
         print('')
 
         self.selected_shape_index = input('ブロックを選択してください：')
@@ -42,13 +42,13 @@ class Player():
             self.selected_direction_index = int(self.selected_direction_index)
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index)
-        eval(self.color + 'UsedBlocks').append(self.selected_shape_index)
+        self.used_blocks.append(self.selected_shape_index)
 
         return block
 
     def check_input(self, board):
-        if self.selected_shape_index in eval(self.color + 'UsedBlocks') or not self.selected_shape_index in self.block_shape_index_list:
-            if self.selected_shape_index in eval(self.color + 'UsedBlocks'):
+        if self.selected_shape_index in self.used_blocks or not self.selected_shape_index in self.block_shape_index_list:
+            if self.selected_shape_index in self.used_blocks:
                 print('そのブロックは既に使っています\n')
                 self.selected_shape_index = input('ブロックを選択してください：')
             else:
@@ -75,7 +75,7 @@ class Player():
 
     def cancel_selected(self, board, block):
         print('\n選択がキャンセルされました\n')
-        eval(self.color + 'UsedBlocks').pop()
+        self.used_blocks.pop()
         block = self.select_block(board)
         block = self.block_usable_check(board, block)
         return block
@@ -98,35 +98,35 @@ class Player():
     def block_usable_check(self, board, block):
         while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + self.color + '_board')):
             print('そのブロックを置く場所がありません')
-            eval(self.color + 'UsedBlocks').pop()
+            self.used_blocks.pop()
             block = self.select_block(board)
         return block
 
-    def score_check(self):
-        if all(turn_passed_list):
-            #スコアチェック
-            greenRemainingBlock = list(set(self.block_shape_index_list) - set(greenUsedBlocks))
-            yellowRemainingBlock = list(set(self.block_shape_index_list) - set(yellowUsedBlocks))
-            greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
-            yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
-            #結果発表
-            print('ゲームは終了です')
-            print('緑色の点数は' + str(greenScore) + '点です')
-            print('黄色の点数は' + str(yellowScore) + '点です')
-
-            if greenScore < yellowScore:
-                print('勝者は「緑色」です')
-            elif greenScore > yellowScore:
-                print('勝者は「黄色」です')
-            else:
-                if len(greenRemainingBlock) < len(yellowRemainingBlock):
-                    print('勝者は「緑色」です')
-                elif len(greenRemainingBlock) > len(yellowRemainingBlock):
-                    print('勝者は「黄色」です')
-                else:
-                    print('引き分けです')
-
-            turn_passed_list[0] = False
-            return True
-        else:
-            return False
+    # def score_check(self):
+    #     if all(turn_passed_list):
+    #         #スコアチェック
+    #         greenRemainingBlock = list(set(self.block_shape_index_list) - set(greenUsedBlocks))
+    #         yellowRemainingBlock = list(set(self.block_shape_index_list) - set(yellowUsedBlocks))
+    #         greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
+    #         yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
+    #         #結果発表
+    #         print('ゲームは終了です')
+    #         print('緑色の点数は' + str(greenScore) + '点です')
+    #         print('黄色の点数は' + str(yellowScore) + '点です')
+    #
+    #         if greenScore < yellowScore:
+    #             print('勝者は「緑色」です')
+    #         elif greenScore > yellowScore:
+    #             print('勝者は「黄色」です')
+    #         else:
+    #             if len(greenRemainingBlock) < len(yellowRemainingBlock):
+    #                 print('勝者は「緑色」です')
+    #             elif len(greenRemainingBlock) > len(yellowRemainingBlock):
+    #                 print('勝者は「黄色」です')
+    #             else:
+    #                 print('引き分けです')
+    #
+    #         turn_passed_list[0] = False
+    #         return True
+    #     else:
+    #         return False
