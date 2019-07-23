@@ -18,7 +18,8 @@ class Player():
 
     def __init__(self, color):
         self.color = color
-        self.passed = ''
+        self.passed = False
+        self.remaining_blocks = self.block_shape_index_list
         self.selected_shape_index = ''
         self.selected_direction_index = ''
 
