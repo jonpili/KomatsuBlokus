@@ -26,21 +26,6 @@ BLUE   = 'blue' # 将来的に実装
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
-def pass_my_turn(board, who_turn):
-    if who_turn == GREEN:
-        next_player = YELLOW
-    elif who_turn == YELLOW:
-        next_player = GREEN
-
-    print('\n＝＝＝＝＝' + next_player + '\'s Turn＝＝＝＝＝')
-    print('相手がパスしました\n')
-    block, who_turn = select_block(board, next_player)
-    block_usable_check(board, block, who_turn)
-
-    eval(who_turn + 'UsedBlocks').pop()
-
-    return block, who_turn
-
 def score_check():
     if all(turn_passed_list):
         #スコアチェック
@@ -112,6 +97,28 @@ def select_block(board, who_turn):
 
     return block, who_turn
 
+def cancel_selected(board, block, who_turn):
+    print('\n選択がキャンセルされました\n')
+    eval(who_turn + 'UsedBlocks').pop()
+    block, who_turn = select_block(board, who_turn)
+    block_usable_check(board, block, who_turn)
+    return board, block, who_turn
+
+def pass_my_turn(board, who_turn):
+    if who_turn == GREEN:
+        next_player = YELLOW
+    elif who_turn == YELLOW:
+        next_player = GREEN
+
+    print('\n＝＝＝＝＝' + next_player + '\'s Turn＝＝＝＝＝')
+    print('相手がパスしました\n')
+    block, who_turn = select_block(board, next_player)
+    block_usable_check(board, block, who_turn)
+
+    eval(who_turn + 'UsedBlocks').pop()
+
+    return block, who_turn
+
 def block_usable_check(board, block, who_turn):
     while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + who_turn + '_board')):
         print('そのブロックを置く場所がありません')
@@ -132,10 +139,7 @@ def start(game, board):
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                print('\n選択がキャンセルされました\n')
-                eval(who_turn + 'UsedBlocks').pop()
-                block, who_turn = select_block(board, who_turn)
-                block_usable_check(board, block, who_turn)
+                board, block, who_turn = cancel_selected(board, block, who_turn)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
