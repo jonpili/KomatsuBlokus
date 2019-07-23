@@ -33,7 +33,6 @@ class Player():
     def __init__(self, color):
         # super().__init__(color)
         self.color = color
-        self.passed = ''
         self.selected_shape_index = ''
         self.selected_direction_index = ''
 
@@ -48,12 +47,11 @@ class Player():
             if self.check_input(board):
                 break
 
-        if not self.passed:
+        self.selected_direction_index = input('向きを選択してください：')
+        while not self.selected_direction_index in self.block_direction_index_list:
+            print('入力が間違っています')
             self.selected_direction_index = input('向きを選択してください：')
-            while not self.selected_direction_index in self.block_direction_index_list:
-                print('入力が間違っています')
-                self.selected_direction_index = input('向きを選択してください：')
-            self.selected_direction_index = int(self.selected_direction_index)
+        self.selected_direction_index = int(self.selected_direction_index)
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index)
         eval(self.color + 'UsedBlocks').append(self.selected_shape_index)
@@ -77,7 +75,6 @@ class Player():
                         sys.exit()
                     else:
                         block = self.pass_my_turn(board)
-                        self.passed = True
                 else:
                     print('入力が間違っています\n')
                     self.selected_shape_index = input('ブロックを選択してください：')
