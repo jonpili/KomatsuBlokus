@@ -85,46 +85,6 @@ class Player():
         else:
             return True
 
-    # def select_block(self, board, game.who_turn):
-    #     print('既に使っているブロック')
-    #     print(sorted(eval(game.who_turn + 'UsedBlocks')))
-    #     print('')
-    #
-    #     selected_shape_index = input('ブロックを選択してください：')
-    #
-    #     while selected_shape_index in eval(game.who_turn + 'UsedBlocks') or not selected_shape_index in self.block_shape_index_list:
-    #         if selected_shape_index in eval(game.who_turn + 'UsedBlocks'):
-    #             print('そのブロックは既に使っています\n')
-    #             selected_shape_index = input('ブロックを選択してください：')
-    #         else:
-    #             # Xキーが入力されたらターンスキップ
-    #             if selected_shape_index == 'x':
-    #                 if game.who_turn == GREEN:
-    #                     turn_passed_list[0] = True
-    #                 elif game.who_turn == YELLOW:
-    #                     turn_passed_list[1] = True
-    #
-    #                 if self.score_check():
-    #                     sys.exit()
-    #                 else:
-    #                     block, game.who_turn = self.pass_my_turn(board, game.who_turn)
-    #                     return block, game.who_turn
-    #             else:
-    #                 print('入力が間違っています\n')
-    #                 selected_shape_index = input('ブロックを選択してください：')
-    #
-    #     selected_direction_index = input('向きを選択してください：')
-    #     while not selected_direction_index in self.block_direction_index_list:
-    #         print('入力が間違っています')
-    #         selected_direction_index = input('向きを選択してください：')
-    #     print('ここではselected_shape_indexは' + selected_shape_index)
-    #     selected_direction_index = int(selected_direction_index)
-    #
-    #     block = Block.Block(selected_shape_index, selected_direction_index)
-    #     eval(game.who_turn + 'UsedBlocks').append(selected_shape_index)
-    #
-    #     return block, game.who_turn
-
     def cancel_selected(self, board, block):
         print('\n選択がキャンセルされました\n')
         eval(self.color + 'UsedBlocks').pop()
@@ -186,8 +146,8 @@ def start(game, board):
     player2 = Player(YELLOW)
     # ゲームスタート処理
     board.check_status(game, turn_passed_list, GREEN)
-    block = player.select_block(board)
-    block = player.block_usable_check(board, block)
+    block = player1.select_block(board)
+    block = player1.block_usable_check(board, block)
 
     while True:
         for event in pygame.event.get():
@@ -197,7 +157,10 @@ def start(game, board):
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                block = player.cancel_selected(board, block)
+                if game.who_turn == GREEN:
+                    block = player1.cancel_selected(board, block)
+                elif game.who_turn == YELLOW:
+                    block = player2.cancel_selected(board, block)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
@@ -208,8 +171,8 @@ def start(game, board):
                         board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         game.who_turn = YELLOW
                         board.check_status(game, turn_passed_list, game.who_turn)
-                        block = player.select_block(board)
-                        block = player.block_usable_check(board, block)
+                        block = player2.select_block(board)
+                        block = player2.block_usable_check(board, block)
                     else: print('ここには置けません')
 
                 elif game.who_turn == YELLOW:
@@ -218,8 +181,8 @@ def start(game, board):
                         board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         game.who_turn = GREEN
                         board.check_status(game, turn_passed_list, game.who_turn)
-                        block = player.select_block(board)
-                        block = player.block_usable_check(board, block)
+                        block = player1.select_block(board)
+                        block = player1.block_usable_check(board, block)
                     else: print('ここには置けません')
 
 def main():
