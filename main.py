@@ -22,7 +22,6 @@ GREEN  = 'green'
 YELLOW = 'yellow'
 RED    = 'red' # 将来的に実装
 BLUE   = 'blue' # 将来的に実装
-who_turn = ''
 
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
@@ -31,20 +30,22 @@ class Player():
     block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
-    def __init__(self):
+    def __init__(self, color):
+        # super().__init__(color)
+        self.color = color
         self.passed = ''
         self.selected_shape_index = ''
         self.selected_direction_index = ''
 
-    def select_block(self, board, who_turn):
+    def select_block(self, board):
         print('既に使っているブロック')
-        print(sorted(eval(who_turn + 'UsedBlocks')))
+        print(sorted(eval(self.color + 'UsedBlocks')))
         print('')
 
         self.selected_shape_index = input('ブロックを選択してください：')
 
         while True:
-            if self.check_input(board, who_turn):
+            if self.check_input(board):
                 break
 
         if not self.passed:
@@ -55,27 +56,27 @@ class Player():
             self.selected_direction_index = int(self.selected_direction_index)
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index)
-        eval(who_turn + 'UsedBlocks').append(self.selected_shape_index)
+        eval(self.color + 'UsedBlocks').append(self.selected_shape_index)
 
-        return block, who_turn
+        return block
 
-    def check_input(self, board, who_turn):
-        if self.selected_shape_index in eval(who_turn + 'UsedBlocks') or not self.selected_shape_index in self.block_shape_index_list:
-            if self.selected_shape_index in eval(who_turn + 'UsedBlocks'):
+    def check_input(self, board):
+        if self.selected_shape_index in eval(self.color + 'UsedBlocks') or not self.selected_shape_index in self.block_shape_index_list:
+            if self.selected_shape_index in eval(self.color + 'UsedBlocks'):
                 print('そのブロックは既に使っています\n')
                 self.selected_shape_index = input('ブロックを選択してください：')
             else:
                 # Xキーが入力されたらターンスキップ
                 if self.selected_shape_index == 'x':
-                    if who_turn == GREEN:
+                    if self.color == GREEN:
                         turn_passed_list[0] = True
-                    elif who_turn == YELLOW:
+                    elif self.color == YELLOW:
                         turn_passed_list[1] = True
 
                     if self.score_check():
                         sys.exit()
                     else:
-                        block, who_turn = self.pass_my_turn(board, who_turn)
+                        block = self.pass_my_turn(board)
                         self.passed = True
                 else:
                     print('入力が間違っています\n')
@@ -84,30 +85,30 @@ class Player():
         else:
             return True
 
-    # def select_block(self, board, who_turn):
+    # def select_block(self, board, game.who_turn):
     #     print('既に使っているブロック')
-    #     print(sorted(eval(who_turn + 'UsedBlocks')))
+    #     print(sorted(eval(game.who_turn + 'UsedBlocks')))
     #     print('')
     #
     #     selected_shape_index = input('ブロックを選択してください：')
     #
-    #     while selected_shape_index in eval(who_turn + 'UsedBlocks') or not selected_shape_index in self.block_shape_index_list:
-    #         if selected_shape_index in eval(who_turn + 'UsedBlocks'):
+    #     while selected_shape_index in eval(game.who_turn + 'UsedBlocks') or not selected_shape_index in self.block_shape_index_list:
+    #         if selected_shape_index in eval(game.who_turn + 'UsedBlocks'):
     #             print('そのブロックは既に使っています\n')
     #             selected_shape_index = input('ブロックを選択してください：')
     #         else:
     #             # Xキーが入力されたらターンスキップ
     #             if selected_shape_index == 'x':
-    #                 if who_turn == GREEN:
+    #                 if game.who_turn == GREEN:
     #                     turn_passed_list[0] = True
-    #                 elif who_turn == YELLOW:
+    #                 elif game.who_turn == YELLOW:
     #                     turn_passed_list[1] = True
     #
     #                 if self.score_check():
     #                     sys.exit()
     #                 else:
-    #                     block, who_turn = self.pass_my_turn(board, who_turn)
-    #                     return block, who_turn
+    #                     block, game.who_turn = self.pass_my_turn(board, game.who_turn)
+    #                     return block, game.who_turn
     #             else:
     #                 print('入力が間違っています\n')
     #                 selected_shape_index = input('ブロックを選択してください：')
@@ -120,36 +121,36 @@ class Player():
     #     selected_direction_index = int(selected_direction_index)
     #
     #     block = Block.Block(selected_shape_index, selected_direction_index)
-    #     eval(who_turn + 'UsedBlocks').append(selected_shape_index)
+    #     eval(game.who_turn + 'UsedBlocks').append(selected_shape_index)
     #
-    #     return block, who_turn
+    #     return block, game.who_turn
 
-    def cancel_selected(self, board, block, who_turn):
+    def cancel_selected(self, board, block):
         print('\n選択がキャンセルされました\n')
-        eval(who_turn + 'UsedBlocks').pop()
-        block, who_turn = self.select_block(board, who_turn)
-        block, who_turn = self.block_usable_check(board, block, who_turn)
-        return block, who_turn
+        eval(self.color + 'UsedBlocks').pop()
+        block = self.select_block(board)
+        block = self.block_usable_check(board, block)
+        return block
 
-    def pass_my_turn(self, board, who_turn):
-        if who_turn == GREEN:
-            next_player = YELLOW
-        elif who_turn == YELLOW:
-            next_player = GREEN
+    def pass_my_turn(self, board):
+        if self.color == GREEN:
+            self.color = YELLOW
+        elif self.color == YELLOW:
+            self.color = GREEN
 
-        print('\n＝＝＝＝＝' + next_player + '\'s Turn＝＝＝＝＝')
+        print('\n＝＝＝＝＝' + self.color + '\'s Turn＝＝＝＝＝')
         print('相手がパスしました\n')
-        block, who_turn = self.select_block(board, next_player)
-        block, who_turn = self.block_usable_check(board, block, who_turn)
+        block = self.select_block(board)
+        block = self.block_usable_check(board, block)
 
-        return block, who_turn
+        return block
 
-    def block_usable_check(self, board, block, who_turn):
-        while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + who_turn + '_board')):
+    def block_usable_check(self, board, block):
+        while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + self.color + '_board')):
             print('そのブロックを置く場所がありません')
-            eval(who_turn + 'UsedBlocks').pop()
-            block, who_turn = self.select_block(board, who_turn)
-        return block, who_turn
+            eval(self.color + 'UsedBlocks').pop()
+            block = self.select_block(board)
+        return block
 
     def score_check(self):
         if all(turn_passed_list):
@@ -181,11 +182,12 @@ class Player():
             return False
 
 def start(game, board):
-    player = Player()
+    player1 = Player(GREEN)
+    player2 = Player(YELLOW)
     # ゲームスタート処理
     board.check_status(game, turn_passed_list, GREEN)
-    block, who_turn = player.select_block(board, GREEN)
-    block, who_turn = player.block_usable_check(board, block, who_turn)
+    block = player.select_block(board)
+    block = player.block_usable_check(board, block)
 
     while True:
         for event in pygame.event.get():
@@ -195,31 +197,33 @@ def start(game, board):
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
             if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                block, who_turn = player.cancel_selected(board, block, who_turn)
+                block = player.cancel_selected(board, block)
             # クリックしたらブロックを配置
             if event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
                 ypos = int(pygame.mouse.get_pos()[1]/game.TILE_LENGTH) # 下方向に正
-                if who_turn == GREEN:
+                if game.who_turn == GREEN:
                     if board.settable_check(block.selected['shape'], board.green_board, xpos, ypos):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
-                        board.check_status(game, turn_passed_list, YELLOW)
-                        block, who_turn = player.select_block(board, YELLOW)
-                        block, who_turn = player.block_usable_check(board, block, who_turn)
+                        game.who_turn = YELLOW
+                        board.check_status(game, turn_passed_list, game.who_turn)
+                        block = player.select_block(board)
+                        block = player.block_usable_check(board, block)
                     else: print('ここには置けません')
 
-                elif who_turn == YELLOW:
+                elif game.who_turn == YELLOW:
                     if board.settable_check(block.selected['shape'], board.yellow_board, xpos, ypos):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
-                        board.check_status(game, turn_passed_list, GREEN)
-                        block, who_turn = player.select_block(board, GREEN)
-                        block, who_turn = player.block_usable_check(board, block, who_turn)
+                        game.who_turn = GREEN
+                        board.check_status(game, turn_passed_list, game.who_turn)
+                        block = player.select_block(board)
+                        block = player.block_usable_check(board, block)
                     else: print('ここには置けません')
 
 def main():
-    game  = Game.Game()
+    game  = Game.Game(GREEN)
     board = Board.Board(game.TILE_NUMBER)
     start(game, board)
 

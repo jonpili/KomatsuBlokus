@@ -36,3 +36,6 @@ class Game():
     pygame.init()
     pygame.display.set_caption('Komatsu Blokus')
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
+
+    def __init__(self, color):
+        self.who_turn = color
