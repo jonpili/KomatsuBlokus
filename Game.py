@@ -1,7 +1,5 @@
 import pygame
 import sys
-import re
-import numpy as np
 
 import Player
 

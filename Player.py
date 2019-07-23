@@ -7,7 +7,7 @@ yellowUsedBlocks = []
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
-#TODO: Block.pyのblock_tableから引っ張ってくる
+#TODO: Blockクラスのblock_tableから引っ張ってくる
 scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
 
 turn_passed_list = [False, False] # GREEN, YELLOWの順番
