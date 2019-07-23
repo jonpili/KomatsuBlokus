@@ -65,21 +65,23 @@ class Player():
                 print('そのブロックは既に使っています\n')
                 self.selected_shape_index = input('ブロックを選択してください：')
             else:
-                # Xキーが入力されたらターンスキップ
-                if self.selected_shape_index == 'x':
-                    if self.color == GREEN:
-                        turn_passed_list[0] = True
-                    elif self.color == YELLOW:
-                        turn_passed_list[1] = True
-
-                    if self.score_check():
-                        sys.exit()
-                    else:
-                        block = self.pass_my_turn(board)
-                        self.passed = True
-                else:
-                    print('入力が間違っています\n')
-                    self.selected_shape_index = input('ブロックを選択してください：')
+                # # Xキーが入力されたらターンスキップ
+                # if self.selected_shape_index == 'x':
+                #     if self.color == GREEN:
+                #         turn_passed_list[0] = True
+                #     elif self.color == YELLOW:
+                #         turn_passed_list[1] = True
+                #
+                #     if self.score_check():
+                #         sys.exit()
+                #     else:
+                #         block = self.pass_my_turn(board)
+                #         self.passed = True
+                # else:
+                #     print('入力が間違っています\n')
+                #     self.selected_shape_index = input('ブロックを選択してください：')
+                print('入力が間違っています\n')
+                self.selected_shape_index = input('ブロックを選択してください：')
             return False
         else:
             return True
@@ -91,22 +93,20 @@ class Player():
         block = self.block_usable_check(board, block)
         return block
 
-    def pass_my_turn(self, board):
-        if self.color == GREEN:
-            game.who_turn = YELLOW
-        elif self.color == YELLOW:
-            game.who_turn = GREEN
-
-            # board.check_status(game, turn_passed_list, game.who_turn)
-            # block = player2.select_block(board)
-            # block = player2.block_usable_check(board, block)
-
-        print('\n＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
-        print('相手がパスしました\n')
-        block = self.select_block(board)
-        block = self.block_usable_check(board, block)
-
-        return block
+    # def pass_my_turn(self, board):
+    #     if self.color == GREEN:
+    #         game.who_turn = YELLOW
+    #     elif self.color == YELLOW:
+    #         game.who_turn = GREEN
+    #
+    #     print('\n＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
+    #     print('相手がパスしました\n')
+    #
+    #     if self.select_block(board)
+    #     block = self.select_block(board)
+    #     block = self.block_usable_check(board, block)
+    #
+    #     return block
 
     def block_usable_check(self, board, block):
         while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + self.color + '_board')):
