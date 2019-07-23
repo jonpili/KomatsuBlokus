@@ -7,7 +7,8 @@ class Board():
     ABLESET = 2 # 自分のブロックが角で接している
 
     def __init__(self, TILE_NUMBER):
-        self.status = self.make_board(TILE_NUMBER)
+        self.TILE_NUMBER = TILE_NUMBER
+        self.status = self.make_board()
         # 緑色のスタート地点
         self.status[3][3][0] = self.ABLESET
         # 黄色のスタート地点
@@ -16,15 +17,15 @@ class Board():
         self.green_board = list(map(lambda x: list(map(lambda y: y[0], x)), self.status))
         self.yellow_board = list(map(lambda x: list(map(lambda y: y[1], x)), self.status))
 
-    def make_board(self, TILE_NUMBER):
-        board  = [[[self.BLANK, self.BLANK] for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
+    def make_board(self):
+        board  = [[[self.BLANK, self.BLANK] for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
         # 枠を作成
-        for i in range(TILE_NUMBER + 2):
+        for i in range(self.TILE_NUMBER + 2):
             board[0][i]              = [self.CANTSET, self.CANTSET]
-            board[TILE_NUMBER + 1][i] = [self.CANTSET, self.CANTSET]
-        for i in range(TILE_NUMBER):
+            board[self.TILE_NUMBER + 1][i] = [self.CANTSET, self.CANTSET]
+        for i in range(self.TILE_NUMBER):
             board[i + 1][0]              = [self.CANTSET, self.CANTSET]
-            board[i + 1][TILE_NUMBER + 1] = [self.CANTSET, self.CANTSET]
+            board[i + 1][self.TILE_NUMBER + 1] = [self.CANTSET, self.CANTSET]
         board = np.asarray(board)
         return board
 
@@ -50,11 +51,11 @@ class Board():
 
         pygame.display.flip()
 
-    def settable_area_exist_check(self, TILE_NUMBER, block_shape, board_mine):
+    def settable_area_exist_check(self, block_shape, board_mine):
         settable_area_exist = False
 
-        for x in range(1, TILE_NUMBER + 1):
-            for y in range(1, TILE_NUMBER + 1):
+        for x in range(1, self.TILE_NUMBER + 1):
+            for y in range(1, self.TILE_NUMBER + 1):
                 if self.settable_check(block_shape, board_mine, x, y):
                     settable_area_exist = True
 

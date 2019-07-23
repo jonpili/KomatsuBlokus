@@ -1,13 +1,5 @@
 import Block
 
-# TODO: Gameクラスのプロパティから引っ張ってくる
-TILE_NUMBER = 8
-
-#TODO: Blockクラスのblock_tableから引っ張ってくる
-scoreTable = {'a':1, 'b':2, 'c':3, 'd':3, 'e':4, 'f':4, 'g':4, 'h':4, 'i':4, 'j':5, 'k':5, 'l':5, 'm':5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5, 't':5, 'u':5}
-
-turn_passed_list = [False, False] # GREEN, YELLOWの順番
-
 class Player():
     block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
@@ -92,7 +84,7 @@ class Player():
     #     return block
 
     def block_usable_check(self, board, block):
-        while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + self.color + '_board')):
+        while not board.settable_area_exist_check(block.selected['shape'], eval('board.' + self.color + '_board')):
             print('そのブロックを置く場所がありません\n')
             self.used_blocks.pop()
             block = self.select_block(board)
