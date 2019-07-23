@@ -156,13 +156,13 @@ def start(game, board):
                 pygame.quit()
                 sys.exit()
             # Zキーが押されたらブロック選択キャンセル
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
                 if game.who_turn == GREEN:
                     block = player1.cancel_selected(board, block)
                 elif game.who_turn == YELLOW:
                     block = player2.cancel_selected(board, block)
             # クリックしたらブロックを配置
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 xpos = int(pygame.mouse.get_pos()[0]/game.TILE_LENGTH) # 右方向に正
                 ypos = int(pygame.mouse.get_pos()[1]/game.TILE_LENGTH) # 下方向に正
                 if game.who_turn == GREEN:
