@@ -8,6 +8,7 @@ class Board():
 
     def __init__(self, TILE_NUMBER):
         self.TILE_NUMBER = TILE_NUMBER
+        
         self.status = self.make_board()
         # 緑色のスタート地点
         self.status[3][3][0] = self.ABLESET
