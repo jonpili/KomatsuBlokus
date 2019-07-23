@@ -1,9 +1,5 @@
 import Block
 
-#使ったブロックのリスト
-greenUsedBlocks = []
-yellowUsedBlocks = []
-
 # TODO: Gameクラスのプロパティから引っ張ってくる
 TILE_NUMBER = 8
 
@@ -97,7 +93,7 @@ class Player():
 
     def block_usable_check(self, board, block):
         while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + self.color + '_board')):
-            print('そのブロックを置く場所がありません')
+            print('そのブロックを置く場所がありません\n')
             self.used_blocks.pop()
             block = self.select_block(board)
         return block
