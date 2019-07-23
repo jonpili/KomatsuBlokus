@@ -58,7 +58,7 @@ def score_check():
 block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
 block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
-def input():
+def select_block():
     print('既に使っているブロック')
     print(sorted(eval(who_turn + 'UsedBlocks')))
     print('')
@@ -66,7 +66,7 @@ def input():
     selected_shape_index = input('ブロックを選択してください：')
 
     while True:
-        if select_block(board, who_turn):
+        if check_input(board, who_turn):
             break
 
     selected_direction_index = input('向きを選択してください：')
@@ -80,7 +80,7 @@ def input():
 
     return block, who_turn
 
-def select_block(board, who_turn):
+def check_input(board, who_turn):
     print('既に使っているブロック')
     print(sorted(eval(who_turn + 'UsedBlocks')))
     print('')
@@ -122,7 +122,7 @@ def select_block(board, who_turn):
 def cancel_selected(board, block, who_turn):
     print('\n選択がキャンセルされました\n')
     eval(who_turn + 'UsedBlocks').pop()
-    block, who_turn = select_block(board, who_turn)
+    block, who_turn = check_input(board, who_turn)
     block_usable_check(board, block, who_turn)
     return block, who_turn
 
@@ -134,7 +134,7 @@ def pass_my_turn(board, who_turn):
 
     print('\n＝＝＝＝＝' + next_player + '\'s Turn＝＝＝＝＝')
     print('相手がパスしました\n')
-    block, who_turn = select_block(board, next_player)
+    block, who_turn = check_input(board, next_player)
     block_usable_check(board, block, who_turn)
 
     eval(who_turn + 'UsedBlocks').pop()
@@ -144,12 +144,12 @@ def block_usable_check(board, block, who_turn):
     while not board.settable_area_exist_check(TILE_NUMBER, block.selected['shape'], eval('board.' + who_turn + '_board')):
         print('そのブロックを置く場所がありません')
         eval(who_turn + 'UsedBlocks').pop()
-        block, who_turn = select_block(board, who_turn)
+        block, who_turn = check_input(board, who_turn)
 
 def start(game, board):
     # ゲームスタート処理
     board.check_status(game, turn_passed_list, GREEN)
-    block, who_turn = select_block(board, GREEN)
+    block, who_turn = check_input(board, GREEN)
     block_usable_check(board, block, who_turn)
 
     while True:
@@ -170,7 +170,7 @@ def start(game, board):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         board.check_status(game, turn_passed_list, YELLOW)
-                        block, who_turn = select_block(board, YELLOW)
+                        block, who_turn = check_input(board, YELLOW)
                         block_usable_check(board, block, who_turn)
                     else: print('ここには置けません')
 
@@ -179,7 +179,7 @@ def start(game, board):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         board.check_status(game, turn_passed_list, GREEN)
-                        block, who_turn = select_block(board, GREEN)
+                        block, who_turn = check_input(board, GREEN)
                         block_usable_check(board, block, who_turn)
                     else: print('ここには置けません')
 
