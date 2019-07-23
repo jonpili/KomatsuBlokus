@@ -8,7 +8,7 @@ class Board():
 
     def __init__(self, TILE_NUMBER):
         self.TILE_NUMBER = TILE_NUMBER
-        
+
         self.status = self.make_board()
         # 緑色のスタート地点
         self.status[3][3][0] = self.ABLESET
@@ -30,7 +30,7 @@ class Board():
         board = np.asarray(board)
         return board
 
-    def check_status(self, game, turn_passed_list):
+    def check_status(self, game):
         print('')
         print('ーーーーー緑色の盤面ーーーーー')
         for width in self.green_board:
@@ -41,14 +41,14 @@ class Board():
 
         print('＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
 
-        if game.who_turn == game.GREEN:
-            if turn_passed_list[0]:
-                print('あなたは既にパスしたので、xを入力してください')
-                print('')
-        elif game.who_turn == game.YELLOW:
-            if turn_passed_list[1]:
-                print('あなたは既にパスしたので、xを入力してください')
-                print('')
+        # if game.who_turn == game.GREEN:
+        #     if turn_passed_list[0]:
+        #         print('あなたは既にパスしたので、xを入力してください')
+        #         print('')
+        # elif game.who_turn == game.YELLOW:
+        #     if turn_passed_list[1]:
+        #         print('あなたは既にパスしたので、xを入力してください')
+        #         print('')
 
         pygame.display.flip()
 

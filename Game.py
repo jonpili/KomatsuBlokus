@@ -3,9 +3,6 @@ import sys
 
 import Player
 
-# TODO: Playerクラスのプロパティから引っ張ってくる
-turn_passed_list = [False, False] # GREEN, YELLOWの順番
-
 class Game():
     TILE_NUMBER = 8
     TILE_LENGTH = 50
@@ -50,7 +47,7 @@ class Game():
         player1 = Player.Player(self.GREEN)
         player2 = Player.Player(self.YELLOW)
         # ゲームスタート処理
-        board.check_status(game, turn_passed_list)
+        board.check_status(game)
         block = player1.select_block(board)
         block = player1.block_usable_check(board, block)
 
@@ -75,7 +72,7 @@ class Game():
                             board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                             board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                             game.who_turn = self.YELLOW
-                            board.check_status(game, turn_passed_list)
+                            board.check_status(game)
                             block = player2.select_block(board)
                             block = player2.block_usable_check(board, block)
                         else: print('ここには置けません')
@@ -85,7 +82,7 @@ class Game():
                             board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
                             board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                             game.who_turn = self.GREEN
-                            board.check_status(game, turn_passed_list)
+                            board.check_status(game)
                             block = player1.select_block(board)
                             block = player1.block_usable_check(board, block)
                         else: print('ここには置けません')
