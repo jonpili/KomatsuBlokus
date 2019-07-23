@@ -31,7 +31,6 @@ class Player():
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
     def __init__(self, color):
-        # super().__init__(color)
         self.color = color
         self.passed = ''
         self.selected_shape_index = ''
@@ -94,11 +93,15 @@ class Player():
 
     def pass_my_turn(self, board):
         if self.color == GREEN:
-            self.color = YELLOW
+            game.who_turn = YELLOW
         elif self.color == YELLOW:
-            self.color = GREEN
+            game.who_turn = GREEN
 
-        print('\n＝＝＝＝＝' + self.color + '\'s Turn＝＝＝＝＝')
+            # board.check_status(game, turn_passed_list, game.who_turn)
+            # block = player2.select_block(board)
+            # block = player2.block_usable_check(board, block)
+
+        print('\n＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
         print('相手がパスしました\n')
         block = self.select_block(board)
         block = self.block_usable_check(board, block)
@@ -145,7 +148,7 @@ def start(game, board):
     player1 = Player(GREEN)
     player2 = Player(YELLOW)
     # ゲームスタート処理
-    board.check_status(game, turn_passed_list, GREEN)
+    board.check_status(game, turn_passed_list)
     block = player1.select_block(board)
     block = player1.block_usable_check(board, block)
 
@@ -170,7 +173,7 @@ def start(game, board):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.GREEN_IMAGE, game.GREEN_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         game.who_turn = YELLOW
-                        board.check_status(game, turn_passed_list, game.who_turn)
+                        board.check_status(game, turn_passed_list)
                         block = player2.select_block(board)
                         block = player2.block_usable_check(board, block)
                     else: print('ここには置けません')
@@ -180,7 +183,7 @@ def start(game, board):
                         board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
                         board.change_image(block.selected['shape'], game.YELLOW_IMAGE, game.YELLOW_RECT, xpos, ypos, game.surface, game.TILE_LENGTH)
                         game.who_turn = GREEN
-                        board.check_status(game, turn_passed_list, game.who_turn)
+                        board.check_status(game, turn_passed_list)
                         block = player1.select_block(board)
                         block = player1.block_usable_check(board, block)
                     else: print('ここには置けません')

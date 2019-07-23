@@ -28,7 +28,7 @@ class Board():
         board = np.asarray(board)
         return board
 
-    def check_status(self, game, turn_passed_list, who_turn):
+    def check_status(self, game, turn_passed_list):
         print('')
         print('ーーーーー緑色の盤面ーーーーー')
         for width in self.green_board:
@@ -37,13 +37,13 @@ class Board():
         for width in self.yellow_board:
             print(width)
 
-        print('＝＝＝＝＝' + who_turn + '\'s Turn＝＝＝＝＝')
+        print('＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
 
-        if who_turn == game.GREEN:
+        if game.who_turn == game.GREEN:
             if turn_passed_list[0]:
                 print('あなたは既にパスしたので、xを入力してください')
                 print('')
-        elif who_turn == game.YELLOW:
+        elif game.who_turn == game.YELLOW:
             if turn_passed_list[1]:
                 print('あなたは既にパスしたので、xを入力してください')
                 print('')
