@@ -53,6 +53,14 @@ class Game():
 
         while True:
             for event in pygame.event.get():
+                # if game.who_turn == self.GREEN:
+                #     board.check_status(game)
+                #     block = player1.select_block(board)
+                #     block = player1.block_usable_check(board, block)
+                # elif game.who_turn == self.YELLOW:
+                #     board.check_status(game)
+                #     block = player2.select_block(board)
+                #     block = player2.block_usable_check(board, block)
                 # ESCAPEキーが押されたらゲーム終了
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pygame.quit()
