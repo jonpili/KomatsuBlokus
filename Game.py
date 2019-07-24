@@ -75,12 +75,19 @@ class Game():
             if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
                 board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
                 board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
-                if self.who_turn == self.GREEN:
-                    self.who_turn = self.YELLOW
-                elif self.who_turn == self.YELLOW:
-                    self.who_turn = self.GREEN
+
+                self.change_turn()
                 board.check_status(self)
                 block = eval('player_' + self.who_turn).select_block(board)
                 block = eval('player_' + self.who_turn).block_usable_check(board, block, self.who_turn)
             else: print('ここには置けません')
         return player_green, player_yellow, board, block
+
+    def change_turn(self):
+        color_number = self.COLOR_LIST.index(self.who_turn)
+        color_number += 1
+        if color_number == len(self.COLOR_LIST):
+            color_number -= len(self.COLOR_LIST)
+
+        self.who_turn = self.COLOR_LIST[color_number]
+        print(self.who_turn)
