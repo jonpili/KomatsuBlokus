@@ -6,8 +6,9 @@ class Board():
     CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
     ABLESET = 2 # 自分のブロックが角で接している
 
-    def __init__(self, TILE_NUMBER):
-        self.TILE_NUMBER = TILE_NUMBER
+    def __init__(self, game):
+        self.TILE_NUMBER = game.TILE_NUMBER
+        self.color_list  = [game.GREEN, game.YELLOW]
 
         self.status = self.make_board()
         # 緑色のスタート地点

@@ -3,7 +3,7 @@ import Board
 
 def main():
     game  = Game.Game('green')
-    board = Board.Board(game.TILE_NUMBER)
+    board = Board.Board(game)
     game.start(board)
 
 if __name__ == '__main__':
