@@ -61,11 +61,11 @@ class Player():
         else:
             return True
 
-    def cancel_selected(self, board, block):
+    def cancel_selected(self, board, block, color):
         print('\n選択がキャンセルされました\n')
         self.used_blocks.pop()
         block = self.select_block(board)
-        block = self.block_usable_check(board, block)
+        block = self.block_usable_check(board, block, color)
         return block
 
     # def pass_my_turn(self, board):
@@ -83,8 +83,8 @@ class Player():
     #
     #     return block
 
-    def block_usable_check(self, board, block):
-        while not board.settable_area_exist_check(block.selected['shape'], eval('board.' + self.color + '_board')):
+    def block_usable_check(self, board, block, color):
+        while not board.settable_area_exist_check(color, block.selected['shape']):
             print('そのブロックを置く場所がありません\n')
             self.used_blocks.pop()
             block = self.select_block(board)

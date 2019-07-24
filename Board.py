@@ -52,24 +52,24 @@ class Board():
 
         pygame.display.flip()
 
-    def settable_area_exist_check(self, block_shape, board_mine):
+    def settable_area_exist_check(self, color, block_shape):
         settable_area_exist = False
 
         for x in range(1, self.TILE_NUMBER + 1):
             for y in range(1, self.TILE_NUMBER + 1):
-                if self.settable_check(block_shape, board_mine, x, y):
+                if self.settable_check(color, block_shape, x, y):
                     settable_area_exist = True
 
         return settable_area_exist
 
-    def settable_check(self, block_shape, board_mine, x, y):
+    def settable_check(self, color, block_shape, x, y):
         # 1つでもCANTSETがあれば置けない
         for coord in np.argwhere(block_shape == self.CANTSET):
-            if board_mine[y + coord[0] - 2][x + coord[1] - 2] == self.CANTSET:
+            if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.CANTSET:
                 return False
         # 1つでもABLESETがあれば置ける
         for coord in np.argwhere(block_shape == self.CANTSET):
-            if board_mine[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
+            if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
 
     def change_status(self, block_shape, block_influence, board_mine, board_opponent, x, y):
