@@ -55,32 +55,36 @@ class Game():
 
         while True:
             for event in pygame.event.get():
-                # ESCAPEキーが押されたらゲーム終了
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                # Zキーが押されたらブロック選択キャンセル
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                    if self.who_turn == self.GREEN:
-                        block = player1.cancel_selected(board, block, self.who_turn)
-                    elif self.who_turn == self.YELLOW:
-                        block = player2.cancel_selected(board, block, self.who_turn)
-                # クリックしたらブロックを配置
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
-                    ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
-                    if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
-                        board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                        board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
-                        if self.who_turn == self.GREEN:
-                            self.who_turn = self.YELLOW
-                            board.check_status(self)
-                            block = player2.select_block(board)
-                            block = player2.block_usable_check(board, block, self.who_turn)
-                        elif self.who_turn == self.YELLOW:
-                            self.who_turn = self.GREEN
-                            board.check_status(self)
-                            block = player1.select_block(board)
-                            block = player1.block_usable_check(board, block, self.who_turn)
-                        else: print('ここには置けません')
-                    else: print('ここには置けません')
+                player1, player2, board, block = self.play(player1, player2, board, block, event)
+
+    def play(self, player1, player2, board, block, event):
+        # ESCAPEキーが押されたらゲーム終了
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
+        # Zキーが押されたらブロック選択キャンセル
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+            if self.who_turn == self.GREEN:
+                block = player1.cancel_selected(board, block, self.who_turn)
+            elif self.who_turn == self.YELLOW:
+                block = player2.cancel_selected(board, block, self.who_turn)
+        # クリックしたらブロックを配置
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
+            ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
+            if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
+                board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
+                board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
+                if self.who_turn == self.GREEN:
+                    self.who_turn = self.YELLOW
+                    board.check_status(self)
+                    block = player2.select_block(board)
+                    block = player2.block_usable_check(board, block, self.who_turn)
+                elif self.who_turn == self.YELLOW:
+                    self.who_turn = self.GREEN
+                    board.check_status(self)
+                    block = player1.select_block(board)
+                    block = player1.block_usable_check(board, block, self.who_turn)
+                else: print('ここには置けません')
+            else: print('ここには置けません')
+        return player1, player2, board, block
