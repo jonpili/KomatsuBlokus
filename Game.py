@@ -46,18 +46,18 @@ class Game():
         self.who_turn = color
 
     def start(self, board):
-        player1 = Player.Player(self.GREEN)
-        player2 = Player.Player(self.YELLOW)
+        player_green = Player.Player(self.GREEN)
+        player_yellow = Player.Player(self.YELLOW)
         # ゲームスタート処理
         board.check_status(self)
-        block = player1.select_block(board)
-        block = player1.block_usable_check(board, block, self.who_turn)
+        block = player_green.select_block(board)
+        block = player_green.block_usable_check(board, block, self.who_turn)
 
         while True:
             for event in pygame.event.get():
-                player1, player2, board, block = self.play(player1, player2, board, block, event)
+                player_green, player_yellow, board, block = self.play(player_green, player_yellow, board, block, event)
 
-    def play(self, player1, player2, board, block, event):
+    def play(self, player_green, player_yellow, board, block, event):
         # ESCAPEキーが押されたらゲーム終了
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             pygame.quit()
@@ -65,9 +65,9 @@ class Game():
         # Zキーが押されたらブロック選択キャンセル
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
             if self.who_turn == self.GREEN:
-                block = player1.cancel_selected(board, block, self.who_turn)
+                block = player_green.cancel_selected(board, block, self.who_turn)
             elif self.who_turn == self.YELLOW:
-                block = player2.cancel_selected(board, block, self.who_turn)
+                block = player_yellow.cancel_selected(board, block, self.who_turn)
         # クリックしたらブロックを配置
         elif event.type == pygame.MOUSEBUTTONDOWN:
             xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
@@ -77,14 +77,10 @@ class Game():
                 board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
                 if self.who_turn == self.GREEN:
                     self.who_turn = self.YELLOW
-                    board.check_status(self)
-                    block = player2.select_block(board)
-                    block = player2.block_usable_check(board, block, self.who_turn)
                 elif self.who_turn == self.YELLOW:
                     self.who_turn = self.GREEN
-                    board.check_status(self)
-                    block = player1.select_block(board)
-                    block = player1.block_usable_check(board, block, self.who_turn)
-                else: print('ここには置けません')
+                board.check_status(self)
+                block = eval('player_' + self.who_turn).select_block(board)
+                block = eval('player_' + self.who_turn).block_usable_check(board, block, self.who_turn)
             else: print('ここには置けません')
-        return player1, player2, board, block
+        return player_green, player_yellow, board, block
