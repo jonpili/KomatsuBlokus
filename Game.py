@@ -70,7 +70,7 @@ class Game():
                     if self.who_turn == self.GREEN:
                         if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
                             board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                            board.change_image(block.selected['shape'], self.GREEN_IMAGE, self.GREEN_RECT, xpos, ypos, self.surface, self.TILE_LENGTH)
+                            board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
                             self.who_turn = self.YELLOW
                             board.check_status(self)
                             block = player2.select_block(board)
@@ -80,7 +80,7 @@ class Game():
                     elif self.who_turn == self.YELLOW:
                         if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
                             board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                            board.change_image(block.selected['shape'], self.YELLOW_IMAGE, self.YELLOW_RECT, xpos, ypos, self.surface, self.TILE_LENGTH)
+                            board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
                             self.who_turn = self.GREEN
                             board.check_status(self)
                             block = player1.select_block(board)
