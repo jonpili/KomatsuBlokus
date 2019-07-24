@@ -69,7 +69,7 @@ class Game():
                     ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
                     if self.who_turn == self.GREEN:
                         if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
-                            board.change_status(block.selected['shape'], block.selected['influence'], board.green_board, board.yellow_board, xpos, ypos)
+                            board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
                             board.change_image(block.selected['shape'], self.GREEN_IMAGE, self.GREEN_RECT, xpos, ypos, self.surface, self.TILE_LENGTH)
                             self.who_turn = self.YELLOW
                             board.check_status(self)
@@ -79,7 +79,7 @@ class Game():
 
                     elif self.who_turn == self.YELLOW:
                         if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
-                            board.change_status(block.selected['shape'], block.selected['influence'], board.yellow_board, board.green_board, xpos, ypos)
+                            board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
                             board.change_image(block.selected['shape'], self.YELLOW_IMAGE, self.YELLOW_RECT, xpos, ypos, self.surface, self.TILE_LENGTH)
                             self.who_turn = self.GREEN
                             board.check_status(self)

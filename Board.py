@@ -73,17 +73,19 @@ class Board():
             if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
 
-    def change_status(self, block_shape, block_influence, board_mine, board_opponent, x, y):
+    def change_status(self, color, block_shape, block_influence, x, y):
         # ブロックの影響を自分のボードに適用
         for coord in np.argwhere(block_influence == self.CANTSET):
-            board_mine[y + coord[0] - 3][x + coord[1] - 3] = self.CANTSET
+            eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] = self.CANTSET
         for coord in np.argwhere(block_influence == self.ABLESET):
-            if board_mine[y + coord[0] - 3][x + coord[1] - 3] == self.BLANK:
-                board_mine[y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
+            if eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] == self.BLANK:
+                eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
 
         # ブロックの影響を自分以外のボードに適用
-        for coord in np.argwhere(block_shape == self.CANTSET):
-            board_opponent[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
+        opponent_colors = [i for i in self.color_list if i != color]
+        for opponent_color in opponent_colors:
+            for coord in np.argwhere(block_shape == self.CANTSET):
+                eval('self.' + opponent_color + '_board')[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
 
     def change_image(self, block_shape, color_image, color_rect, x, y, surface, TILE_LENGTH):
         for coord in np.argwhere(block_shape == self.CANTSET):
