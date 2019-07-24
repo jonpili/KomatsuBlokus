@@ -8,7 +8,7 @@ class Board():
 
     def __init__(self, game):
         self.TILE_NUMBER = game.TILE_NUMBER
-        self.color_list  = [game.GREEN, game.YELLOW]
+        self.COLOR_LIST  = game.COLOR_LIST
 
         self.status = self.make_board()
         # 緑色のスタート地点
@@ -82,7 +82,7 @@ class Board():
                 eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
 
         # ブロックの影響を自分以外のボードに適用
-        opponent_colors = [i for i in self.color_list if i != color]
+        opponent_colors = [i for i in self.COLOR_LIST if i != color]
         for opponent_color in opponent_colors:
             for coord in np.argwhere(block_shape == self.CANTSET):
                 eval('self.' + opponent_color + '_board')[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
