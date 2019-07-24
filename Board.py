@@ -86,7 +86,3 @@ class Board():
         for opponent_color in opponent_colors:
             for coord in np.argwhere(block_shape == self.CANTSET):
                 eval('self.' + opponent_color + '_board')[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
-
-    def change_image(self, block_shape, color_image, color_rect, x, y, surface, TILE_LENGTH):
-        for coord in np.argwhere(block_shape == self.CANTSET):
-            surface.blit(color_image, color_rect.move(TILE_LENGTH * (x + coord[1] - 2), TILE_LENGTH * (y + coord[0] - 2)))

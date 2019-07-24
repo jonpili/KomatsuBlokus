@@ -1,5 +1,6 @@
 import pygame
 import sys
+import numpy as np
 
 import Player
 
@@ -74,7 +75,7 @@ class Game():
             ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
             if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
                 board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                board.change_image(block.selected['shape'], eval('self.' + self.who_turn.upper() + '_IMAGE'), eval('self.' + self.who_turn.upper() + '_RECT'), xpos, ypos, self.surface, self.TILE_LENGTH)
+                self.change_image(board, block.selected['shape'], xpos, ypos)
 
                 self.change_turn()
                 board.check_status(self)
@@ -91,3 +92,10 @@ class Game():
 
         self.who_turn = self.COLOR_LIST[color_number]
         print(self.who_turn)
+
+    def change_image(self, board, block_shape, x, y):
+        for coord in np.argwhere(block_shape == board.CANTSET):
+            self.surface.blit(eval('self.' + self.who_turn.upper() + '_IMAGE'),
+                              eval('self.' + self.who_turn.upper() + '_RECT')
+                              .move(self.TILE_LENGTH * (x + coord[1] - 2),
+                                    self.TILE_LENGTH * (y + coord[0] - 2)))
