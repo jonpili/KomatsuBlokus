@@ -30,13 +30,12 @@ class Game():
         'yellow': pygame.image.load('image/yellow.bmp').convert()
     }
 
-    TILE_RECT = TILE_IMAGES['default'].get_rect() # 画像と同じサイズの長方形座標を取得
-
     # タイルで画面を埋める
     for i in range(0, TILE_LIMIT, TILE_LENGTH):
         for j in range(0, TILE_LIMIT, TILE_LENGTH):
             # 枠の分はスキップ
-            surface.blit(TILE_IMAGES['default'], TILE_RECT.move((i + TILE_LENGTH), (j + TILE_LENGTH)))
+            image = TILE_IMAGES['default']
+            surface.blit(image, image.get_rect().move((i + TILE_LENGTH), (j + TILE_LENGTH)))
 
     # pygameの初期設定
     pygame.init()
@@ -44,9 +43,9 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def start(self, board):
-        player_green = Player.Player(self.GREEN)
+        player_green  = Player.Player(self.GREEN)
         player_yellow = Player.Player(self.YELLOW)
-        player_green.next_player = player_yellow
+        player_green.next_player  = player_yellow
         player_yellow.next_player = player_green
         # ゲームスタート処理
         self.current_player = player_green
@@ -83,8 +82,8 @@ class Game():
         print(self.current_player.color)
 
     def change_image(self, board, block_shape, x, y):
+        image = self.TILE_IMAGES[self.current_player.color]
         for coord in np.argwhere(block_shape == board.CANTSET):
-            image = self.TILE_IMAGES[self.current_player.color]
             to_x = self.TILE_LENGTH * (x + coord[1] - 2)
             to_y = self.TILE_LENGTH * (y + coord[0] - 2)
             self.surface.blit(image, image.get_rect().move(to_x, to_y))
