@@ -70,11 +70,10 @@ class Player():
         else:
             return True
 
-    def cancel_selected(self, board, block):
+    def cancel_selected(self, board):
         print('\n選択がキャンセルされました\n')
         self.used_blocks.pop()
-        block = self.select_block(board)
-        block = self.block_usable_check(board, block, self.color)
+        block = self.block_usable_check(board)
         return block
 
     # def pass_my_turn(self, board):

@@ -67,7 +67,7 @@ class Game():
                     sys.exit()
                 # Zキーが押されたらブロック選択キャンセル
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                    block = self.current_player.cancel_selected(board, block)
+                    block = self.current_player.cancel_selected(board)
                 # クリックしたらブロックを配置
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
