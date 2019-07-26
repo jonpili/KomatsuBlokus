@@ -4,12 +4,21 @@ class Player():
     block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
+
     def __init__(self, color):
         self.color = color
         self.passed = False
         self.used_blocks = []
         self.selected_shape_index = ''
         self.selected_direction_index = ''
+
+    def block_usable_check(self, board):
+        block = self.select_block(board)
+        while not board.settable_area_exist_check(self.color, block.selected['shape']):
+            print('そのブロックを置く場所がありません\n')
+            self.used_blocks.pop()
+            block = self.select_block(board)
+        return block
 
     def select_block(self, board):
         print('手持ちのブロックリスト')
@@ -61,11 +70,11 @@ class Player():
         else:
             return True
 
-    def cancel_selected(self, board, block, color):
+    def cancel_selected(self, board, block):
         print('\n選択がキャンセルされました\n')
         self.used_blocks.pop()
         block = self.select_block(board)
-        block = self.block_usable_check(board, block, color)
+        block = self.block_usable_check(board, block, self.color)
         return block
 
     # def pass_my_turn(self, board):
@@ -82,13 +91,6 @@ class Player():
     #     block = self.block_usable_check(board, block)
     #
     #     return block
-
-    def block_usable_check(self, board, block, color):
-        while not board.settable_area_exist_check(color, block.selected['shape']):
-            print('そのブロックを置く場所がありません\n')
-            self.used_blocks.pop()
-            block = self.select_block(board)
-        return block
 
     # def score_check(self):
     #     if all(turn_passed_list):

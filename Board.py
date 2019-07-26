@@ -40,7 +40,7 @@ class Board():
         for width in self.yellow_board:
             print(width)
 
-        print('＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
+        print('＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝')
 
         # if game.who_turn == game.GREEN:
         #     if turn_passed_list[0]:

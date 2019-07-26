@@ -24,78 +24,67 @@ class Game():
     surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
-    TILE_IMAGE   = pygame.image.load('image/tile.bmp').convert()
-    GREEN_IMAGE  = pygame.image.load('image/green.bmp').convert()
-    YELLOW_IMAGE = pygame.image.load('image/yellow.bmp').convert()
+    TILE_IMAGES = {
+        'default': pygame.image.load('image/tile.bmp').convert(),
+        'green': pygame.image.load('image/green.bmp').convert(),
+        'yellow': pygame.image.load('image/yellow.bmp').convert()
+    }
 
-    TILE_RECT   = TILE_IMAGE.get_rect() # 画像と同じサイズの長方形座標を取得
-    GREEN_RECT  = GREEN_IMAGE.get_rect()
-    YELLOW_RECT = YELLOW_IMAGE.get_rect()
+    TILE_RECT = TILE_IMAGES['default'].get_rect() # 画像と同じサイズの長方形座標を取得
 
     # タイルで画面を埋める
     for i in range(0, TILE_LIMIT, TILE_LENGTH):
         for j in range(0, TILE_LIMIT, TILE_LENGTH):
             # 枠の分はスキップ
-            surface.blit(TILE_IMAGE, TILE_RECT.move((i + TILE_LENGTH), (j + TILE_LENGTH)))
+            surface.blit(TILE_IMAGES['default'], TILE_RECT.move((i + TILE_LENGTH), (j + TILE_LENGTH)))
 
     # pygameの初期設定
     pygame.init()
     pygame.display.set_caption('Komatsu Blokus')
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
-    def __init__(self, color):
-        self.who_turn = color
-
     def start(self, board):
         player_green = Player.Player(self.GREEN)
         player_yellow = Player.Player(self.YELLOW)
+        player_green.next_player = player_yellow
+        player_yellow.next_player = player_green
         # ゲームスタート処理
+        self.current_player = player_green
         board.check_status(self)
-        block = player_green.select_block(board)
-        block = player_green.block_usable_check(board, block, self.who_turn)
 
         while True:
+            board.check_status(self)
+            block = self.current_player.block_usable_check(board)
+            self.play(board, block)
+
+    def play(self, board, block):
+        player = self.current_player
+        while player == self.current_player:
             for event in pygame.event.get():
-                player_green, player_yellow, board, block = self.play(player_green, player_yellow, board, block, event)
-
-    def play(self, player_green, player_yellow, board, block, event):
-        # ESCAPEキーが押されたらゲーム終了
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            sys.exit()
-        # Zキーが押されたらブロック選択キャンセル
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-            if self.who_turn == self.GREEN:
-                block = player_green.cancel_selected(board, block, self.who_turn)
-            elif self.who_turn == self.YELLOW:
-                block = player_yellow.cancel_selected(board, block, self.who_turn)
-        # クリックしたらブロックを配置
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
-            ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
-            if board.settable_check(self.who_turn, block.selected['shape'], xpos, ypos):
-                board.change_status(self.who_turn, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                self.change_image(board, block.selected['shape'], xpos, ypos)
-
-                self.change_turn()
-                board.check_status(self)
-                block = eval('player_' + self.who_turn).select_block(board)
-                block = eval('player_' + self.who_turn).block_usable_check(board, block, self.who_turn)
-            else: print('ここには置けません')
-        return player_green, player_yellow, board, block
+                # ESCAPEキーが押されたらゲーム終了
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                # Zキーが押されたらブロック選択キャンセル
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+                    block = self.current_player.cancel_selected(board, block)
+                # クリックしたらブロックを配置
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
+                    ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
+                    if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
+                        board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+                        self.change_image(board, block.selected['shape'], xpos, ypos)
+                        self.change_turn()
+                    else: print('ここには置けません')
 
     def change_turn(self):
-        color_number = self.COLOR_LIST.index(self.who_turn)
-        color_number += 1
-        if color_number == len(self.COLOR_LIST):
-            color_number -= len(self.COLOR_LIST)
-
-        self.who_turn = self.COLOR_LIST[color_number]
-        print(self.who_turn)
+        self.current_player = self.current_player.next_player
+        print(self.current_player.color)
 
     def change_image(self, board, block_shape, x, y):
         for coord in np.argwhere(block_shape == board.CANTSET):
-            self.surface.blit(eval('self.' + self.who_turn.upper() + '_IMAGE'),
-                              eval('self.' + self.who_turn.upper() + '_RECT')
-                              .move(self.TILE_LENGTH * (x + coord[1] - 2),
-                                    self.TILE_LENGTH * (y + coord[0] - 2)))
+            image = self.TILE_IMAGES[self.current_player.color]
+            to_x = self.TILE_LENGTH * (x + coord[1] - 2)
+            to_y = self.TILE_LENGTH * (y + coord[0] - 2)
+            self.surface.blit(image, image.get_rect().move(to_x, to_y))

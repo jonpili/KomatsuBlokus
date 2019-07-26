@@ -2,7 +2,7 @@ import Game
 import Board
 
 def main():
-    game  = Game.Game('green')
+    game  = Game.Game()
     board = Board.Board(game)
     game.start(board)
 
