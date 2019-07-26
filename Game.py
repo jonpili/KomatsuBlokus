@@ -53,7 +53,7 @@ class Game():
 
         while True:
             board.check_status(self)
-            block = self.current_player.block_usable_check(board)
+            block = self.current_player.start_my_turn(board)
             self.play(board, block)
 
     def play(self, board, block):
