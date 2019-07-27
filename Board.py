@@ -54,14 +54,12 @@ class Board():
         pygame.display.flip()
 
     def settable_area_exist_check(self, color, block_shape):
-        settable_area_exist = False
-
         for x in range(1, self.TILE_NUMBER + 1):
             for y in range(1, self.TILE_NUMBER + 1):
                 if self.settable_check(color, block_shape, x, y):
-                    settable_area_exist = True
+                    return True
 
-        return settable_area_exist
+        return False
 
     def settable_check(self, color, block_shape, x, y):
         # 1つでもCANTSETがあれば置けない
@@ -72,6 +70,7 @@ class Board():
         for coord in np.argwhere(block_shape == self.CANTSET):
             if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
+        return False
 
     def change_status(self, color, block_shape, block_influence, x, y):
         # ブロックの影響を自分のボードに適用
