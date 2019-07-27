@@ -4,7 +4,6 @@ class Player():
     block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
-
     def __init__(self, color):
         self.color = color
         self.passed = False

@@ -31,10 +31,10 @@ class Game():
     }
 
     # タイルで画面を埋める
+    image = TILE_IMAGES['default']
     for i in range(0, TILE_LIMIT, TILE_LENGTH):
         for j in range(0, TILE_LIMIT, TILE_LENGTH):
             # 枠の分はスキップ
-            image = TILE_IMAGES['default']
             surface.blit(image, image.get_rect().move((i + TILE_LENGTH), (j + TILE_LENGTH)))
 
     # pygameの初期設定
