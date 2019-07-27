@@ -12,6 +12,7 @@ class Player():
         self.selected_direction_index = ''
 
     def pass_my_turn(self, game):
+        print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
         print('置けるブロックが存在しないためパスとなります')
         game.change_turn()
 
@@ -20,7 +21,6 @@ class Player():
         block = self.select_block(board)
         while not board.settable_area_exist_check(self.color, block.selected['shape']):
             print('そのブロックを置く場所がありません\n')
-            # self.used_blocks.pop()
             block = self.select_block(board)
         return block
 
@@ -28,9 +28,7 @@ class Player():
         print('手持ちのブロックリスト')
         print([i for i in self.block_shape_index_list if i not in self.used_blocks])
         print('')
-
         self.selected_shape_index = input('ブロックを選択してください：')
-
         while True:
             if self.check_input(board):
                 break
@@ -52,21 +50,6 @@ class Player():
                 print('そのブロックは既に使っています\n')
                 self.selected_shape_index = input('ブロックを選択してください：')
             else:
-                # # Xキーが入力されたらターンスキップ
-                # if self.selected_shape_index == 'x':
-                #     if self.color == GREEN:
-                #         turn_passed_list[0] = True
-                #     elif self.color == YELLOW:
-                #         turn_passed_list[1] = True
-                #
-                #     if self.score_check():
-                #         sys.exit()
-                #     else:
-                #         block = self.pass_my_turn(board)
-                #         self.passed = True
-                # else:
-                #     print('入力が間違っています\n')
-                #     self.selected_shape_index = input('ブロックを選択してください：')
                 print('入力が間違っています\n')
                 self.selected_shape_index = input('ブロックを選択してください：')
             return False
@@ -75,24 +58,8 @@ class Player():
 
     def cancel_selected(self, game, board):
         print('\n選択がキャンセルされました\n')
-        # self.used_blocks.pop()
         block = self.start_my_turn(game, board)
         return block
-
-    # def pass_my_turn(self, board):
-    #     if self.color == GREEN:
-    #         game.who_turn = YELLOW
-    #     elif self.color == YELLOW:
-    #         game.who_turn = GREEN
-    #
-    #     print('\n＝＝＝＝＝' + game.who_turn + '\'s Turn＝＝＝＝＝')
-    #     print('相手がパスしました\n')
-    #
-    #     if self.select_block(board)
-    #     block = self.select_block(board)
-    #     block = self.start_my_turn(board, block)
-    #
-    #     return block
 
     # def score_check(self):
     #     if all(turn_passed_list):

@@ -33,33 +33,25 @@ class Board():
         return board
 
     def check_status(self, game):
-        print('')
-        print('ーーーーー緑色の盤面ーーーーー')
-        for width in self.green_board:
-            print(width)
-        print('ーーーーー黄色の盤面ーーーーー')
-        for width in self.yellow_board:
-            print(width)
+        # テスト用に便利なので残しておく
+        # print('')
+        # print('ーーーーー緑色の盤面ーーーーー')
+        # for width in self.green_board:
+        #     print(width)
+        # print('ーーーーー黄色の盤面ーーーーー')
+        # for width in self.yellow_board:
+        #     print(width)
 
-        print('＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝')
-
-        # if game.who_turn == game.GREEN:
-        #     if turn_passed_list[0]:
-        #         print('あなたは既にパスしたので、xを入力してください')
-        #         print('')
-        # elif game.who_turn == game.YELLOW:
-        #     if turn_passed_list[1]:
-        #         print('あなたは既にパスしたので、xを入力してください')
-        #         print('')
+        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝\n')
 
         pygame.display.flip()
 
     def any_block_settable_check(self, player):
-        #passed = Trueであればパスする
+        # passed = Trueであればパスする
         if player.passed:
             return False
         else:
-            #持ち駒のうち一つでも置けるものがあればターン続行
+            # 持ち駒のうち一つでも置けるものがあればターン続行
             for block_shape_index in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
                 for block_direction_index in range(8):
                     block_for_check = Block.Block(block_shape_index, block_direction_index, False)
