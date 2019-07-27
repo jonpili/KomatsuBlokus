@@ -42,7 +42,11 @@ class Board():
         # for width in self.yellow_board:
         #     print(width)
 
-        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝\n')
+        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
+        print(game.current_player.color + ':'
+              + str(game.current_player.score) + ', '
+              + game.current_player.next_player.color + ':'
+              + str(game.current_player.next_player.score) + '\n')
 
         pygame.display.flip()
 

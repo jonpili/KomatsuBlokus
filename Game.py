@@ -49,7 +49,6 @@ class Game():
         player_yellow.next_player = player_green
         # ゲームスタート処理
         self.current_player = player_green
-        board.check_status(self)
 
         while True:
             if not board.any_block_settable_check(self.current_player):
@@ -77,7 +76,7 @@ class Game():
                         board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
                         self.change_image(board, block.selected['shape'], xpos, ypos)
                         self.current_player.used_blocks.append(self.current_player.selected_shape_index)
-                        self.current_player.score += block.score['score']
+                        self.current_player.score += block.selected['score']
                         self.change_turn()
                     else: print('ここには置けません')
 
@@ -90,3 +89,18 @@ class Game():
             to_x = self.TILE_LENGTH * (x + coord[1] - 2)
             to_y = self.TILE_LENGTH * (y + coord[0] - 2)
             self.surface.blit(image, image.get_rect().move(to_x, to_y))
+
+    def score_check(self, player_green, player_yellow):
+        print('ゲームは終了です')
+        print('緑色の点数は ' + str(player_green.score) + ' 点です')
+        print('黄色の点数は ' + str(player_yellow.score) + ' 点です')
+
+        if player_green.score > player_yellow.score:
+            print('勝者は「緑色」です')
+        elif player_green.score < player_yellow.score:
+            print('勝者は「黄色」です')
+        else:
+            if len(player_green.used_blocks) < len(player_yellow.used_blocks):
+                print('勝者は「緑色」です')
+            elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
+                print('勝者は「黄色」です')

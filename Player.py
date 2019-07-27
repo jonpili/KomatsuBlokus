@@ -61,24 +61,5 @@ class Player():
         print('\n選択がキャンセルされました\n')
         block = self.start_my_turn(game, board)
         return block
-
-    def score_check(self, player_green, player_yellow):
-        #スコアチェック
-        greenScore = 89 - player_green.score
-        yellowScore = 89 - player_yellow.score
-        #結果発表
-        print('ゲームは終了です')
-        print('緑色の点数は' + str(greenScore) + '点です')
-        print('黄色の点数は' + str(yellowScore) + '点です')
-
-        if greenScore < yellowScore:
-            print('勝者は「緑色」です')
-        elif greenScore > yellowScore:
-            print('勝者は「黄色」です')
-        else:
-            if len(player_green.used_blocks) < len(player_yellow.used_blocks):
-                print('勝者は「緑色」です')
-            elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
-                print('勝者は「黄色」です')
             else:
                 print('引き分けです')
