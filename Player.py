@@ -14,7 +14,7 @@ class Player():
 
     def pass_my_turn(self, game):
         print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
-        print('置けるブロックが存在しないためパスとなります')
+        print('置けるブロックが存在しないためパスとなります\n')
         game.change_turn()
 
     def start_my_turn(self, game, board):
@@ -61,5 +61,3 @@ class Player():
         print('\n選択がキャンセルされました\n')
         block = self.start_my_turn(game, board)
         return block
-            else:
-                print('引き分けです')

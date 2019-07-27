@@ -52,7 +52,11 @@ class Game():
 
         while True:
             if not board.any_block_settable_check(self.current_player):
-                self.current_player.pass_my_turn(self)
+                if all([player.passed for player in [player_green, player_yellow]]):
+                    self.score_check(player_green, player_yellow)
+                    break
+                else:
+                    self.current_player.pass_my_turn(self)
             else:
                 block = self.current_player.start_my_turn(self, board)
                 self.play(board, block)
@@ -104,3 +108,5 @@ class Game():
                 print('勝者は「緑色」です')
             elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
                 print('勝者は「黄色」です')
+            else:
+                print('引き分けです')
