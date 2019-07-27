@@ -10,6 +10,7 @@ class Player():
         self.used_blocks = []
         self.selected_shape_index = ''
         self.selected_direction_index = ''
+        self.score = 0
 
     def pass_my_turn(self, game):
         print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
@@ -61,31 +62,23 @@ class Player():
         block = self.start_my_turn(game, board)
         return block
 
-    # def score_check(self):
-    #     if all(turn_passed_list):
-    #         #スコアチェック
-    #         greenRemainingBlock = list(set(self.block_shape_index_list) - set(greenUsedBlocks))
-    #         yellowRemainingBlock = list(set(self.block_shape_index_list) - set(yellowUsedBlocks))
-    #         greenScore = sum(list(map(lambda alphabet: scoreTable[alphabet], greenRemainingBlock)))
-    #         yellowScore = sum(list(map(lambda alphabet: scoreTable[alphabet], yellowRemainingBlock)))
-    #         #結果発表
-    #         print('ゲームは終了です')
-    #         print('緑色の点数は' + str(greenScore) + '点です')
-    #         print('黄色の点数は' + str(yellowScore) + '点です')
-    #
-    #         if greenScore < yellowScore:
-    #             print('勝者は「緑色」です')
-    #         elif greenScore > yellowScore:
-    #             print('勝者は「黄色」です')
-    #         else:
-    #             if len(greenRemainingBlock) < len(yellowRemainingBlock):
-    #                 print('勝者は「緑色」です')
-    #             elif len(greenRemainingBlock) > len(yellowRemainingBlock):
-    #                 print('勝者は「黄色」です')
-    #             else:
-    #                 print('引き分けです')
-    #
-    #         turn_passed_list[0] = False
-    #         return True
-    #     else:
-    #         return False
+    def score_check(self, player_green, player_yellow):
+        #スコアチェック
+        greenScore = 89 - player_green.score
+        yellowScore = 89 - player_yellow.score
+        #結果発表
+        print('ゲームは終了です')
+        print('緑色の点数は' + str(greenScore) + '点です')
+        print('黄色の点数は' + str(yellowScore) + '点です')
+
+        if greenScore < yellowScore:
+            print('勝者は「緑色」です')
+        elif greenScore > yellowScore:
+            print('勝者は「黄色」です')
+        else:
+            if len(player_green.used_blocks) < len(player_yellow.used_blocks):
+                print('勝者は「緑色」です')
+            elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
+                print('勝者は「黄色」です')
+            else:
+                print('引き分けです')
