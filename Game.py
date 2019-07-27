@@ -49,7 +49,6 @@ class Game():
         player_yellow.next_player = player_green
         # ゲームスタート処理
         self.current_player = player_green
-        board.check_status(self)
 
         while True:
             board.check_status(self)
@@ -79,7 +78,6 @@ class Game():
 
     def change_turn(self):
         self.current_player = self.current_player.next_player
-        print(self.current_player.color)
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color]
