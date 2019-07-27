@@ -52,9 +52,11 @@ class Game():
         board.check_status(self)
 
         while True:
-            board.check_status(self)
-            block = self.current_player.start_my_turn(board)
-            self.play(board, block)
+            if board.any_block_settable_check():
+                self.current_player.pass_my_turn(self)
+            else:
+                block = self.current_player.start_my_turn(self, board)
+                self.play(board, block)
 
     def play(self, board, block):
         player = self.current_player
@@ -66,7 +68,7 @@ class Game():
                     sys.exit()
                 # Zキーが押されたらブロック選択キャンセル
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                    block = self.current_player.cancel_selected(board)
+                    block = self.current_player.cancel_selected(self, board)
                 # クリックしたらブロックを配置
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
