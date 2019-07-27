@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import Block
 
 class Board():
     BLANK   = 0 # ブロックは置かれていない
@@ -52,8 +53,20 @@ class Board():
         #         print('')
 
         pygame.display.flip()
-    def any_block_settable_check(self):
-        return False
+    def any_block_settable_check(self, player):
+        #passed = Trueであればパスする
+        if player.passed:
+            return False
+        else:
+            #持ち駒のうち一つでも置けるものがあればターン続行
+            for block_name in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
+                for block_direction in range(8):
+                    block = Block.Block(block_name, block_direction)
+                    if self.settable_area_exist_check(player.color, block.selected['shape']):
+                        return True
+                    else:
+                        player.passed = True
+                        return False
 
     def settable_area_exist_check(self, color, block_shape):
         for x in range(1, self.TILE_NUMBER + 1):

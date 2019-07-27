@@ -51,7 +51,7 @@ class Game():
         self.current_player = player_green
 
         while True:
-            if board.any_block_settable_check():
+            if board.any_block_settable_check(self.current_player) == False:
                 self.current_player.pass_my_turn(self)
             else:
                 block = self.current_player.start_my_turn(self, board)
