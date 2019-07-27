@@ -110,9 +110,9 @@ class Player():
         elif greenScore > yellowScore:
             print('勝者は「黄色」です')
         else:
-            if len(greenRemainingBlock) < len(yellowRemainingBlock):
+            if len(player_green.used_blocks) < len(player_yellow.used_blocks):
                 print('勝者は「緑色」です')
-            elif len(greenRemainingBlock) > len(yellowRemainingBlock):
+            elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
                 print('勝者は「黄色」です')
             else:
                 print('引き分けです')
