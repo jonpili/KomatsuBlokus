@@ -51,8 +51,11 @@ class Game():
         self.current_player = player_green
 
         while True:
-            block = self.current_player.start_my_turn(self, board)
-            self.play(board, block)
+            if board.any_block_settable_check():
+                self.current_player.pass_my_turn(self)
+            else:
+                block = self.current_player.start_my_turn(self, board)
+                self.play(board, block)
 
     def play(self, board, block):
         player = self.current_player
