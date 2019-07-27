@@ -4,10 +4,11 @@ import platform
 from copy import deepcopy
 
 class Block():
-    def __init__(self, selected_shape_index, selected_direction_index):
+    def __init__(self, selected_shape_index, selected_direction_index, boolean):
         self.call_block(selected_shape_index)
         self.rotate_block(selected_direction_index)
-        self.show_selected()
+        if boolean:
+            self.show_selected()
 
     def call_block(self, selected_shape_index):
         self.selected = deepcopy(block_table[selected_shape_index])

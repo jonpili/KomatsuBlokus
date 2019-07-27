@@ -62,7 +62,7 @@ class Board():
             #持ち駒のうち一つでも置けるものがあればターン続行
             for block_shape_index in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
                 for block_direction_index in range(8):
-                    block_for_check = Block.Block(block_shape_index, block_direction_index)
+                    block_for_check = Block.Block(block_shape_index, block_direction_index, False)
                     if self.settable_area_exist_check(player.color, block_for_check.selected['shape']):
                         return True
             player.passed = True

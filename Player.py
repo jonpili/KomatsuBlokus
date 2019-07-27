@@ -42,8 +42,7 @@ class Player():
                 self.selected_direction_index = input('向きを選択してください：')
             self.selected_direction_index = int(self.selected_direction_index)
 
-        block = Block.Block(self.selected_shape_index, self.selected_direction_index)
-        # self.used_blocks.append(self.selected_shape_index)
+        block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
 
         return block
 
