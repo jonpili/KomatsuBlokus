@@ -11,7 +11,6 @@
 #
 # array = np.asarray(array)
 #
-# eval('test1').main()
 #我こそは村松
 
 class Oya():
