@@ -49,6 +49,7 @@ class Game():
         player_yellow.next_player = player_green
         # ゲームスタート処理
         self.current_player = player_green
+        board.check_status(self)
 
         while True:
             board.check_status(self)
@@ -72,12 +73,15 @@ class Game():
                     ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
                     if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
                         board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+                        self.current_player.used_blocks.append(self.current_player.selected_shape_index)
+                        self.current_player.score += block.score['score']
                         self.change_image(board, block.selected['shape'], xpos, ypos)
                         self.change_turn()
                     else: print('ここには置けません')
 
     def change_turn(self):
         self.current_player = self.current_player.next_player
+        print(self.current_player.color)
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color]
