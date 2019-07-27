@@ -1,15 +1,17 @@
 import numpy as np
 import math
 import platform
+from copy import deepcopy
 
 class Block():
-    def __init__(self, selected_shape_index, selected_direction_index):
+    def __init__(self, selected_shape_index, selected_direction_index, need_to_show):
         self.call_block(selected_shape_index)
         self.rotate_block(selected_direction_index)
-        self.show_selected()
+        if need_to_show:
+            self.show_selected()
 
     def call_block(self, selected_shape_index):
-        self.selected = block_table[selected_shape_index]
+        self.selected = deepcopy(block_table[selected_shape_index])
 
     def rotate_block(self, selected_direction_index):
         if selected_direction_index == 0: # 初期向き

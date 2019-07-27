@@ -52,7 +52,7 @@ class Game():
         board.check_status(self)
 
         while True:
-            if board.any_block_settable_check():
+            if not board.any_block_settable_check(self.current_player):
                 self.current_player.pass_my_turn(self)
             else:
                 block = self.current_player.start_my_turn(self, board)
@@ -83,7 +83,6 @@ class Game():
 
     def change_turn(self):
         self.current_player = self.current_player.next_player
-        print(self.current_player.color)
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color]
