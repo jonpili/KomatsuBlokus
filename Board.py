@@ -52,6 +52,8 @@ class Board():
         #         print('')
 
         pygame.display.flip()
+    def any_block_settable_check(self):
+        return False
 
     def settable_area_exist_check(self, color, block_shape):
         settable_area_exist = False
