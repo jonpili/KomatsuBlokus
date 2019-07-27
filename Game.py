@@ -72,6 +72,7 @@ class Game():
                     ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
                     if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
                         board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+                        self.current_player.used_blocks.append(self.current_player.selected_shape_index)
                         self.change_image(board, block.selected['shape'], xpos, ypos)
                         self.change_turn()
                     else: print('ここには置けません')

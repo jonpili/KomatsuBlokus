@@ -15,7 +15,7 @@ class Player():
         block = self.select_block(board)
         while not board.settable_area_exist_check(self.color, block.selected['shape']):
             print('そのブロックを置く場所がありません\n')
-            self.used_blocks.pop()
+            # self.used_blocks.pop()
             block = self.select_block(board)
         return block
 
@@ -38,7 +38,7 @@ class Player():
             self.selected_direction_index = int(self.selected_direction_index)
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index)
-        self.used_blocks.append(self.selected_shape_index)
+        # self.used_blocks.append(self.selected_shape_index)
 
         return block
 
@@ -71,7 +71,7 @@ class Player():
 
     def cancel_selected(self, board):
         print('\n選択がキャンセルされました\n')
-        self.used_blocks.pop()
+        # self.used_blocks.pop()
         block = self.start_my_turn(board)
         return block
 
