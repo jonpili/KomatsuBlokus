@@ -36,4 +36,4 @@
 4. 緑：e0(settable_area_exist_check：置ける場所があるかのチェック)
 5. 緑：a0→zでキャンセル(cancel_selected：キャンセル)
 6. 緑：b2
-7. 黄:b0（any_block_settable_check, score_check:置けるブロックがあるかのチェック、スコア計算）
+7. 黄：b0（any_block_settable_check, score_check:置けるブロックがあるかのチェック、スコア計算）
