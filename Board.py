@@ -59,7 +59,7 @@ class Board():
                 for block_direction_index in range(8):
                     block_for_check = Block.Block(block_shape_index, block_direction_index, False)
                     if self.settable_area_exist_check(player.color, block_for_check.selected['shape']):
-                        player.usable_blocks.append(block_shape_index)
+                        player.usable_blocks.append([block_shape_index, block_direction_index])
             if len(player.usable_blocks) > 0:
                 return True
             player.passed = True

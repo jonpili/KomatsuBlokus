@@ -46,7 +46,7 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        self.player_green  = Player.Player(Color.GREEN, False)
+        self.player_green  = Player.Player(Color.GREEN, True)
         self.player_yellow = Player.Player(Color.YELLOW, True)
         self.player_green.next_player  = self.player_yellow
         self.player_yellow.next_player = self.player_green
@@ -68,7 +68,6 @@ class Game():
         while player == self.current_player:
             if self.current_player.computer:
                 self.set_block_on_click_position_by_CP(board, block)
-                break
             else:
                 for event in pygame.event.get():
                     # ESCAPEキーが押されたらゲーム終了
@@ -94,17 +93,15 @@ class Game():
         else: print('ここには置けません')
 
     def set_block_on_click_position_by_CP(self, board, block):
-        xpos = random.randint(0, 7) # 右方向に正
-        ypos = random.randint(0, 7) # 下方向に正
-        print([xpos, ypos])
+        xpos = random.randint(1, 8) # 右方向に正
+        ypos = random.randint(1, 8) # 下方向に正
+        print([xpos, ypos], end=' ')
         if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
             board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
             self.change_image(board, block.selected['shape'], xpos, ypos)
             self.current_player.used_blocks.append(self.current_player.selected_shape_index)
             self.current_player.score += block.selected['score']
             self.change_turn()
-        else:
-            print('ここには置けません')
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color.name]

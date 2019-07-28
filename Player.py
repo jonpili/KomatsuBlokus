@@ -16,8 +16,8 @@ class Player():
         self.score = 0
 
     def pass_my_turn(self, game):
-        print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
-        print('置けるブロックが存在しないためパスとなります\n')
+        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
+        print('置けるブロックが存在しないためパスとなります')
         game.change_turn()
 
     def start_my_turn(self, game, board):
@@ -49,8 +49,9 @@ class Player():
         return block
 
     def select_block_by_CP(self, board):
-        self.selected_shape_index = random.choice(self.usable_blocks)
-        self.selected_direction_index = random.choice(range(8))
+        use_block = random.choice(self.usable_blocks)
+        self.selected_shape_index = use_block[0]
+        self.selected_direction_index = use_block[1]
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
         return block
