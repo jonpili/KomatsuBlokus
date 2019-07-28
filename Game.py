@@ -66,7 +66,7 @@ class Game():
     def play(self, board, block):
         player = self.current_player
         while player == self.current_player:
-            if False:
+            if self.current_player.color == self.COLOR_LIST[0]:
                 for event in pygame.event.get():
                     # ESCAPEキーが押されたらゲーム終了
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -78,7 +78,7 @@ class Game():
                     # クリックしたらブロックを配置
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         self.set_block_on_click_position(board, block)
-            elif True:
+            elif self.current_player.color == self.COLOR_LIST[1]:
                 self.set_block_on_click_position_by_CP(board, block)
                 break
 

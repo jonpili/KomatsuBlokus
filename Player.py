@@ -20,11 +20,17 @@ class Player():
 
     def start_my_turn(self, game, board):
         board.check_status(game)
-        block = self.select_block_by_CP(board)
+        if self.color == game.COLOR_LIST[0]:
+            block = self.select_block(board)
+        elif self.color == game.COLOR_LIST[1]:
+            block = self.select_block_by_CP(board)
 
         while not board.settable_area_exist_check(self.color, block.selected['shape']):
             print('そのブロックを置く場所がありません\n')
-            block = self.select_block_by_CP(board)
+            if self.color == game.COLOR_LIST[0]:
+                block = self.select_block(board)
+            elif self.color == game.COLOR_LIST[1]:
+                block = self.select_block_by_CP(board)
         return block
 
     def select_block(self, board):
