@@ -58,7 +58,6 @@ class Game():
                 break
             elif not board.any_block_settable_check(self.current_player):
                 self.current_player.pass_my_turn(self)
-
             else:
                 block = self.current_player.start_my_turn(self, board)
                 self.play(board, block)
