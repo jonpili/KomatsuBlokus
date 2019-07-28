@@ -43,6 +43,7 @@ class Game():
     # pygameの初期設定
     pygame.init()
     pygame.display.set_caption('Komatsu Blokus')
+    pygame.display.flip()
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
@@ -106,6 +107,7 @@ class Game():
             to_x = self.TILE_LENGTH * (x + coord[1] - 2)
             to_y = self.TILE_LENGTH * (y + coord[0] - 2)
             self.surface.blit(image, image.get_rect().move(to_x, to_y))
+        pygame.display.flip()
 
     def change_turn(self):
         self.current_player = self.current_player.next_player

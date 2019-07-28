@@ -50,8 +50,6 @@ class Board():
               + game.current_player.next_player.color.name + ':'
               + str(game.current_player.next_player.score) + '\n')
 
-        pygame.display.flip()
-
     def any_block_settable_check(self, player):
         if player.passed:
             return False
