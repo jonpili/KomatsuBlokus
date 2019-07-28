@@ -53,11 +53,8 @@ class Game():
         self.current_player = self.player_green
 
     def start(self, board):
-        while True:
-            if all([player.passed for player in [self.player_green, self.player_yellow]]):
-                self.score_check(self.player_green, self.player_yellow)
-                break
-            elif not board.any_block_settable_check(self.current_player):
+        while not all([player.passed for player in [self.player_green, self.player_yellow]]):
+            if not board.any_block_settable_check(self.current_player):
                 self.current_player.pass_my_turn(self)
             else:
                 block = self.current_player.start_my_turn(self, board)
@@ -113,19 +110,16 @@ class Game():
     def change_turn(self):
         self.current_player = self.current_player.next_player
 
-    def score_check(self, player_green, player_yellow):
-        print('ゲームは終了です')
-        print('緑色の点数は ' + str(player_green.score) + ' 点です')
-        print('黄色の点数は ' + str(player_yellow.score) + ' 点です')
+    def score_check(self):
+        print('\nゲームは終了です')
+        print('緑色の点数は ' + str(self.player_green.score) + ' 点です')
+        print('黄色の点数は ' + str(self.player_yellow.score) + ' 点です\n')
 
-        if player_green.score > player_yellow.score:
-            print('勝者は「緑色」です')
-        elif player_green.score < player_yellow.score:
-            print('勝者は「黄色」です')
+        if self.player_green.score > self.player_yellow.score:   print('勝者は「緑色」です')
+        elif self.player_green.score < self.player_yellow.score: print('勝者は「黄色」です')
         else:
-            if len(player_green.used_blocks) < len(player_yellow.used_blocks):
-                print('勝者は「緑色」です')
-            elif len(player_green.used_blocks) > len(player_yellow.used_blocks):
-                print('勝者は「黄色」です')
-            else:
-                print('引き分けです')
+            if len(self.player_green.used_blocks) < len(self.player_yellow.used_blocks):   print('勝者は「緑色」です')
+            elif len(self.player_green.used_blocks) > len(self.player_yellow.used_blocks): print('勝者は「黄色」です')
+            else: print('引き分けです')
+
+        print('おめでとうございます！！\n')
