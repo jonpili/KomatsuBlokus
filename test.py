@@ -1,5 +1,5 @@
-import numpy as np
-
+# import numpy as np
+#
 # array = [
 #         [1,2,3,4,5],
 #         [1,2,3,4,5],
@@ -10,25 +10,30 @@ import numpy as np
 #
 # array = np.asarray(array)
 
-BLANK   = 0 # ブロックは置かれていない
-CANTSET = 1 # ブロックが置かれている or 自分のブロックが隣接している
-ABLESET = 2 # 自分のブロックが角で接している
+from enum import Enum
 
-TILE_NUMBER = 8
+class Color(Enum):
+    GREEN  = 'green'
+    YELLOW = 'yellow'
+    RED    = 'red' # 将来的に実装
+    BLUE   = 'blue' # 将来的に実装
 
-def make_board():
-    board  = [[[BLANK, BLANK] for width in range(TILE_NUMBER + 2)] for height in range(TILE_NUMBER + 2)]
-    # 枠を作成
-    for i in range(TILE_NUMBER + 2):
-        board[0][i]              = [CANTSET, CANTSET]
-        board[TILE_NUMBER + 1][i] = [CANTSET, CANTSET]
-    for i in range(TILE_NUMBER):
-        board[i + 1][0]              = [CANTSET, CANTSET]
-        board[i + 1][TILE_NUMBER + 1] = [CANTSET, CANTSET]
-    board = np.asarray(board)
-    return board
+def print_color(color):
+    if color == Color.RED:
+        print('Color is red')
+    elif color == Color.GREEN:
+        print('Color is green')
+    elif color == Color.BLUE:
+        print('Color is blue')
+    else:
+        print('not Color enum')
 
-board = make_board()
-
-green_board = list(map(lambda x: list(map(lambda y: y[1], x)), board))
-print(green_board)
+if __name__ == '__main__':
+    print_color(Color.BLUE)  # Color is blue
+    print_color('green')  # not Color enum
+    print(Color)  # <enum 'Color'>
+    print(Color('green'))  # Color.RED
+    print(Color.RED == Color.RED)  # True
+    print(Color.RED == Color.GREEN)  # False
+    for color in Color:
+        print(color)  # Color.RED\nColor.GREEN\nColor.BLUE
