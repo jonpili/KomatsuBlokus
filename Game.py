@@ -2,6 +2,7 @@ import pygame
 import sys
 import numpy as np
 from enum import Enum
+import random
 
 import Player
 
@@ -65,17 +66,21 @@ class Game():
     def play(self, board, block):
         player = self.current_player
         while player == self.current_player:
-            for event in pygame.event.get():
-                # ESCAPEキーが押されたらゲーム終了
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                # Zキーが押されたらブロック選択キャンセル
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
-                    block = self.current_player.cancel_selected(self, board)
-                # クリックしたらブロックを配置
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.set_block_on_click_position(board, block)
+            if self.current_player.color == self.COLOR_LIST[0]:
+                for event in pygame.event.get():
+                    # ESCAPEキーが押されたらゲーム終了
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+                    # Zキーが押されたらブロック選択キャンセル
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_z:
+                        block = self.current_player.cancel_selected(self, board)
+                    # クリックしたらブロックを配置
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        self.set_block_on_click_position(board, block)
+            elif self.current_player.color == self.COLOR_LIST[1]:
+                self.set_block_on_click_position_by_CP(board, block)
+                break
 
     def set_block_on_click_position(self, board, block):
         xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
@@ -87,6 +92,19 @@ class Game():
             self.current_player.score += block.selected['score']
             self.change_turn()
         else: print('ここには置けません')
+
+    def set_block_on_click_position_by_CP(self, board, block):
+        xpos = random.randint(0, 7) # 右方向に正
+        ypos = random.randint(0, 7) # 下方向に正
+        print([xpos, ypos])
+        if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
+            board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+            self.change_image(board, block.selected['shape'], xpos, ypos)
+            self.current_player.used_blocks.append(self.current_player.selected_shape_index)
+            self.current_player.score += block.selected['score']
+            self.change_turn()
+        else:
+            print('ここには置けません')
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color.name]
