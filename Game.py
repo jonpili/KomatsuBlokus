@@ -13,7 +13,7 @@ class Color(Enum):
     BLUE   = 3
 
 class Game():
-    TILE_NUMBER = 8
+    TILE_NUMBER = 8 # 3の倍数 - 1
     TILE_LENGTH = 50
 
     COLOR_LIST  = [Color.GREEN, Color.YELLOW]
@@ -93,8 +93,8 @@ class Game():
         else: print('ここには置けません')
 
     def set_block_on_click_position_by_CP(self, board, block):
-        xpos = random.randint(1, 8) # 右方向に正
-        ypos = random.randint(1, 8) # 下方向に正
+        xpos = random.randint(1, self.TILE_NUMBER) # 右方向に正
+        ypos = random.randint(1, self.TILE_NUMBER) # 下方向に正
         print([xpos, ypos], end=' ')
         if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
             board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)

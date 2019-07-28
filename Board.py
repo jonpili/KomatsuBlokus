@@ -12,8 +12,10 @@ class Board():
         self.COLOR_LIST  = game.COLOR_LIST
 
         self.status = self.make_board()
-        self.status[0][3][3] = self.ABLESET # 緑色のスタート地点
-        self.status[1][6][6] = self.ABLESET # 黄色のスタート地点
+
+        start_number = (game.TILE_NUMBER + 1) // 3
+        self.status[0][start_number][start_number] = self.ABLESET # 緑色のスタート地点
+        self.status[1][start_number * 2][start_number * 2] = self.ABLESET # 黄色のスタート地点
 
     def make_board(self):
         board  = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
