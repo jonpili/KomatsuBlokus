@@ -5,8 +5,9 @@ class Player():
     block_shape_index_list     = [chr(ord('a') + i) for i in range(21)] # aからuの配列
     block_direction_index_list = [str(n) for n in range(8)] # 0から7の配列
 
-    def __init__(self, color):
-        self.color = color
+    def __init__(self, enum, boolean):
+        self.color = enum
+        self.computer = boolean
         self.passed = False
         self.used_blocks = []
         self.usable_blocks = []
@@ -21,17 +22,13 @@ class Player():
 
     def start_my_turn(self, game, board):
         board.check_status(game)
-        if self.color == game.COLOR_LIST[0]:
-            block = self.select_block(board)
-        elif self.color == game.COLOR_LIST[1]:
-            block = self.select_block_by_CP(board)
+        if self.computer: block = self.select_block_by_CP(board)
+        else:             block = self.select_block(board)
 
         while not board.settable_area_exist_check(self.color, block.selected['shape']):
             print('そのブロックを置く場所がありません\n')
-            if self.color == game.COLOR_LIST[0]:
-                block = self.select_block(board)
-            elif self.color == game.COLOR_LIST[1]:
-                block = self.select_block_by_CP(board)
+            if self.computer: block = self.select_block_by_CP(board)
+            else:             block = self.select_block(board)
         return block
 
     def select_block(self, board):
