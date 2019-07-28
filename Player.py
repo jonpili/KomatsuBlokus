@@ -28,31 +28,28 @@ class Player():
     def select_block(self, board):
         print('手持ちのブロックリスト')
         print([i for i in self.block_shape_index_list if i not in self.used_blocks])
-        print('')
-        self.selected_shape_index = input('ブロックを選択してください：')
+        self.selected_shape_index = input('\nブロックを選択してください：')
         while True:
             if self.check_input(board):
                 break
 
-        if not self.passed:
+        self.selected_direction_index = input('向きを選択してください：')
+        while not self.selected_direction_index in self.block_direction_index_list:
+            print('入力が間違っています')
             self.selected_direction_index = input('向きを選択してください：')
-            while not self.selected_direction_index in self.block_direction_index_list:
-                print('入力が間違っています')
-                self.selected_direction_index = input('向きを選択してください：')
-            self.selected_direction_index = int(self.selected_direction_index)
+        self.selected_direction_index = int(self.selected_direction_index)
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
-
         return block
 
     def check_input(self, board):
-        if self.selected_shape_index in self.used_blocks or not self.selected_shape_index in self.block_shape_index_list:
-            if self.selected_shape_index in self.used_blocks:
-                print('そのブロックは既に使っています\n')
-                self.selected_shape_index = input('ブロックを選択してください：')
-            else:
-                print('入力が間違っています\n')
-                self.selected_shape_index = input('ブロックを選択してください：')
+        if self.selected_shape_index in self.used_blocks:
+            print('そのブロックは既に使っています\n')
+            self.selected_shape_index = input('ブロックを選択してください：')
+            return False
+        elif not self.selected_shape_index in self.block_shape_index_list:
+            print('入力が間違っています\n')
+            self.selected_shape_index = input('ブロックを選択してください：')
             return False
         else:
             return True

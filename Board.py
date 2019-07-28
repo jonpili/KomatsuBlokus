@@ -12,10 +12,8 @@ class Board():
         self.COLOR_LIST  = game.COLOR_LIST
 
         self.status = self.make_board()
-        # 緑色のスタート地点
-        self.status[0][3][3] = self.ABLESET
-        # 黄色のスタート地点
-        self.status[1][6][6] = self.ABLESET
+        self.status[0][3][3] = self.ABLESET # 緑色のスタート地点
+        self.status[1][6][6] = self.ABLESET # 黄色のスタート地点
 
     def make_board(self):
         board  = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
@@ -35,12 +33,14 @@ class Board():
         return boards
 
     def check_status(self, game):
-        # テスト用に便利なので残しておく
-        print('')
-        print('ーーーーー緑色の盤面ーーーーー')
-        print(self.status[0])
-        print('ーーーーー黄色の盤面ーーーーー')
-        print(self.status[1])
+        # テスト用に残しておく
+        # print('')
+        # print('ーーーーー緑色の盤面ーーーーー')
+        # for row in self.status[0]:
+        #     print(row)
+        # print('ーーーーー黄色の盤面ーーーーー')
+        # for row in self.status[1]:
+        #     print(row)
 
         print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
         print(game.current_player.color.name + ':'
@@ -51,11 +51,9 @@ class Board():
         pygame.display.flip()
 
     def any_block_settable_check(self, player):
-        # passed = Trueであればパスする
         if player.passed:
             return False
         else:
-            # 持ち駒のうち一つでも置けるものがあればターン続行
             for block_shape_index in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
                 for block_direction_index in range(8):
                     block_for_check = Block.Block(block_shape_index, block_direction_index, False)

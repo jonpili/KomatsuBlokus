@@ -53,12 +53,12 @@ class Game():
 
     def start(self, board):
         while True:
-            if not board.any_block_settable_check(self.current_player):
-                if all([player.passed for player in [self.player_green, self.player_yellow]]):
-                    self.score_check(self.player_green, self.player_yellow)
-                    break
-                else:
-                    self.current_player.pass_my_turn(self)
+            if all([player.passed for player in [self.player_green, self.player_yellow]]):
+                self.score_check(self.player_green, self.player_yellow)
+                break
+            elif not board.any_block_settable_check(self.current_player):
+                self.current_player.pass_my_turn(self)
+
             else:
                 block = self.current_player.start_my_turn(self, board)
                 self.play(board, block)
@@ -76,18 +76,18 @@ class Game():
                     block = self.current_player.cancel_selected(self, board)
                 # クリックしたらブロックを配置
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
-                    ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
-                    if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
-                        board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
-                        self.change_image(board, block.selected['shape'], xpos, ypos)
-                        self.current_player.used_blocks.append(self.current_player.selected_shape_index)
-                        self.current_player.score += block.selected['score']
-                        self.change_turn()
-                    else: print('ここには置けません')
+                    self.set_block_on_click_position(board, block)
 
-    def change_turn(self):
-        self.current_player = self.current_player.next_player
+    def set_block_on_click_position(self, board, block):
+        xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
+        ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
+        if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
+            board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+            self.change_image(board, block.selected['shape'], xpos, ypos)
+            self.current_player.used_blocks.append(self.current_player.selected_shape_index)
+            self.current_player.score += block.selected['score']
+            self.change_turn()
+        else: print('ここには置けません')
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color.name]
@@ -95,6 +95,9 @@ class Game():
             to_x = self.TILE_LENGTH * (x + coord[1] - 2)
             to_y = self.TILE_LENGTH * (y + coord[0] - 2)
             self.surface.blit(image, image.get_rect().move(to_x, to_y))
+
+    def change_turn(self):
+        self.current_player = self.current_player.next_player
 
     def score_check(self, player_green, player_yellow):
         print('ゲームは終了です')
