@@ -5,12 +5,6 @@ from enum import Enum
 
 import Player
 
-# class Color(Enum):
-#     GREEN  = 'green'
-#     YELLOW = 'yellow'
-#     RED    = 'red' # 将来的に実装
-#     BLUE   = 'blue' # 将来的に実装
-
 class Color(Enum):
     GREEN  = 0
     YELLOW = 1
@@ -51,18 +45,17 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        player_green  = Player.Player(Color.GREEN)
-        player_yellow = Player.Player(Color.YELLOW)
-        player_green.next_player  = player_yellow
-        player_yellow.next_player = player_green
-
-        self.current_player = player_green
+        self.player_green  = Player.Player(Color.GREEN)
+        self.player_yellow = Player.Player(Color.YELLOW)
+        self.player_green.next_player  = self.player_yellow
+        self.player_yellow.next_player = self.player_green
+        self.current_player = self.player_green
 
     def start(self, board):
         while True:
             if not board.any_block_settable_check(self.current_player):
-                if all([player.passed for player in [player_green, player_yellow]]):
-                    self.score_check(player_green, player_yellow)
+                if all([player.passed for player in [self.player_green, self.player_yellow]]):
+                    self.score_check(self.player_green, self.player_yellow)
                     break
                 else:
                     self.current_player.pass_my_turn(self)

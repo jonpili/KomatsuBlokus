@@ -17,15 +17,8 @@ class Board():
         # 黄色のスタート地点
         self.status[1][6][6] = self.ABLESET
 
-        # self.current_player = list(map(lambda x: list(map(lambda y: y[game.current_player.color.value], x)), self.status))
-        # self.opponent_colors = []
-        # for opponent_color in [i for i in self.COLOR_LIST if i != game.current_player.color]:
-        #     self.opponent_colors.append(list(map(lambda x: list(map(lambda y: y[opponent_color.value], x)), self.status)))
-
     def make_board(self):
-        boards = []
-        board = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
-        print(board)
+        board  = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
         # 枠を作成
         for i in range(self.TILE_NUMBER + 2):
             board[0][i]                    = self.CANTSET
@@ -34,6 +27,7 @@ class Board():
             board[i + 1][0]                    = self.CANTSET
             board[i + 1][self.TILE_NUMBER + 1] = self.CANTSET
 
+        boards = []
         for color in self.COLOR_LIST:
             boards.append(board)
 
