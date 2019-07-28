@@ -9,6 +9,7 @@ class Player():
         self.color = color
         self.passed = False
         self.used_blocks = []
+        self.usable_blocks = []
         self.selected_shape_index = ''
         self.selected_direction_index = ''
         self.score = 0
@@ -51,8 +52,7 @@ class Player():
         return block
 
     def select_block_by_CP(self, board):
-        usable_block_list = [i for i in self.block_shape_index_list if i not in self.used_blocks]
-        self.selected_shape_index = random.choice(usable_block_list)
+        self.selected_shape_index = random.choice(self.usable_blocks)
         self.selected_direction_index = random.choice(range(8))
 
         block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
