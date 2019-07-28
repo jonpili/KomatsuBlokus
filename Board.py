@@ -13,39 +13,45 @@ class Board():
 
         self.status = self.make_board()
         # 緑色のスタート地点
-        self.status[3][3][0] = self.ABLESET
+        self.status[0][3][3] = self.ABLESET
         # 黄色のスタート地点
-        self.status[6][6][1] = self.ABLESET
+        self.status[1][6][6] = self.ABLESET
 
-        self.green_board = list(map(lambda x: list(map(lambda y: y[0], x)), self.status))
-        self.yellow_board = list(map(lambda x: list(map(lambda y: y[1], x)), self.status))
+        # self.current_player = list(map(lambda x: list(map(lambda y: y[game.current_player.color.value], x)), self.status))
+        # self.opponent_colors = []
+        # for opponent_color in [i for i in self.COLOR_LIST if i != game.current_player.color]:
+        #     self.opponent_colors.append(list(map(lambda x: list(map(lambda y: y[opponent_color.value], x)), self.status)))
 
     def make_board(self):
-        board  = [[[self.BLANK, self.BLANK] for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
+        boards = []
+        board = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
+        print(board)
         # 枠を作成
         for i in range(self.TILE_NUMBER + 2):
-            board[0][i]              = [self.CANTSET, self.CANTSET]
-            board[self.TILE_NUMBER + 1][i] = [self.CANTSET, self.CANTSET]
+            board[0][i]                    = self.CANTSET
+            board[self.TILE_NUMBER + 1][i] = self.CANTSET
         for i in range(self.TILE_NUMBER):
-            board[i + 1][0]              = [self.CANTSET, self.CANTSET]
-            board[i + 1][self.TILE_NUMBER + 1] = [self.CANTSET, self.CANTSET]
-        board = np.asarray(board)
-        return board
+            board[i + 1][0]                    = self.CANTSET
+            board[i + 1][self.TILE_NUMBER + 1] = self.CANTSET
+
+        for color in self.COLOR_LIST:
+            boards.append(board)
+
+        boards = np.asarray(boards)
+        return boards
 
     def check_status(self, game):
         # テスト用に便利なので残しておく
-        # print('')
-        # print('ーーーーー緑色の盤面ーーーーー')
-        # for width in self.green_board:
-        #     print(width)
-        # print('ーーーーー黄色の盤面ーーーーー')
-        # for width in self.yellow_board:
-        #     print(width)
+        print('')
+        print('ーーーーー緑色の盤面ーーーーー')
+        print(self.status[0])
+        print('ーーーーー黄色の盤面ーーーーー')
+        print(self.status[1])
 
-        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
-        print(game.current_player.color + ':'
+        print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
+        print(game.current_player.color.name + ':'
               + str(game.current_player.score) + ', '
-              + game.current_player.next_player.color + ':'
+              + game.current_player.next_player.color.name + ':'
               + str(game.current_player.next_player.score) + '\n')
 
         pygame.display.flip()
@@ -74,24 +80,24 @@ class Board():
     def settable_check(self, color, block_shape, x, y):
         # 1つでもCANTSETがあれば置けない
         for coord in np.argwhere(block_shape == self.CANTSET):
-            if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.CANTSET:
+            if self.status[color.value][y + coord[0] - 2][x + coord[1] - 2] == self.CANTSET:
                 return False
         # 1つでもABLESETがあれば置ける
         for coord in np.argwhere(block_shape == self.CANTSET):
-            if eval('self.' + color + '_board')[y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
+            if self.status[color.value][y + coord[0] - 2][x + coord[1] - 2] == self.ABLESET:
                 return True
         return False
 
     def change_status(self, color, block_shape, block_influence, x, y):
         # ブロックの影響を自分のボードに適用
         for coord in np.argwhere(block_influence == self.CANTSET):
-            eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] = self.CANTSET
+            self.status[color.value][y + coord[0] - 3][x + coord[1] - 3] = self.CANTSET
         for coord in np.argwhere(block_influence == self.ABLESET):
-            if eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] == self.BLANK:
-                eval('self.' + color + '_board')[y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
+            if self.status[color.value][y + coord[0] - 3][x + coord[1] - 3] == self.BLANK:
+                self.status[color.value][y + coord[0] - 3][x + coord[1] - 3] = self.ABLESET
 
         # ブロックの影響を自分以外のボードに適用
         opponent_colors = [i for i in self.COLOR_LIST if i != color]
-        for opponent_color in opponent_colors:
+        for board_opponent_color in opponent_colors:
             for coord in np.argwhere(block_shape == self.CANTSET):
-                eval('self.' + opponent_color + '_board')[y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET
+                self.status[board_opponent_color.value][y + coord[0] - 2][x + coord[1] - 2] = self.CANTSET

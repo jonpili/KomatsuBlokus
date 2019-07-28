@@ -13,7 +13,7 @@ class Player():
         self.score = 0
 
     def pass_my_turn(self, game):
-        print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
+        print('＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
         print('置けるブロックが存在しないためパスとなります\n')
         game.change_turn()
 

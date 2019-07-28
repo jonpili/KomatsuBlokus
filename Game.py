@@ -1,19 +1,27 @@
 import pygame
 import sys
 import numpy as np
+from enum import Enum
 
 import Player
+
+# class Color(Enum):
+#     GREEN  = 'green'
+#     YELLOW = 'yellow'
+#     RED    = 'red' # 将来的に実装
+#     BLUE   = 'blue' # 将来的に実装
+
+class Color(Enum):
+    GREEN  = 0
+    YELLOW = 1
+    RED    = 2
+    BLUE   = 3
 
 class Game():
     TILE_NUMBER = 8
     TILE_LENGTH = 50
 
-    GREEN  = 'green'
-    YELLOW = 'yellow'
-    RED    = 'red' # 将来的に実装
-    BLUE   = 'blue' # 将来的に実装
-
-    COLOR_LIST  = [GREEN, YELLOW]
+    COLOR_LIST  = [Color.GREEN, Color.YELLOW]
 
     # タイルの設置はボード外エラー回避の為2マス広く
     SCREEN_WIDTH  = TILE_LENGTH * (TILE_NUMBER + 2)
@@ -25,13 +33,13 @@ class Game():
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
     TILE_IMAGES = {
-        'default': pygame.image.load('image/tile.bmp').convert(),
-        'green': pygame.image.load('image/green.bmp').convert(),
-        'yellow': pygame.image.load('image/yellow.bmp').convert()
+        'DEFAULT': pygame.image.load('image/tile.bmp').convert(),
+        'GREEN': pygame.image.load('image/green.bmp').convert(),
+        'YELLOW': pygame.image.load('image/yellow.bmp').convert()
     }
 
     # タイルで画面を埋める
-    image = TILE_IMAGES['default']
+    image = TILE_IMAGES['DEFAULT']
     for i in range(0, TILE_LIMIT, TILE_LENGTH):
         for j in range(0, TILE_LIMIT, TILE_LENGTH):
             # 枠の分はスキップ
@@ -42,14 +50,15 @@ class Game():
     pygame.display.set_caption('Komatsu Blokus')
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
-    def start(self, board):
-        player_green  = Player.Player(self.GREEN)
-        player_yellow = Player.Player(self.YELLOW)
+    def __init__(self):
+        player_green  = Player.Player(Color.GREEN)
+        player_yellow = Player.Player(Color.YELLOW)
         player_green.next_player  = player_yellow
         player_yellow.next_player = player_green
-        # ゲームスタート処理
+
         self.current_player = player_green
 
+    def start(self, board):
         while True:
             if not board.any_block_settable_check(self.current_player):
                 if all([player.passed for player in [player_green, player_yellow]]):
@@ -88,7 +97,7 @@ class Game():
         self.current_player = self.current_player.next_player
 
     def change_image(self, board, block_shape, x, y):
-        image = self.TILE_IMAGES[self.current_player.color]
+        image = self.TILE_IMAGES[self.current_player.color.name]
         for coord in np.argwhere(block_shape == board.CANTSET):
             to_x = self.TILE_LENGTH * (x + coord[1] - 2)
             to_y = self.TILE_LENGTH * (y + coord[0] - 2)
