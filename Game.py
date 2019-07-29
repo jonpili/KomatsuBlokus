@@ -47,7 +47,7 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
+        self.players = [Player.Player(Color.GREEN, False), Player.Player(Color.YELLOW, False)]
         self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
         self.players[Color.YELLOW.value].next_player  = self.players[Color.GREEN.value]
         self.current_player = self.players[Color.GREEN.value]
