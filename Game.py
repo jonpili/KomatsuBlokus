@@ -119,7 +119,6 @@ class Game():
 
         winner_score = max([player.score for player in self.players])
         winners = [player for player in self.players if player.score == winner_score]
-
         if len(winners) == 1:
             print('Winner is \"' + winners[0].color.name + '\"!!')
         else:
