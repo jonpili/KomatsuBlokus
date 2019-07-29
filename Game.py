@@ -47,14 +47,13 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        self.player_green  = Player.Player(Color.GREEN, True)
-        self.player_yellow = Player.Player(Color.YELLOW, True)
-        self.player_green.next_player  = self.player_yellow
-        self.player_yellow.next_player = self.player_green
-        self.current_player = self.player_green
+        self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
+        self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
+        self.players[Color.YELLOW.value].next_player  = self.players[Color.GREEN.value]
+        self.current_player = self.players[Color.GREEN.value]
 
     def start(self, board):
-        while not all([player.passed for player in [self.player_green, self.player_yellow]]):
+        while not all([player.passed for player in self.players]):
             if not board.any_block_settable_check(self.current_player):
                 self.current_player.pass_my_turn(self)
             else:
@@ -113,15 +112,22 @@ class Game():
         self.current_player = self.current_player.next_player
 
     def score_check(self):
-        print('\nゲームは終了です')
-        print('緑色の点数は ' + str(self.player_green.score) + ' 点です')
-        print('黄色の点数は ' + str(self.player_yellow.score) + ' 点です\n')
+        print('\nGame Finished!\n')
+        for player in self.players:
+            print(player.color.name + '\'s score is ' + str(player.score) + '.')
+        print('')
 
-        if self.player_green.score > self.player_yellow.score:   print('勝者は「緑色」です')
-        elif self.player_green.score < self.player_yellow.score: print('勝者は「黄色」です')
+        winner_score = max([player.score for player in self.players])
+        winners = [player for player in self.players if player.score == winner_score]
+
+        if len(winners) == 1:
+            print('Winner is \"' + winners[0].color.name + '\"!!')
         else:
-            if len(self.player_green.used_blocks) < len(self.player_yellow.used_blocks):   print('勝者は「緑色」です')
-            elif len(self.player_green.used_blocks) > len(self.player_yellow.used_blocks): print('勝者は「黄色」です')
-            else: print('引き分けです')
+            winner_used_block_number = min([len(player.used_blocks) for player in winners])
+            winners = [player for player in self.players if len(player.used_blocks) == winner_used_block_number]
+            if len(winners) == 1:
+                print('Winner is \"' + winners[0].color.name + '\"!!')
+            else:
+                print('It\'s a draw.')
 
-        print('おめでとうございます！！\n')
+        print('\nCongratulations!\n')
