@@ -13,8 +13,8 @@ class Color(Enum):
     BLUE   = 3
 
 class Game():
-    TILE_NUMBER = 8 # 3の倍数 - 1
-    TILE_LENGTH = 50
+    TILE_NUMBER = 14 # 3の倍数 - 1
+    TILE_LENGTH = 30
 
     COLOR_LIST  = [Color.GREEN, Color.YELLOW]
 
@@ -28,9 +28,11 @@ class Game():
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
     TILE_IMAGES = {
-        'DEFAULT': pygame.image.load('image/tile.bmp').convert(),
-        'GREEN': pygame.image.load('image/green.bmp').convert(),
-        'YELLOW': pygame.image.load('image/yellow.bmp').convert()
+        'DEFAULT': pygame.image.load('image30/tile.png').convert(),
+        'GREEN':   pygame.image.load('image30/green.png').convert(),
+        'YELLOW':  pygame.image.load('image30/yellow.png').convert(),
+        'RED':     pygame.image.load('image30/red.png').convert(),
+        'BLUE':    pygame.image.load('image30/blue.png').convert()
     }
 
     # タイルで画面を埋める
