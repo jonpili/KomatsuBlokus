@@ -1,28 +1,27 @@
 # import numpy as np
-# import test1
 #
 # array = [
-#         [0,0,1,0,0],
-#         [0,0,1,0,0],
-#         [0,0,1,0,0],
-#         [0,1,1,0,0],
-#         [0,0,0,0,0]
+#         [1,2,3,4,5],
+#         [1,2,3,4,5],
+#         [1,2,3,4,5],
+#         [1,2,3,4,5],
+#         [1,2,3,4,5]
 #         ]
 #
 # array = np.asarray(array)
-#
-#我こそは村松
 
-class Oya():
-    word = 'こんにちは'
-    def talk(self):
-        b.talk()
+from enum import Enum
 
-class Kodomo():
-    def talk(self):
-        print(a.word)
+class Color(Enum):
+    GREEN  = 'green'
+    YELLOW = 'yellow'
+    RED    = 'red' # 将来的に実装
+    BLUE   = 'blue' # 将来的に実装
 
-a = Oya()
-b = Kodomo()
-
-a.talk()
+if __name__ == '__main__':
+    print(Color)  # <enum 'Color'>
+    print(Color('green').value)  # Color.RED
+    print(Color.RED == Color.RED)  # True
+    print(Color.RED == Color.GREEN)  # False
+    for color in Color:
+        print(color)  # Color.RED\nColor.GREEN\nColor.BLUE
