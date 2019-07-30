@@ -131,5 +131,5 @@ class Game():
             else:
                 print('It\'s a draw.')
 
-        print('\nCongratulations!\n')
+        print('\nCongratulations!')
         winner_message = input()
