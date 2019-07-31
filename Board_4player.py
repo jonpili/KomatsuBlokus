@@ -13,16 +13,11 @@ class Board():
 
         self.status = self.make_board()
 
-        if game.player_number == 2:
-            start_number = (game.TILE_NUMBER + 1) // 3
-            self.status[0][start_number][start_number] = self.ABLESET # 緑色のスタート地点
-            self.status[1][start_number * 2][start_number * 2] = self.ABLESET # 黄色のスタート地点
-        elif game.player_number == 4:
-            start_number = game.TILE_NUMBER
-            self.status[0][1][1] = self.ABLESET # 緑色のスタート地点
-            self.status[1][1][start_number] = self.ABLESET # 黄色のスタート地点
-            self.status[2][start_number][start_number] = self.ABLESET # 黄色のスタート地点
-            self.status[3][start_number][1] = self.ABLESET # 黄色のスタート地点
+        start_number = game.TILE_NUMBER
+        self.status[0][1][1] = self.ABLESET # 緑色のスタート地点
+        self.status[1][1][start_number] = self.ABLESET # 黄色のスタート地点
+        self.status[2][start_number][start_number] = self.ABLESET # 黄色のスタート地点
+        self.status[3][start_number][1] = self.ABLESET # 黄色のスタート地点
 
     def make_board(self):
         board  = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
@@ -52,21 +47,14 @@ class Board():
         #     print(row)
 
         print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
-
-        if game.player_number == 2:
-            print(game.current_player.color.name + ':'
-                  + str(game.current_player.score) + ', '
-                  + game.current_player.next_player.color.name + ':'
-                  + str(game.current_player.next_player.score) + '\n')
-        elif game.player_number == 4:
-            print(game.players[0].color.name + ':'
-                  + str(game.players[0].score) + ', '
-                  + game.players[1].color.name + ':'
-                  + str(game.players[1].score) + ', '
-                  + game.players[2].color.name + ':'
-                  + str(game.players[2].score) + ', '
-                  + game.players[3].color.name + ':'
-                  + str(game.players[3].score) + '\n')
+        print(game.players[0].color.name + ':'
+              + str(game.players[0].score) + ', '
+              + game.players[1].color.name + ':'
+              + str(game.players[1].score) + ', '
+              + game.players[2].color.name + ':'
+              + str(game.players[2].score) + ', '
+              + game.players[3].color.name + ':'
+              + str(game.players[3].score) + '\n')
 
     def any_block_settable_check(self, player):
         if player.passed:
