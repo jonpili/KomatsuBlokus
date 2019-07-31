@@ -13,16 +13,10 @@ class Color(Enum):
     BLUE   = 3
 
 class Game():
-    TILE_NUMBER = 14 # 3の倍数 - 1
-    TILE_LENGTH = 30
+    TILE_NUMBER = 8 # 3の倍数 - 1
+    TILE_LENGTH = 50
 
-    #プレイヤー人数
-    player_number = 4
-
-    if player_number == 2:
-        COLOR_LIST  = [Color.GREEN, Color.YELLOW]
-    elif player_number == 4:
-        COLOR_LIST  = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
+    COLOR_LIST  = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
 
     # タイルの設置はボード外エラー回避の為2マス広く
     SCREEN_WIDTH  = TILE_LENGTH * (TILE_NUMBER + 2)
@@ -34,11 +28,11 @@ class Game():
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
     TILE_IMAGES = {
-        'DEFAULT': pygame.image.load('image30/tile.bmp').convert(),
-        'GREEN':   pygame.image.load('image30/green.bmp').convert(),
-        'YELLOW':  pygame.image.load('image30/yellow.bmp').convert(),
-        'RED':     pygame.image.load('image30/red.bmp').convert(),
-        'BLUE':    pygame.image.load('image30/blue.bmp').convert()
+        'DEFAULT': pygame.image.load('image/tile.bmp').convert(),
+        'GREEN': pygame.image.load('image/green.bmp').convert(),
+        'YELLOW': pygame.image.load('image/yellow.bmp').convert(),
+        'RED': pygame.image.load('image/red.bmp').convert(),
+        'BLUE': pygame.image.load('image/blue.bmp').convert()
     }
 
     # タイルで画面を埋める
@@ -55,24 +49,12 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        if self.player_number == 2:
-            self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
-            self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
-            self.players[Color.YELLOW.value].next_player  = self.players[Color.GREEN.value]
-        elif self.player_number == 4:
-            self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, True)]
-            self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
-            self.players[Color.YELLOW.value].next_player  = self.players[Color.RED.value]
-            self.players[Color.RED.value].next_player  = self.players[Color.BLUE.value]
-            self.players[Color.BLUE.value].next_player  = self.players[Color.GREEN.value]
-
+        self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, True)]
+        self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
+        self.players[Color.YELLOW.value].next_player  = self.players[Color.RED.value]
+        self.players[Color.RED.value].next_player  = self.players[Color.BLUE.value]
+        self.players[Color.BLUE.value].next_player  = self.players[Color.GREEN.value]
         self.current_player = self.players[Color.GREEN.value]
-
-    # def check_player_number(self):
-    #     self.player_number = input('人数を選択してください：')
-    #     while not self.player_number == 2 or self.player_number == 4:
-    #         print('入力が間違っています')
-    #         self.player_number = input('人数を選択してください：')
 
     def start(self, board):
         while not all([player.passed for player in self.players]):
@@ -151,5 +133,5 @@ class Game():
             else:
                 print('It\'s a draw.')
 
-        print('\nCongratulations!')
+        print('\nCongratulations!\n')
         winner_message = input()
