@@ -34,11 +34,11 @@ class Game():
     surface.fill((0,0,0)) # 黒で塗りつぶし
 
     TILE_IMAGES = {
-        'DEFAULT': pygame.image.load('image/tile.bmp').convert(),
-        'GREEN':   pygame.image.load('image/green.bmp').convert(),
-        'YELLOW':  pygame.image.load('image/yellow.bmp').convert(),
-        'RED':     pygame.image.load('image/red.bmp').convert(),
-        'BLUE':    pygame.image.load('image/blue.bmp').convert()
+        'DEFAULT': pygame.image.load('image30/tile.bmp').convert(),
+        'GREEN':   pygame.image.load('image30/green.bmp').convert(),
+        'YELLOW':  pygame.image.load('image30/yellow.bmp').convert(),
+        'RED':     pygame.image.load('image30/red.bmp').convert(),
+        'BLUE':    pygame.image.load('image30/blue.bmp').convert()
     }
 
     # タイルで画面を埋める
