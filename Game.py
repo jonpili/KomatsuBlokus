@@ -35,10 +35,10 @@ class Game():
 
     TILE_IMAGES = {
         'DEFAULT': pygame.image.load('image/tile.bmp').convert(),
-        'GREEN': pygame.image.load('image/green.bmp').convert(),
-        'YELLOW': pygame.image.load('image/yellow.bmp').convert(),
-        'RED': pygame.image.load('image/red.bmp').convert(),
-        'BLUE': pygame.image.load('image/blue.bmp').convert()
+        'GREEN':   pygame.image.load('image/green.bmp').convert(),
+        'YELLOW':  pygame.image.load('image/yellow.bmp').convert(),
+        'RED':     pygame.image.load('image/red.bmp').convert(),
+        'BLUE':    pygame.image.load('image/blue.bmp').convert()
     }
 
     # タイルで画面を埋める
