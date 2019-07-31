@@ -13,7 +13,7 @@ class Color(Enum):
     BLUE   = 3
 
 class Game():
-    TILE_NUMBER = 5 # 3の倍数 - 1
+    TILE_NUMBER = 20 # 3の倍数 - 1
     TILE_LENGTH = 30
 
     # タイルの設置はボード外エラー回避の為2マス広く
@@ -46,16 +46,30 @@ class Game():
     pygame.display.flip()
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
-    def __init__(self, player_number):
+    def __init__(self, player_number, CP_number):
         self.player_number = player_number
         if self.player_number == 2:
+            if CP_number == 0:
+                self.players = [Player.Player(Color.GREEN, False), Player.Player(Color.YELLOW, False)]
+            elif CP_number == 1:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, False)]
+            elif CP_number == 2:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
             self.COLOR_LIST  = [Color.GREEN, Color.YELLOW]
-            self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
             self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
             self.players[Color.YELLOW.value].next_player  = self.players[Color.GREEN.value]
         elif self.player_number == 4:
+            if CP_number == 0:
+                self.players = [Player.Player(Color.GREEN, False), Player.Player(Color.YELLOW, False), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
+            elif CP_number == 1:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, False), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
+            elif CP_number == 2:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
+            elif CP_number == 3:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, False)]
+            elif CP_number == 4:
+                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, True)]
             self.COLOR_LIST  = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
-            self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, True)]
             self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
             self.players[Color.YELLOW.value].next_player  = self.players[Color.RED.value]
             self.players[Color.RED.value].next_player     = self.players[Color.BLUE.value]
