@@ -15,14 +15,14 @@ class Board():
 
         if game.player_number == 2:
             start_number = (game.TILE_NUMBER + 1) // 3
-            self.status[0][start_number][start_number] = self.ABLESET # 緑色のスタート地点
+            self.status[0][start_number][start_number]         = self.ABLESET # 緑色のスタート地点
             self.status[1][start_number * 2][start_number * 2] = self.ABLESET # 黄色のスタート地点
         elif game.player_number == 4:
             start_number = game.TILE_NUMBER
-            self.status[0][1][1] = self.ABLESET # 緑色のスタート地点
-            self.status[1][1][start_number] = self.ABLESET # 黄色のスタート地点
-            self.status[2][start_number][start_number] = self.ABLESET # 黄色のスタート地点
-            self.status[3][start_number][1] = self.ABLESET # 黄色のスタート地点
+            self.status[0][1][1]                       = self.ABLESET # 緑色のスタート地点
+            self.status[1][1][start_number]            = self.ABLESET # 黄色のスタート地点
+            self.status[2][start_number][start_number] = self.ABLESET # 赤色のスタート地点
+            self.status[3][start_number][1]            = self.ABLESET # 青色のスタート地点
 
     def make_board(self):
         board  = [[self.BLANK for width in range(self.TILE_NUMBER + 2)] for height in range(self.TILE_NUMBER + 2)]
