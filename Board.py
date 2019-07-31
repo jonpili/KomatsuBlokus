@@ -54,7 +54,7 @@ class Board():
         print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
 
         for number in range(game.player_number):
-            print(game.players[number].color.name + ':' + str(game.players[number].score) + '  ', end='')
+            print(game.players[number].color.name + ':' + str(game.players[number].score), end='  ')
         print('')
 
     def any_block_settable_check(self, player):
