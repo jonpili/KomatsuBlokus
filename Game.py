@@ -75,7 +75,7 @@ class Game():
         player = self.current_player
         while player == self.current_player:
             if self.current_player.computer:
-                self.set_block_on_click_position_by_CP(board, block)
+                self.set_block_on_click_position(board, block)
             else:
                 for event in pygame.event.get():
                     # ESCAPEキーが押されたらゲーム終了
@@ -90,26 +90,23 @@ class Game():
                         self.set_block_on_click_position(board, block)
 
     def set_block_on_click_position(self, board, block):
-        xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
-        ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
-        if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
-            board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
-            self.change_image(board, block.selected['shape'], xpos, ypos)
-            self.current_player.used_blocks.append(self.current_player.selected_shape_index)
-            self.current_player.score += block.selected['score']
-            self.change_turn()
-        else: print('ここには置けません')
+        if self.current_player.computer:
+            xpos = random.randint(1, self.TILE_NUMBER) # 右方向に正
+            ypos = random.randint(1, self.TILE_NUMBER) # 下方向に正
+            print([xpos, ypos], end=' ')
+        else:
+            xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
+            ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
 
-    def set_block_on_click_position_by_CP(self, board, block):
-        xpos = random.randint(1, self.TILE_NUMBER) # 右方向に正
-        ypos = random.randint(1, self.TILE_NUMBER) # 下方向に正
-        print([xpos, ypos], end=' ')
         if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
             board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
             self.change_image(board, block.selected['shape'], xpos, ypos)
             self.current_player.used_blocks.append(self.current_player.selected_shape_index)
             self.current_player.score += block.selected['score']
             self.change_turn()
+        else:
+            if not self.current_player.computer:
+                print('ここには置けません')
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color.name]
