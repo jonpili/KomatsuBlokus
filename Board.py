@@ -53,20 +53,9 @@ class Board():
 
         print('\n＝＝＝＝＝＝＝＝＝＝' + game.current_player.color.name + '\'s Turn＝＝＝＝＝＝＝＝＝＝')
 
-        if game.player_number == 2:
-            print(game.current_player.color.name + ':'
-                  + str(game.current_player.score) + ', '
-                  + game.current_player.next_player.color.name + ':'
-                  + str(game.current_player.next_player.score) + '\n')
-        elif game.player_number == 4:
-            print(game.players[0].color.name + ':'
-                  + str(game.players[0].score) + ', '
-                  + game.players[1].color.name + ':'
-                  + str(game.players[1].score) + ', '
-                  + game.players[2].color.name + ':'
-                  + str(game.players[2].score) + ', '
-                  + game.players[3].color.name + ':'
-                  + str(game.players[3].score) + '\n')
+        for number in range(game.player_number):
+            print(game.players[number].color.name + ':' + str(game.players[number].score) + '  ', end='')
+        print('')
 
     def any_block_settable_check(self, player):
         if player.passed:
