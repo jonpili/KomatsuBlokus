@@ -27,13 +27,15 @@
 | メソッド | 全小文字 + アンダースコア区切り | make_board |
 | 関数 | 全小文字 + アンダースコア区切り | change_turn |
 | 変数 | 全小文字 + アンダースコア区切り | current_player |
-| 定数 | 全大文字 + アンダースコア区切り | TILE_LENGTH |
+| 定数 | 全大文字 + アンダースコア区切り | TILE_NUMBER |
 
 ## 簡単で網羅的なテスト方法
-1. 緑：j0
-2. 黄：j2
-3. 緑：j0(check_input：使用済みかどうかのチェック)
-4. 緑：e0(settable_area_exist_check：置ける場所があるかのチェック)
-5. 緑：a0→zでキャンセル(cancel_selected：キャンセル)
-6. 緑：b2
-7. 黄：b0（any_block_settable_check, score_check:置けるブロックがあるかのチェック、スコア計算）
+1. TILE_NUMBERを5、プレイヤー数を2、CP数を0にする
+2. 緑：e0
+3. 黄：j0
+4. 緑：e0(check_input：使用済みかどうかのチェック)
+5. 緑：j0(settable_area_exist_check：置ける場所があるかのチェック)
+6. 緑：a0→zでキャンセル(cancel_selected：キャンセル)
+7. 緑：a0
+8. 黄：自動パス（any_block_settable_check：置けるブロックがあるかのチェック）
+9. 緑：自動パス（score_check:スコア計算）
