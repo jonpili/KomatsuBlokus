@@ -43,38 +43,38 @@ def random_next_action(state):
     return state.legal_actions[randint(0, len(state.legal_actions) - 1)]
 
 
-# アルファ・ベータ法（正確にはネガ・アルファ法）
-def nega_alpha(state, alpha, beta):
-    if state.lose:
-        return -1
-
-    if state.draw:
-        return  0
-
-    for action in state.legal_actions:
-        score = -nega_alpha(state.next(action), -beta, -alpha)
-
-        if score > alpha:
-            alpha = score
-
-        if alpha >= beta:
-            return alpha
-
-    return alpha
-
-
-# 次の手を返します（nega_alphaはスコアを返すので、手を返すようにするためにほぼ同じ関数が必要になっちゃいました）。
-def nega_alpha_next_action(state):
-    alpha = -inf
-
-    for action in state.legal_actions:
-        score = -nega_alpha(state.next(action), -inf, -alpha)
-
-        if score > alpha:
-            best_action = action
-            alpha       = score
-
-    return best_action
+# # アルファ・ベータ法（正確にはネガ・アルファ法）
+# def nega_alpha(state, alpha, beta):
+#     if state.lose:
+#         return -1
+#
+#     if state.draw:
+#         return  0
+#
+#     for action in state.legal_actions:
+#         score = -nega_alpha(state.next(action), -beta, -alpha)
+#
+#         if score > alpha:
+#             alpha = score
+#
+#         if alpha >= beta:
+#             return alpha
+#
+#     return alpha
+#
+#
+# # 次の手を返します（nega_alphaはスコアを返すので、手を返すようにするためにほぼ同じ関数が必要になっちゃいました）。
+# def nega_alpha_next_action(state):
+#     alpha = -inf
+#
+#     for action in state.legal_actions:
+#         score = -nega_alpha(state.next(action), -inf, -alpha)
+#
+#         if score > alpha:
+#             best_action = action
+#             alpha       = score
+#
+#     return best_action
 
 
 # プレイアウト。
@@ -159,7 +159,7 @@ def monte_carlo_tree_search_next_action(state):
     root_node = node(state)
     root_node.expand()
 
-    for _ in range(100):
+    for _ in range(10):
         root_node.evaluate()
 
     return state.legal_actions[argmax(root_node.child_nodes, key=attrgetter('n'))]
@@ -175,7 +175,7 @@ def main():
     def test_algorithm(next_actions):
         total_point = 0
 
-        for _ in range(100):
+        for _ in range(10):
             state = State()
 
             for next_action in cat(repeat(next_actions)):
@@ -186,11 +186,11 @@ def main():
 
             total_point += first_player_point(state)
 
-        return total_point / 100
+        return total_point / 10
 
 
     print(test_algorithm((monte_carlo_tree_search_next_action, random_next_action)))
-    print(test_algorithm((monte_carlo_tree_search_next_action, nega_alpha_next_action)))
+    # print(test_algorithm((monte_carlo_tree_search_next_action, nega_alpha_next_action)))
 
 
 if __name__ == '__main__':
