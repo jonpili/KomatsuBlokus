@@ -2,6 +2,7 @@ import pygame
 import sys
 import numpy as np
 from enum import Enum
+from copy import deepcopy
 import random
 
 import Player
@@ -51,6 +52,7 @@ class Game():
         self.question_CP_number()
         self.set_player_and_CP_number()
         self.current_player = self.players[Color.GREEN.value]
+        self.game_record = []
 
     def question_player_number(self):
         player_number = int(input('プレイ人数を入力してください：'))
@@ -134,6 +136,8 @@ class Game():
             self.change_image(board, block.selected['shape'], xpos, ypos)
             self.current_player.used_blocks.append(self.current_player.selected_shape_index)
             self.current_player.score += block.selected['score']
+            record = deepcopy([board.status[self.current_player.color.value], self.current_player.color, self.current_player.selected_shape_index, self.current_player.selected_direction_index, xpos, ypos])
+            self.game_record.append(record)
             self.change_turn()
         else:
             if not self.current_player.computer:
