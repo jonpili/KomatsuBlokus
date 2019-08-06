@@ -130,7 +130,6 @@ class Game():
             select_position = random.choice(self.current_player.use_block[2])
             xpos = select_position[0]
             ypos = select_position[1]
-            print([xpos, ypos], end=' ')
         else:
             xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
             ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
