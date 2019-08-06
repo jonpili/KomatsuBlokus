@@ -82,7 +82,7 @@ class Game():
         if self.player_number == 2:
             self.COLOR_LIST = [Color.GREEN, Color.YELLOW]
             self.players = [Player.Player(self.COLOR_LIST[i], player_order[i]) for i in range(2)]
-            self.players[0].next_player = self.players[2]
+            self.players[0].next_player = self.players[1]
             self.players[1].next_player = self.players[0]
         elif self.player_number == 4:
             self.COLOR_LIST = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
