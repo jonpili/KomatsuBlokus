@@ -47,8 +47,13 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        self.question_player_number()
-        self.question_CP_number()
+        # 本番用
+        # self.question_player_number()
+        # self.question_CP_number()
+        # テスト用
+        self.player_number = 4
+        self.CP_number = 4
+        
         self.set_player_and_CP_number()
         self.current_player = self.players[Color.GREEN.value]
 
