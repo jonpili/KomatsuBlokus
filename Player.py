@@ -11,6 +11,7 @@ class Player():
         self.passed = False
         self.used_blocks = []
         self.usable_blocks = []
+        self.use_block = []
         self.selected_shape_index = ''
         self.selected_direction_index = ''
         self.score = 0
@@ -26,7 +27,8 @@ class Player():
         block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
 
         if not self.computer:
-            while not [self.selected_shape_index, self.selected_direction_index] in self.usable_blocks:
+            while not any((block[0] == self.selected_shape_index and block[1] == self.selected_direction_index)
+                          for block in self.usable_blocks):
                 print('そのブロックを置く場所がありません\n')
                 self.select_block(board)
                 block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
@@ -35,9 +37,9 @@ class Player():
 
     def select_block(self, board):
         if self.computer:
-            use_block = random.choice(self.usable_blocks)
-            self.selected_shape_index = use_block[0]
-            self.selected_direction_index = use_block[1]
+            self.use_block = random.choice(self.usable_blocks)
+            self.selected_shape_index     = self.use_block[0]
+            self.selected_direction_index = self.use_block[1]
         else:
             print('手持ちのブロックリスト')
             print([i for i in self.block_shape_index_list if i not in self.used_blocks])

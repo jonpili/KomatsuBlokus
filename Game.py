@@ -53,7 +53,7 @@ class Game():
         # テスト用
         self.player_number = 4
         self.CP_number = 4
-        
+
         self.set_player_and_CP_number()
         self.current_player = self.players[Color.GREEN.value]
 
@@ -127,8 +127,9 @@ class Game():
 
     def set_block_on_click_position(self, board, block):
         if self.current_player.computer:
-            xpos = random.randint(1, self.TILE_NUMBER) # 右方向に正
-            ypos = random.randint(1, self.TILE_NUMBER) # 下方向に正
+            select_position = random.choice(self.current_player.use_block[2])
+            xpos = select_position[0]
+            ypos = select_position[1]
             print([xpos, ypos], end=' ')
         else:
             xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正

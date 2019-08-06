@@ -65,20 +65,24 @@ class Board():
             for block_shape_index in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
                 for block_direction_index in range(8):
                     block_for_check = Block.Block(block_shape_index, block_direction_index, False)
-                    if self.settable_area_exist_check(player.color, block_for_check.selected['shape']):
-                        player.usable_blocks.append([block_shape_index, block_direction_index])
+                    settable_position = self.settable_area_exist_check(player.color, block_for_check)
+                    if len(settable_position) > 0:
+                        player.usable_blocks.append([block_shape_index, block_direction_index, settable_position])
             if len(player.usable_blocks) > 0:
                 return True
             player.passed = True
             return False
 
-    def settable_area_exist_check(self, color, block_shape):
+    def settable_area_exist_check(self, color, block_for_check):
+        settable_position = []
+
         for x in range(1, self.TILE_NUMBER + 1):
             for y in range(1, self.TILE_NUMBER + 1):
                 if self.status[color.value][y][x] != self.CANTSET:
-                    if self.settable_check(color, block_shape, x, y):
-                        return True
-        return False
+                    if self.settable_check(color, block_for_check.selected['shape'], x, y):
+                        settable_position.append([x, y])
+
+        return settable_position
 
     def settable_check(self, color, block_shape, x, y):
         # 1つでもCANTSETがあれば置けない
