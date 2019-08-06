@@ -13,7 +13,7 @@ class Color(Enum):
     BLUE   = 3
 
 class Game():
-    TILE_NUMBER = 20 # 3の倍数 - 1
+    TILE_NUMBER = 11 # 3の倍数 - 1
     TILE_LENGTH = 30
 
     # タイルの設置はボード外エラー回避の為2マス広く
