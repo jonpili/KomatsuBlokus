@@ -70,8 +70,9 @@ class Board():
                         player.usable_blocks.append([block_shape_index, block_direction_index, settable_position])
             if len(player.usable_blocks) > 0:
                 return True
-            player.passed = True
-            return False
+            else:
+                player.passed = True
+                return False
 
     def settable_area_exist_check(self, color, block_for_check):
         settable_position = []
