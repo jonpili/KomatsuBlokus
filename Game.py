@@ -130,19 +130,21 @@ class Game():
             select_position = random.choice(self.current_player.use_block[2])
             xpos = select_position[0]
             ypos = select_position[1]
+            self.change_all(board, block, xpos, ypos)
         else:
             xpos = int(pygame.mouse.get_pos()[0]/self.TILE_LENGTH) # 右方向に正
             ypos = int(pygame.mouse.get_pos()[1]/self.TILE_LENGTH) # 下方向に正
-
-        if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
-            board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
-            self.change_image(board, block.selected['shape'], xpos, ypos)
-            self.current_player.used_blocks.append(self.current_player.selected_shape_index)
-            self.current_player.score += block.selected['score']
-            self.change_turn()
-        else:
-            if not self.current_player.computer:
+            if board.settable_check(self.current_player.color, block.selected['shape'], xpos, ypos):
+                self.change_all(board, block, xpos, ypos)
+            else:
                 print('ここには置けません')
+
+    def change_all(self, board, block, xpos, ypos):
+        board.change_status(self.current_player.color, block.selected['shape'], block.selected['influence'], xpos, ypos)
+        self.change_image(board, block.selected['shape'], xpos, ypos)
+        self.current_player.used_blocks.append(self.current_player.selected_shape_index)
+        self.current_player.score += block.selected['score']
+        self.change_turn()
 
     def change_image(self, board, block_shape, x, y):
         image = self.TILE_IMAGES[self.current_player.color.name]
