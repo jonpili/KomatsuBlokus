@@ -75,8 +75,9 @@ class Board():
     def settable_area_exist_check(self, color, block_shape):
         for x in range(1, self.TILE_NUMBER + 1):
             for y in range(1, self.TILE_NUMBER + 1):
-                if self.settable_check(color, block_shape, x, y):
-                    return True
+                if self.status[color.value][y][x] != self.CANTSET:
+                    if self.settable_check(color, block_shape, x, y):
+                        return True
         return False
 
     def settable_check(self, color, block_shape, x, y):
