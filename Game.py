@@ -47,7 +47,7 @@ class Game():
     pygame.mouse.set_visible(True) #マウスポインターの表示をオン
 
     def __init__(self):
-        # 本番用
+        # # 本番用
         # self.question_player_number()
         # self.question_CP_number()
         # テスト用
@@ -72,32 +72,25 @@ class Game():
         self.CP_number = CP_number
 
     def set_player_and_CP_number(self):
+        player_order = []
+        for i in range(self.CP_number):
+            player_order.append(True)
+        for j in range(self.player_number - self.CP_number):
+            player_order.append(False)
+        random.shuffle(player_order)
+
         if self.player_number == 2:
-            if self.CP_number == 0:
-                self.players = [Player.Player(Color.GREEN, False), Player.Player(Color.YELLOW, False)]
-            elif self.CP_number == 1:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, False)]
-            elif self.CP_number == 2:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True)]
-            self.COLOR_LIST  = [Color.GREEN, Color.YELLOW]
-            self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
-            self.players[Color.YELLOW.value].next_player  = self.players[Color.GREEN.value]
+            self.COLOR_LIST = [Color.GREEN, Color.YELLOW]
+            self.players = [Player.Player(self.COLOR_LIST[i], player_order[i]) for i in range(2)]
+            self.players[0].next_player = self.players[2]
+            self.players[1].next_player = self.players[0]
         elif self.player_number == 4:
-            if self.CP_number == 0:
-                self.players = [Player.Player(Color.GREEN, False), Player.Player(Color.YELLOW, False), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
-            elif self.CP_number == 1:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, False), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
-            elif self.CP_number == 2:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, False), Player.Player(Color.BLUE, False)]
-            elif self.CP_number == 3:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, False)]
-            elif self.CP_number == 4:
-                self.players = [Player.Player(Color.GREEN, True), Player.Player(Color.YELLOW, True), Player.Player(Color.RED, True), Player.Player(Color.BLUE, True)]
-            self.COLOR_LIST  = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
-            self.players[Color.GREEN.value].next_player   = self.players[Color.YELLOW.value]
-            self.players[Color.YELLOW.value].next_player  = self.players[Color.RED.value]
-            self.players[Color.RED.value].next_player     = self.players[Color.BLUE.value]
-            self.players[Color.BLUE.value].next_player    = self.players[Color.GREEN.value]
+            self.COLOR_LIST = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
+            self.players = [Player.Player(self.COLOR_LIST[i], player_order[i]) for i in range(4)]
+            self.players[0].next_player = self.players[1]
+            self.players[1].next_player = self.players[2]
+            self.players[2].next_player = self.players[3]
+            self.players[3].next_player = self.players[0]
 
     def start(self, board):
         while not all([player.passed for player in self.players]):
