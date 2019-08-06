@@ -22,12 +22,15 @@ class Player():
 
     def start_my_turn(self, game, board):
         board.check_status(game)
-        block = self.select_block(board)
+        self.select_block(board)
+        block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
 
         if not self.computer:
-            while not board.settable_area_exist_check(self.color, block.selected['shape']):
+            while not [self.selected_shape_index, self.selected_direction_index] in self.usable_blocks:
                 print('そのブロックを置く場所がありません\n')
-                block = self.select_block(board)
+                self.select_block(board)
+                block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
+
         return block
 
     def select_block(self, board):
@@ -48,9 +51,6 @@ class Player():
                 print('入力が間違っています')
                 self.selected_direction_index = input('向きを選択してください：')
             self.selected_direction_index = int(self.selected_direction_index)
-
-        block = Block.Block(self.selected_shape_index, self.selected_direction_index, True)
-        return block
 
     def check_input(self, board):
         if self.selected_shape_index in self.used_blocks:
