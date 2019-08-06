@@ -65,7 +65,7 @@ class Board():
             for block_shape_index in [i for i in player.block_shape_index_list if i not in player.used_blocks]:
                 for block_direction_index in range(8):
                     block_for_check = Block.Block(block_shape_index, block_direction_index, False)
-                    settable_position = self.settable_area_exist_check(player.color, block_for_check)
+                    settable_position = self.search_settable_position(player.color, block_for_check)
                     if len(settable_position) > 0:
                         player.usable_blocks.append([block_shape_index, block_direction_index, settable_position])
             if len(player.usable_blocks) > 0:
@@ -74,7 +74,7 @@ class Board():
                 player.passed = True
                 return False
 
-    def settable_area_exist_check(self, color, block_for_check):
+    def search_settable_position(self, color, block_for_check):
         settable_position = []
 
         for x in range(1, self.TILE_NUMBER + 1):
