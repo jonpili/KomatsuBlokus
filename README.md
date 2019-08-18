@@ -16,6 +16,9 @@
 - 他のピースをすり抜けて相手の陣地に侵入したり、相手のピースを置けないように妨害するなど様々な戦略がある
 - 詳しくは[この記事](https://boku-boardgame.net/blokus)にて
 
+## 動作例
+![a011c2e8c2d8cb76cfb502a0718df35d](https://user-images.githubusercontent.com/38747501/63224265-ab37f000-c1fc-11e9-8a71-88dbcb187185.gif)
+
 ## ブロック一覧表
 - 全21種のブロックとそれに対応するアルファベット（黒マスは回転軸）
 - ルール引用元：[ブロックスデュオ プログラム対戦 要領](http://hp.vector.co.jp/authors/VA003988/gpcc/07g1.htm)
