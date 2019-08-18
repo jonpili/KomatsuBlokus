@@ -17,7 +17,7 @@
 - 詳しくは[この記事](https://boku-boardgame.net/blokus)にて
 
 ## 動作例
-![a011c2e8c2d8cb76cfb502a0718df35d](https://user-images.githubusercontent.com/38747501/63224265-ab37f000-c1fc-11e9-8a71-88dbcb187185.gif)
+![名称未設定](https://user-images.githubusercontent.com/38747501/63224559-e0464180-c200-11e9-8e36-49a62a92addb.gif)
 
 ## ブロック一覧表
 - 全21種のブロックとそれに対応するアルファベット（黒マスは回転軸）
