@@ -16,8 +16,8 @@
 - 他のピースをすり抜けて相手の陣地に侵入したり、相手のピースを置けないように妨害するなど様々な戦略がある
 - 詳しくは[この記事](https://boku-boardgame.net/blokus)にて
 
-## 動作例
-![名称未設定](https://user-images.githubusercontent.com/38747501/63224559-e0464180-c200-11e9-8e36-49a62a92addb.gif)
+## 動作例（5倍速）
+![8a1b6a098a415ee706003f054ba144d2](https://user-images.githubusercontent.com/38747501/63224712-066ce100-c203-11e9-95e7-eb7bf1aad9c1.gif)
 
 ## ブロック一覧表
 - 全21種のブロックとそれに対応するアルファベット（黒マスは回転軸）
