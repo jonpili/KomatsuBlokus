@@ -3,6 +3,7 @@ import sys
 import numpy as np
 from enum import Enum
 import random
+from copy import deepcopy
 
 import Player
 
@@ -56,6 +57,7 @@ class Game():
 
         self.set_player_and_CP_number()
         self.current_player = self.players[Color.GREEN.value]
+        self.game_record = {Color.GREEN: {'score':0, 'board': [], 'block': []}, Color.YELLOW: {'score':0, 'board': [], 'block': []}, Color.RED: {'score':0, 'board': [], 'block': []}, Color.BLUE: {'score':0, 'board': [], 'block': []}}
 
     def question_player_number(self):
         player_number = int(input('プレイ人数を入力してください：'))
@@ -137,6 +139,8 @@ class Game():
         self.change_image(board, block.selected['shape'], xpos, ypos)
         self.current_player.used_blocks.append(self.current_player.selected_shape_index)
         self.current_player.score += block.selected['score']
+        self.game_record[self.current_player.color]['board'].append(board.status[self.current_player.color.value])
+        self.game_record[self.current_player.color]['block'].append([self.current_player.selected_shape_index, self.current_player.selected_direction_index, xpos, ypos])
         self.change_turn()
 
     def change_image(self, board, block_shape, x, y):
@@ -169,4 +173,7 @@ class Game():
                 print('It\'s a draw.')
 
         print('\nCongratulations!')
+
+        for player in self.players:
+            self.game_record[player.color]['score'] = player.score
         winner_message = input()
